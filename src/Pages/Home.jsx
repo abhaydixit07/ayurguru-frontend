@@ -18,7 +18,7 @@ function App() {
             <div className='flex flex-col sm:flex-row gap-10 mx-20 mt-10'>
                 <div className="rounded-xl bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-12 px-3 py-1.5 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center w-28">
                     <div
-                        href="#"
+                        href="/consult"
                         // className="rounded-xl bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center w-28"
                     >
                         Chat
