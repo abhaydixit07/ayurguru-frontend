@@ -59,7 +59,7 @@ export default function Nav() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/consult"
                     className="text-base font-semibold text-gray-500 list-none hover:text-gray-900"
                     target=""
                   >
@@ -86,7 +86,7 @@ export default function Nav() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/about"
                     className="text-base font-semibold text-gray-500 list-none hover:text-gray-900"
                     target="_blank"
                   >
