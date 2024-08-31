@@ -8,33 +8,27 @@ import AppContext from "./utils/Context";
 function App() {
   return (
     <BrowserRouter>
+      
       <Routes>
-        {/* Conditional rendering based on route path */}
+        <Route path="/" element={<>
+          <Nav />
+        <Home />
+          </>
+        } />
         <Route
-          path="*"
+          path="/consult"
           element={
-            <>
-              {/* Render Nav only for specific routes */}
-              {!["/consult"].includes(window.location.pathname) && <Nav />}
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="/consult"
-                  element={
-                    <AppContext>
-                      <Chat />
-                    </AppContext>
-                  }
-                />
-                {/* <Route path="/learning" element={<Learning />} />
-                <Route path="/articles" element={<Articles />} />
-                <Route path="/detect/:number" element={<Detection />} />
-                <Route path="/overall" element={<Overalltest />} />
-                <Route path="/course" element={<Coursetest />} /> */}
-              </Routes>
-            </>
+            <AppContext>
+              <Chat />
+            </AppContext>
           }
         />
+        {/* Uncomment and add other routes as needed */}
+        {/* <Route path="/learning" element={<Learning />} />
+        <Route path="/articles" element={<Articles />} />
+        <Route path="/detect/:number" element={<Detection />} />
+        <Route path="/overall" element={<Overalltest />} />
+        <Route path="/course" element={<Coursetest />} /> */}
       </Routes>
     </BrowserRouter>
   );

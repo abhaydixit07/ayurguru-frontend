@@ -4,7 +4,7 @@ import ChatContainer from "../Components/ChatContainer";
 import Mobile from '../Components/Mobile.jsx';
 
 
-function Home() {
+function Chat() {
   return (
     <div className="flex w-screen relative">
       <LeftNav />
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Chat;
