@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'leftNav': '#61AB3D',
+        'mainChat': '#DCF7C5'
+      }
+    },
   },
   plugins: [],
 }
