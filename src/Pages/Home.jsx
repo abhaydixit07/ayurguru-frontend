@@ -11,11 +11,11 @@ function App() {
     <>
     {/* <Nav/> */}
     <div  className='grid md:grid-cols-2 sm:mx-20 mx-10 justify-between'>
-        <div className='mx-10'>
+        <div className='sm:mx-10'>
             <div className="sm:text-6xl text-3xl font-serif font-semibold ">
                 Unlock the Power of Ancient <span className='text-[#39DB4A]'>Ayurvedic</span> Wisdom with Our ChatBot.
             </div>
-            <div className='flex flex-col sm:flex-row gap-10 mx-20 mt-10'>
+            <div className='flex flex-col sm:flex-row justify-between md:justify-center md:gap-20 gap-10 mx-20 mt-10'>
                 <div className="rounded-xl bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-12 px-3 py-1.5 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center w-28">
                     <div
                         href="/consult"
@@ -94,11 +94,11 @@ function App() {
 
 
     <div>
-        <div className='font-serif text-3xl m-20'>
+        <div className='font-serif text-3xl sm:m-20'>
             Ayurvdeic Insights
         </div>
 
-        <div className='grid md:grid-cols-3 m-20 gap-5'>
+        <div className='grid md:grid-cols-3 sm:m-20 gap-5 my-20'>
             <div className='flex justify-center'>
             <div className="flex justify-center card border-4 border-black shadow-[0px_4px_16px_px_#367E08] h-[400px] w-[280px] group gap-[0.5em] rounded-[1.5em] relative flex justify-end flex-col p-[1.5em] z-[1] overflow-hidden">
                 <div className="absolute top-0 left-0 h-full w-full " />
