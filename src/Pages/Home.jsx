@@ -5,7 +5,6 @@ import YT from '../assets/Group 15107.png';
 import divpic1 from '../assets/divpic1.png'
 
 function App() {
-//   const [count, setCount] = useState(0)
 
   return (
     <>
