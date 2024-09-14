@@ -69,12 +69,13 @@ function LeftNav() {
 
       {/* Bottom section */}
       <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-        <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
-          <span className="flex gap-0.5 items-center justify-center text-lg">
-            Upgrade to AYURGURU
+      <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
+          <span className="flex gap-2 items-center justify-center text-lg">
+            <BsChatDots /> 
           </span>
+          <span className="text-lg">Personalized Chat</span>
           <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
-            PRO
+            NEW
           </span>
         </span>
         <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
