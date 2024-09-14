@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { LuPanelLeftClose } from "react-icons/lu";
-import { FiUser, FiMessageSquare } from "react-icons/fi";
-import { BsChatDots } from "react-icons/bs"; // Icon for Personalized Chat
+import { FiMessageSquare } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri"; // Import the delete icon
 import { ContextApp } from "../utils/Context";
 import test from "../assets/test.png";
@@ -27,8 +26,8 @@ function LeftNav() {
             className="border border-gray-600 bg-gray-600 rounded-xl w-[80%] py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
             onClick={() => console.log("Personalized Chat clicked")}
           >
-            <BsChatDots fontSize={20} />
-            Personalized Chat
+            <AiOutlinePlus fontSize={25} />
+            New Chat
           </span>
           {/* Close sidebar button */}
           <span
@@ -39,15 +38,6 @@ function LeftNav() {
             <LuPanelLeftClose fontSize={24} />
           </span>
         </div>
-
-        {/* New Chat button */}
-        <span
-          className="border border-gray-600 bg-gray-600 rounded-xl w-full py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
-          onClick={() => window.location.reload()}
-        >
-          <AiOutlinePlus fontSize={25} />
-          New Chat
-        </span>
       </div>
 
       {/* Middle section */}

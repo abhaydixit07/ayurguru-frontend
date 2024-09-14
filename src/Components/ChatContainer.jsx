@@ -4,6 +4,7 @@ import { LuPanelLeftOpen } from "react-icons/lu";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
+import { FaHome } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function ChatContainer() {
@@ -31,7 +32,7 @@ function ChatContainer() {
       {/* Sidebar toggle button for large screens */}
       {showSlide && (
         <span
-          className="rounded px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white m-1 hover:bg-gray-600 duration-200 bg-gray-800"
+          className="rounded px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white m-1 hover:bg-gray-800 duration-200 bg-gray-600"
           title="Open sidebar"
           onClick={() => setShowSlide(!showSlide)}
         >
@@ -41,21 +42,22 @@ function ChatContainer() {
 
       {/* Sidebar toggle button for small screens */}
       <span
-        className="rounded bg-gray-600 px-3 py-[9px] lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 border border-gray-600"
+        className="rounded-xl bg-gray-600 px-3 py-[9px] lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 border border-gray-600 hover:bg-gray-800 duration-200"
         title="Open sidebar"
         onClick={() => setMobile(!Mobile)}
       >
-        <HiOutlineMenuAlt2 fontSize={20} />
+        <LuPanelLeftOpen fontSize={24} />
       </span>
 
       {/* Home button */}
       <button
-        className="absolute top-2 right-2 bg-gray-800 text-white p-2 rounded shadow-md hover:bg-gray-600 transition-all duration-300"
-        title="Home"
-        onClick={() => navigate('/')}
-      >
-        Home
-      </button>
+      className="absolute top-2 right-2  bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+      title="Home"
+      
+      onClick={() => navigate('/')}
+    >
+      <FaHome fontSize={30} />
+    </button>
 
       {/* Chat section */}
       <Chat />

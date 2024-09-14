@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiUser, FiMessageSquare } from "react-icons/fi";
-import { SlOptions } from "react-icons/sl";
 import { MdClose } from "react-icons/md";
 import { BsChatDots } from "react-icons/bs";
 import { ContextApp } from "../utils/Context";
@@ -22,24 +21,17 @@ function Mobile() {
       >
         <div className="flex flex-col items-center justify-between gap-2 w-full">
         <div className="flex items-center w-full gap-2">
-          {/* Personalized Chat button */}
+          
           <span
             className="border border-gray-600 bg-gray-600 rounded-xl w-full py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
             onClick={() => console.log("Personalized Chat clicked")}
           >
-            <BsChatDots fontSize={20} />
-            Personalized Chat
+            <AiOutlinePlus fontSize={25} />
+            New Chat
           </span>
           
         </div>
           
-          <span
-            className="border border-gray-600 bg-gray-600  rounded-xl w-full py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
-            onClick={() => window.location.reload()}
-          >
-            <AiOutlinePlus fontSize={18} />
-            New Chat
-          </span>
         </div>
         {/* middle section  */}
         {/* Middle section */}
@@ -71,11 +63,12 @@ function Mobile() {
         {/* bottom section  */}
         <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
         <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
-          <span className="flex gap-0.5 items-center justify-center text-lg">
-            Upgrade to AYURGURU
+          <span className="flex gap-2 items-center justify-center text-lg">
+            <BsChatDots /> 
           </span>
+          <span className="text-lg">Personalized Chat</span>
           <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
-            PRO
+            NEW
           </span>
         </span>
         <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
@@ -93,7 +86,7 @@ function Mobile() {
       </div>
       {Mobile && (
         <span
-          className="border bg-gray-800 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-600 duration-200"
+          className="border bg-gray-600 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
           title="Close sidebar"
           onClick={() => setMobile(!Mobile)}
         >
