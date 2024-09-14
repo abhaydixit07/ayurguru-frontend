@@ -5,6 +5,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri"; // Import the delete icon
 import { ContextApp } from "../utils/Context";
 import test from "../assets/test.png";
+import { BsChatDots } from "react-icons/bs";
 
 function LeftNav() {
   const { setShowSlide, showSlide, handleQuery } = useContext(ContextApp);
