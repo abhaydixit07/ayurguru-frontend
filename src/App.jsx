@@ -4,6 +4,7 @@ import Nav from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Chat from "./Pages/Chat";
 import AppContext from "./utils/Context";
+import Upload from "./Pages/fileUpload";
 
 function App() {
   return (
@@ -20,6 +21,15 @@ function App() {
           element={
             <AppContext>
               <Chat />
+            </AppContext>
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            <AppContext>
+              {/* <Nav/> */}
+              <Upload />
             </AppContext>
           }
         />
