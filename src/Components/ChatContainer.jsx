@@ -25,8 +25,8 @@ function ChatContainer() {
     <div
       className={
         showSlide
-          ? "h-screen w-screen bg-mainChat flex items-start justify-between flex-col p-2"
-          : "h-screen w-full lg:w-[calc(100%-300px)] bg-mainChat flex items-start justify-between flex-col p-2"
+          ? "h-screen w-screen  flex items-start justify-between flex-col p-2"
+          : "h-screen w-full lg:w-[calc(100%-300px)]  flex items-start justify-between flex-col p-2"
       }
     >
       {/* Sidebar toggle button for large screens */}
@@ -51,7 +51,7 @@ function ChatContainer() {
 
       {/* Home button */}
       <button
-      className="absolute top-2 right-2  bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+      className="absolute top-2 right-2   p-2 rounded-xl  hover:bg-gray-800 transition-all duration-300"
       title="Home"
       
       onClick={() => navigate('/')}
@@ -78,7 +78,7 @@ function ChatContainer() {
             className={
               chatValue.length <= 0
                 ? "text-gray-400 cursor-auto mx-3 text-xl"
-                : "text-white cursor-pointer mx-3 text-3xl bg-green-500 p-1 rounded shadow-md"
+                : "text-white cursor-pointer mx-3 text-3xl  p-1 rounded shadow-md"
             }
             onClick={handleSend}
           />
