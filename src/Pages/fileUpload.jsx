@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { FileUpload } from "../Components/ui/file-upload";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState('');
   const [customFileType, setCustomFileType] = useState('');
 
-  const handleFileChange = (e) => {
+  const handleFileUpload = (e) => {
     setSelectedFile(e.target.files[0]);
   };
 
@@ -33,11 +34,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-[#e0f7c5] flex items-center justify-center">
       <div className="bg-white shadow-md rounded-lg p-6 max-w-lg">
         <h1 className="text-2xl font-semibold mb-4">AyurGuru: Upload Your Report</h1>
         <form onSubmit={handleSubmit}>
-        <div
+        {/* <div
         className="w-[400px] relative border-2 border-gray-300 border-dashed rounded-lg p-6 m-10"
         id="dropzone"
         >
@@ -67,6 +68,9 @@ function App() {
             <p className="mt-1 text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
         </div>
         <img src="" className="mt-4 mx-auto max-h-40 hidden" id="preview" />
+        </div> */}
+        <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <FileUpload onChange={handleFileUpload} />
         </div>
 
 
