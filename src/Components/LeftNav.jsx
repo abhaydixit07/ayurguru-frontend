@@ -18,14 +18,15 @@ function LeftNav() {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.post(
           "http://localhost:5000/api/conversations",
+          { userId: userId },
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           },
-          { userId: userId }
+          
         );
         console.log("Conversations fetched:", response.data);
         setConversations(response.data); // Update state with fetched conversations

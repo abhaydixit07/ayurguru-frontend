@@ -1,21 +1,23 @@
 import { createContext, useEffect, useRef, useState } from "react";
-// Removed import for sendMsgToAI
+import axios from "axios";
 export const ContextApp = createContext();
 
 const AppContext = ({ children }) => {
   const [showSlide, setShowSlide] = useState(false);
   const [Mobile, setMobile] = useState(false);
   const [chatValue, setChatValue] = useState("");
+  const [currentConversationId, setCurrentConversationId] = useState("");
   const [message, setMessage] = useState([
-    {
-      text: "Hi, I am AyurChatBot. How can I help you today?. I specialie in Ayurvedic medicine and treatments. You can ask me anything related to Ayurveda.",
-      isBot: true,
-    },
-    {
-      text: "Hi My name is John Doe, I am a software engineer. I am looking for a job in your company. Can you help me with that?",
-      isBot: false,
-    }
+    // {
+    //   text: "Hi, I am AyurChatBot. How can I help you today?. I specialie in Ayurvedic medicine and treatments. You can ask me anything related to Ayurveda.",
+    //   isBot: true,
+    // },
+    // {
+    //   text: "Hi My name is John Doe, I am a software engineer. I am looking for a job in your company. Can you help me with that?",
+    //   isBot: false,
+    // }
   ]);
+  const [chats, setChats] = useState([]);
   const msgEnd = useRef(null);
 
   useEffect(() => {
@@ -24,13 +26,42 @@ const AppContext = ({ children }) => {
     }
   }, [message]);
 
-  // button Click function
   const handleSend = async () => {
-    const text = chatValue;
-    setChatValue("");
-    setMessage([...message, { text, isBot: false }]);
-    // Removed call to sendMsgToAI
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+  
+    try {
+      // Save the user's message first
+      setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
+  
+      const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
+        message: chatValue,
+        auth_message: import.meta.env.VITE_AUTH_MESSAGE
+      });
+  
+      setChatValue(""); // Clear the chat input
+  
+      // Save bot's response in chats
+      setChats(prevChats => [...prevChats, { message: response.data.response, sender: "bot" }]);
+  
+      // Send both messages to your backend server
+      await axios.post(
+        `http://localhost:5000/api/conversations/${currentConversationId}`,
+        { message: chatValue, sender: "user", userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      await axios.post(
+        `http://localhost:5000/api/conversations/${currentConversationId}`,
+        { message: response.data.response, sender: "bot", userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+    } catch (error) {
+      console.error("Error sending message", error);
+    }
   };
+  
 
   // Enter Click function
   const handleKeyPress = (e) => {
@@ -39,13 +70,33 @@ const AppContext = ({ children }) => {
     }
   };
 
-  // Query Click function
-  const handleConversationClick
-   = async (e) => {
-    const text = e.target.innerText;
-    setMessage([...message, { text, isBot: false }]);
-    // Removed call to sendMsgToAI
-  };
+  
+const handleConversationClick = async (conversation) => {
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  setCurrentConversationId(conversation.conversationId);
+  try {
+    
+    const response = await axios.get(
+      `http://localhost:5000/api/conversations/${conversation.conversationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          userId: userId,
+        }
+      }
+    );
+    setChats(response.data);
+    console.log("Conversation clicked:", response.data);
+  } catch (error) {
+    console.error("Error fetching conversation", error);
+  }
+};
+
+    
+  
 
   return (
     <ContextApp.Provider
@@ -60,8 +111,9 @@ const AppContext = ({ children }) => {
         message,
         msgEnd,
         handleKeyPress,
-        handleConversationClick
-        ,
+        handleConversationClick, 
+        chats,
+        setChats
       }}
     >
       {children}
