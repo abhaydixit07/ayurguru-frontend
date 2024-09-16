@@ -1,21 +1,25 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-// import './App.css'
 import Nav from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Chat from "./Pages/Chat";
 import AppContext from "./utils/Context";
 import Upload from "./Pages/fileUpload";
+import Signup from "./Pages/Signup";
+import Signin from "./Pages/Signin";
 
 function App() {
   return (
     <BrowserRouter>
-      
       <Routes>
-        <Route path="/" element={<>
-          <Nav />
-        <Home />
-          </>
-        } />
+        <Route
+          path="/"
+          element={
+            <>
+              <Nav />
+              <Home />
+            </>
+          }
+        />
         <Route
           path="/consult"
           element={
@@ -33,12 +37,8 @@ function App() {
             </AppContext>
           }
         />
-        {/* Uncomment and add other routes as needed */}
-        {/* <Route path="/learning" element={<Learning />} />
-        <Route path="/articles" element={<Articles />} />
-        <Route path="/detect/:number" element={<Detection />} />
-        <Route path="/overall" element={<Overalltest />} />
-        <Route path="/course" element={<Coursetest />} /> */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
       </Routes>
     </BrowserRouter>
   );

@@ -53,7 +53,8 @@ function LeftNav() {
             <FiMessageSquare />
             <span className="text-md">What is JanAushadhi ?</span>
           </span>
-          <RiDeleteBinLine className="text-white" fontSize={20}/> {/* Delete icon */}
+          <RiDeleteBinLine className="text-white" fontSize={20} />{" "}
+          {/* Delete icon */}
         </span>
         <span
           className="rounded-lg w-full bg-gray-600 py-3 px-2 text-xs my-2 flex gap-2 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300 overflow-hidden truncate whitespace-nowrap"
@@ -64,15 +65,16 @@ function LeftNav() {
             <FiMessageSquare />
             <span className="text-md">How to rely on Ayurveda ?</span>
           </span>
-          <RiDeleteBinLine fontSize={20} className="text-white" /> {/* Delete icon */}
+          <RiDeleteBinLine fontSize={20} className="text-white" />{" "}
+          {/* Delete icon */}
         </span>
       </div>
 
       {/* Bottom section */}
       <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-      <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
+        <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
           <span className="flex gap-2 items-center justify-center text-lg">
-            <BsChatDots /> 
+            <BsChatDots />
           </span>
           <span className="text-lg">Personalized Chat</span>
           <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">

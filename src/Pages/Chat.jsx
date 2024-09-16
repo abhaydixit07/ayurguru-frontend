@@ -1,8 +1,7 @@
 import React from "react";
 import LeftNav from "../Components/LeftNav";
 import ChatContainer from "../Components/ChatContainer";
-import Mobile from '../Components/Mobile.jsx';
-
+import Mobile from "../Components/Mobile.jsx";
 
 function Chat() {
   return (

@@ -4,7 +4,7 @@ import { LuPanelLeftOpen } from "react-icons/lu";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
-import { FaHome } from 'react-icons/fa';
+import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function ChatContainer() {
@@ -51,13 +51,12 @@ function ChatContainer() {
 
       {/* Home button */}
       <button
-      className="absolute top-2 right-2  bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
-      title="Home"
-      
-      onClick={() => navigate('/')}
-    >
-      <FaHome fontSize={30} />
-    </button>
+        className="absolute top-2 right-2  bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+        title="Home"
+        onClick={() => navigate("/")}
+      >
+        <FaHome fontSize={30} />
+      </button>
 
       {/* Chat section */}
       <Chat />
@@ -84,7 +83,9 @@ function ChatContainer() {
           />
         </span>
         <p className="lg:text-xs text-gray-400 text-center text-[10px]">
-          *Ayurvedic Suggestions are based on AI and ML. Please consult a doctor if you have any health issues. We are not responsible for any wrong suggestions given by the AI*
+          *Ayurvedic Suggestions are based on AI and ML. Please consult a doctor
+          if you have any health issues. We are not responsible for any wrong
+          suggestions given by the AI*
         </p>
       </div>
     </div>
