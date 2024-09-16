@@ -113,7 +113,8 @@ const handleConversationClick = async (conversation) => {
         handleKeyPress,
         handleConversationClick, 
         chats,
-        setChats
+        setChats,
+        currentConversationId
       }}
     >
       {children}
