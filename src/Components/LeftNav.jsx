@@ -9,7 +9,7 @@ import { ContextApp } from "../utils/Context";
 import test from "../assets/test.png";
 
 function LeftNav() {
-  const { setShowSlide, showSlide, handleQuery } = useContext(ContextApp);
+  const { setShowSlide, showSlide, handleConversationClick } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
 
   const token = localStorage.getItem("token");
@@ -35,6 +35,24 @@ function LeftNav() {
     };
     fetchConversations();
   }, [token, userId]);
+  const handleNewChat = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/conversations/new",
+        { userId: userId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        
+      );
+      console.log("New conversation created:", response.data);
+      setConversations([...conversations, response.data]); // Add new conversation to state
+    } catch (error) {
+      console.error("Error creating new conversation", error);
+    }
+  };
 
   const deleteConversation = async (conversationId) => {
     try {
@@ -71,7 +89,7 @@ function LeftNav() {
         <div className="flex items-center w-full gap-2">
           <span
             className="border border-gray-600 bg-gray-600 rounded-xl w-[80%] py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
-            onClick={() => console.log("Personalized Chat clicked")}
+            onClick={() => handleNewChat()}
           >
             <AiOutlinePlus fontSize={25} />
             New Chat
@@ -96,7 +114,7 @@ function LeftNav() {
             >
               <span
                 className="rounded-lg w-full bg-gray-600 py-3 px-2 text-xs flex gap-1 items-center cursor-pointer hover:bg-gray-800 transition-all duration-300 overflow-hidden truncate whitespace-nowrap"
-                onClick={() => handleQuery(conversation)}
+                onClick={() => handleConversationClick(conversation)}
               >
                 <span className="flex gap-2 items-center justify-start text-base">
                   <FiMessageSquare />

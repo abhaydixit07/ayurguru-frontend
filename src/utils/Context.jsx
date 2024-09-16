@@ -40,7 +40,8 @@ const AppContext = ({ children }) => {
   };
 
   // Query Click function
-  const handleQuery = async (e) => {
+  const handleConversationClick
+   = async (e) => {
     const text = e.target.innerText;
     setMessage([...message, { text, isBot: false }]);
     // Removed call to sendMsgToAI
@@ -59,7 +60,8 @@ const AppContext = ({ children }) => {
         message,
         msgEnd,
         handleKeyPress,
-        handleQuery,
+        handleConversationClick
+        ,
       }}
     >
       {children}
