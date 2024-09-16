@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
+import pdfSvg from "../../assets/pdf.svg";
+import docxSvg from "../../assets/docx.svg";
 
 const mainVariant = {
   initial: {
@@ -28,14 +30,21 @@ export const FileUpload = ({ onChange }) => {
   ];
 
   const handleFileChange = (newFiles) => {
+    if (!newFiles || newFiles.length === 0) {
+      // Handle case where no file was selected or dropped
+      return;
+    }
+
     const newFile = newFiles[0];
-    
+
     // Validate file type
     if (newFile && allowedFileTypes.includes(newFile.type)) {
       setFile(newFile);
       onChange && onChange(newFile);
     } else {
-      alert("Invalid file type. Only PDF, DOCX, PNG, and JPG/JPEG are allowed.");
+      alert(
+        "Invalid file type. Only PDF, DOCX, PNG, and JPG/JPEG are allowed."
+      );
       setFile(null);
       onChange && onChange(null);
     }
@@ -59,6 +68,49 @@ export const FileUpload = ({ onChange }) => {
     },
   });
 
+  const renderThumbnail = () => {
+    if (!file) return null;
+
+    const fileType = file.type;
+    if (fileType.startsWith("image/")) {
+      // Show image preview for image files
+      return (
+        <div className="flex items-center justify-center h-full">
+          <img
+            src={URL.createObjectURL(file)}
+            alt="File Thumbnail"
+            className="w-32 h-32 object-cover rounded-md"
+          />
+        </div>
+      );
+    } else if (fileType === "application/pdf") {
+      // Placeholder for PDF files
+      return (
+        <div className="flex flex-col items-center">
+          <img src={pdfSvg} alt="PDF File" className="w-16 h-16" />
+          <p className="text-sm text-neutral-600 dark:text-neutral-300">
+            PDF File
+          </p>
+        </div>
+      );
+    } else if (
+      fileType ===
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      // Placeholder for DOCX files
+      return (
+        <div className="flex flex-col items-center">
+          <img src={docxSvg} alt="DOCX File" className="w-16 h-16" />
+          <p className="text-sm text-neutral-600 dark:text-neutral-300">
+            DOCX File
+          </p>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="w-full" {...getRootProps()}>
       <motion.div
@@ -77,8 +129,9 @@ export const FileUpload = ({ onChange }) => {
         <div className="flex flex-col items-center justify-center">
           {file ? (
             <div className="text-center">
+              <div className="mb-4">{renderThumbnail()}</div>
               <p className="font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
-                File Uploaded: {file.name}
+                {file.name}
               </p>
               <button
                 className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md"
