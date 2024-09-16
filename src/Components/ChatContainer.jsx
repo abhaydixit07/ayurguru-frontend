@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { ContextApp } from "../utils/Context";
 import { LuPanelLeftOpen } from "react-icons/lu";
+import { FaHome } from "react-icons/fa";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
-import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { BiLogOut } from "react-icons/bi"; // Import Logout icon
 
 function ChatContainer() {
   const {
@@ -20,6 +21,13 @@ function ChatContainer() {
   } = useContext(ContextApp);
 
   const navigate = useNavigate(); // Initialize useNavigate
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token
+    localStorage.removeItem("userId"); // Optionally remove other stored user data
+    navigate("/"); // Redirect to the login page
+  };
 
   return (
     <div
@@ -49,14 +57,26 @@ function ChatContainer() {
         <LuPanelLeftOpen fontSize={24} />
       </span>
 
-      {/* Home button */}
-      <button
-        className="absolute top-2 right-2  bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
-        title="Home"
-        onClick={() => navigate("/")}
-      >
-        <FaHome fontSize={30} />
-      </button>
+      {/* Home and Logout buttons */}
+      <div className="absolute top-2 right-2 flex gap-2">
+        {/* Home button */}
+        <button
+          className="bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+          title="Home"
+          onClick={() => navigate("/")}
+        >
+          <FaHome fontSize={30} />
+        </button>
+        
+        {/* Logout button */}
+        <button
+          className="bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+          title="Logout"
+          onClick={handleLogout}
+        >
+          <BiLogOut fontSize={30} />
+        </button>
+      </div>
 
       {/* Chat section */}
       <Chat />
