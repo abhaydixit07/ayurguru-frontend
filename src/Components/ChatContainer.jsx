@@ -25,8 +25,8 @@ function ChatContainer() {
     <div
       className={
         showSlide
-          ? "h-screen w-screen bg-mainChat flex items-start justify-between flex-col p-2"
-          : "h-screen w-full lg:w-[calc(100%-300px)] bg-mainChat flex items-start justify-between flex-col p-2"
+          ? "h-screen w-screen  flex items-start justify-between flex-col p-2"
+          : "h-screen w-full lg:w-[calc(100%-300px)]  flex items-start justify-between flex-col p-2"
       }
     >
       {/* Sidebar toggle button for large screens */}
@@ -77,7 +77,7 @@ function ChatContainer() {
             className={
               chatValue.length <= 0
                 ? "text-gray-400 cursor-auto mx-3 text-xl"
-                : "text-white cursor-pointer mx-3 text-3xl bg-green-500 p-1 rounded shadow-md"
+                : "text-white cursor-pointer mx-3 text-3xl  p-1 rounded shadow-md"
             }
             onClick={handleSend}
           />
