@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
 import divpic1 from "../assets/divpic1.png";
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setIsLogged(true);
+    }
+  }, []);
   return (
     <>
       <div className="grid md:grid-cols-2 sm:mx-20 mx-10 justify-between">
@@ -12,11 +20,23 @@ function App() {
             <span className="text-[#39DB4A]">Ayurvedic</span> Wisdom with Our
             ChatBot.
           </div>
-          <div className="flex flex-col sm:flex-row justify-between md:justify-center md:gap-20 gap-10 mx-20 mt-10">
-            <div className="rounded-xl bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-12 px-3 py-1.5 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center w-28">
-              <div href="/consult">Chat</div>
-            </div>
-            <div className="rounded-xl bg-gradient-to-br from-[#A1E396]  px-3 py-1.5 font-dm text-lg font-medium  shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center w-28">
+          <div className="flex flex-col cursor-pointer items-center sm:flex-row md:gap-20 gap-8 mt-10">
+            {isLogged ? (
+              <Link
+                to="/consult"
+                className="rounded-xl flex items-center justify-center w-full bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-12 px-3 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center"
+              >
+                Get Started
+              </Link>
+            ) : (
+              <Link
+                to="/signup"
+                className="rounded-xl flex items-center justify-center w-full bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-12 px-3 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center"
+              >
+                Get Started
+              </Link>
+            )}
+            <div className="rounded-xl flex items-center justify-center h-12 bg-gradient-to-br w-full cursor-pointer from-[#A1E396] px-3 text-lg font-medium shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center">
               <div href="#">Demo</div>
             </div>
           </div>
