@@ -9,8 +9,8 @@ const mainVariant = {
     y: 0,
   },
   animate: {
-    x: 20,
-    y: -20,
+    x: 12,
+    y: -7,
     opacity: 0.9,
   },
 };
@@ -19,10 +19,26 @@ export const FileUpload = ({ onChange }) => {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
 
+  // Allowed file types
+  const allowedFileTypes = [
+    "application/pdf", // PDF files
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // DOCX files
+    "image/png", // PNG images
+    "image/jpeg", // JPG/JPEG images
+  ];
+
   const handleFileChange = (newFiles) => {
     const newFile = newFiles[0];
-    setFile(newFile);
-    onChange && onChange(newFile);
+    
+    // Validate file type
+    if (newFile && allowedFileTypes.includes(newFile.type)) {
+      setFile(newFile);
+      onChange && onChange(newFile);
+    } else {
+      alert("Invalid file type. Only PDF, DOCX, PNG, and JPG/JPEG are allowed.");
+      setFile(null);
+      onChange && onChange(null);
+    }
   };
 
   const handleClick = () => {
@@ -54,6 +70,7 @@ export const FileUpload = ({ onChange }) => {
           ref={fileInputRef}
           id="file-upload-handle"
           type="file"
+          accept=".pdf, .docx, .png, .jpg, .jpeg"
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
         />
@@ -61,7 +78,7 @@ export const FileUpload = ({ onChange }) => {
           {file ? (
             <div className="text-center">
               <p className="font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
-                File Uploaded: {file.type}
+                File Uploaded: {file.name}
               </p>
               <button
                 className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md"
