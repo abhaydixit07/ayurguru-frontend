@@ -11,7 +11,6 @@ import test from "../assets/test.png";
 function LeftNav() {
   const { setShowSlide, showSlide, handleConversationClick, handlePersonalizedChatClick } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
-  const { handlePersonalizedChatClick } = useContext(ContextApp);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 

@@ -31,11 +31,12 @@ const AppContext = ({ children }) => {
 
   const handlePersonalizedChatClick = async (userId) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/checkPersonalizedChats",
-        { userId: userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
-      );
-      setPersonalizedChatResult(response.data.result);
+      // const response = await axios.post(
+      //   "http://localhost:5000/checkPersonalizedChats",
+      //   { userId: userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
+      // );
+      // setPersonalizedChatResult(response.data.result);
+      setPersonalizedChatisSelected(!personalizedChatisSelected);
     } catch (error) {
       console.error("Error checking personalized chat", error);
     }
@@ -80,9 +81,7 @@ const AppContext = ({ children }) => {
     }
   };
   
-  const handlePersonalizedChatClick = async () => {
-    setPersonalizedChatisSelected(!personalizedChatisSelected);
-  };
+  
 
 
   const handleKeyPress = (e) => {
@@ -95,6 +94,7 @@ const AppContext = ({ children }) => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     setCurrentConversationId(conversation.conversationId);
+    setPersonalizedChatisSelected(false);
     try {
       const response = await axios.get(
         `http://localhost:5000/api/conversations/${conversation.conversationId}`,

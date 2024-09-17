@@ -35,8 +35,8 @@ function ChatContainer() {
     <div
       className={
         showSlide
-          ? "h-screen w-screen  flex items-start justify-between flex-col p-2"
-          : "h-screen w-full lg:w-[calc(100%-300px)]  flex items-start justify-between flex-col p-2"
+          ? "h-screen w-screen flex items-start justify-between flex-col p-2"
+          : "h-screen w-full lg:w-[calc(100%-300px)] flex items-start justify-between flex-col p-2"
       }
     >
       {showSlide && (
@@ -77,8 +77,7 @@ function ChatContainer() {
 
       {personalizedChatisSelected ? (
         // Render fileUpload component if personalizedChatisSelected is true
-
-        <div className="w-full">
+        <div className="w-full h-full flex items-center justify-center">
           <FileUpload />
         </div>
       ) : currentConversationId ? (
