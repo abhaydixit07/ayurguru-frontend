@@ -1,11 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ContextApp } from "../utils/Context";
 import chatIcon from "../assets/chatIcon.png";
 import userIcon from "../assets/userIcon.png";
 
 function Chat() {
   const { chats, msgEnd } = useContext(ContextApp);
-  console.log("Chats:", chats);
+
+  // Scroll to the bottom of the chat whenever `chats` updates
+  useEffect(() => {
+    if (msgEnd.current) {
+      msgEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chats]);
+
   return (
     <div className="w-full h-[85%] flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">
       <div className="w-full lg:w-4/5 flex flex-col h-full items-start justify-start">
@@ -38,6 +45,8 @@ function Chat() {
             )}
           </div>
         ))}
+        
+        {/* This is the invisible div we scroll to */}
         <div ref={msgEnd} />
       </div>
     </div>
@@ -45,4 +54,3 @@ function Chat() {
 }
 
 export default Chat;
-
