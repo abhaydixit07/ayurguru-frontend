@@ -6,7 +6,7 @@ import userIcon from "../assets/userIcon.png";
 function Chat() {
   const { chats, msgEnd } = useContext(ContextApp);
 
-  // Scroll to the bottom of the chat whenever `chats` updates
+  
   useEffect(() => {
     if (msgEnd.current) {
       msgEnd.current.scrollIntoView({ behavior: "smooth" });
@@ -46,7 +46,7 @@ function Chat() {
           </div>
         ))}
         
-        {/* This is the invisible div we scroll to */}
+        
         <div ref={msgEnd} />
       </div>
     </div>
