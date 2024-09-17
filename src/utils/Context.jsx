@@ -7,6 +7,7 @@ const AppContext = ({ children }) => {
   const [Mobile, setMobile] = useState(false);
   const [chatValue, setChatValue] = useState("");
   const [currentConversationId, setCurrentConversationId] = useState("");
+  const [personalizedChatisSelected, setPersonalizedChatisSelected] = useState(false);
   const [message, setMessage] = useState([
     // {
     //   text: "Hi, I am AyurChatBot. How can I help you today?. I specialie in Ayurvedic medicine and treatments. You can ask me anything related to Ayurveda.",
@@ -33,13 +34,14 @@ const AppContext = ({ children }) => {
     try {
       // Save the user's message first
       setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
+      setChatValue("");
   
       const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
         message: chatValue,
         auth_message: import.meta.env.VITE_AUTH_MESSAGE
       });
   
-      setChatValue(""); // Clear the chat input
+       
   
       // Save bot's response in chats
       setChats(prevChats => [...prevChats, { message: response.data.response, sender: "bot" }]);
@@ -62,8 +64,11 @@ const AppContext = ({ children }) => {
     }
   };
   
+  const handlePersonalizedChatClick = async () => {
+    setPersonalizedChatisSelected(!personalizedChatisSelected);
+  };
 
-  // Enter Click function
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSend();
@@ -114,7 +119,9 @@ const handleConversationClick = async (conversation) => {
         handleConversationClick, 
         chats,
         setChats,
-        currentConversationId
+        currentConversationId,
+        personalizedChatisSelected,
+        handlePersonalizedChatClick
       }}
     >
       {children}

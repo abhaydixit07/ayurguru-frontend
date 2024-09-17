@@ -6,6 +6,7 @@ import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import FileUpload from "../Pages/fileUpload"; // Import the fileUpload component
 
 function ChatContainer() {
   const {
@@ -18,6 +19,7 @@ function ChatContainer() {
     handleSend,
     handleKeyPress,
     currentConversationId,
+    personalizedChatisSelected, // Fetch personalizedChatisSelected from context
   } = useContext(ContextApp);
 
   const navigate = useNavigate();
@@ -73,7 +75,14 @@ function ChatContainer() {
         </button>
       </div>
 
-      {currentConversationId ? (
+      {personalizedChatisSelected ? (
+        // Render fileUpload component if personalizedChatisSelected is true
+
+        <div className="w-full">
+          <FileUpload />
+        </div>
+      ) : currentConversationId ? (
+        // Render Chat and Input if a conversation is selected
         <>
           <Chat />
 
@@ -105,6 +114,7 @@ function ChatContainer() {
           </div>
         </>
       ) : (
+        // Render branding if no conversation is selected and personalizedChatisSelected is false
         <div className="w-full h-full flex items-center justify-center">
           <h1 className="text-4xl text-gray-600 font-bold">AyurGuru</h1>
         </div>
