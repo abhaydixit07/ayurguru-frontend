@@ -29,17 +29,17 @@ const AppContext = ({ children }) => {
     }
   }, [message]);
 
-  const handlePersonalizedChatClick = async (userId) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/checkPersonalizedChats",
-        { userId: userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
-      );
-      setPersonalizedChatResult(response.data.result);
-    } catch (error) {
-      console.error("Error checking personalized chat", error);
-    }
-  };
+  // const handlePersonalizedChatClick = async (userId) => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:5000/checkPersonalizedChats",
+  //       { userId: userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
+  //     );
+  //     setPersonalizedChatResult(response.data.result);
+  //   } catch (error) {
+  //     console.error("Error checking personalized chat", error);
+  //   }
+  // };
 
   const handleSend = async () => {
     const token = localStorage.getItem("token");
