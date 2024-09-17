@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FileUpload } from "../Components/ui/file-upload";
 
-function App() {
+export default function Fileupload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
   const [customFileType, setCustomFileType] = useState("");
@@ -89,5 +89,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

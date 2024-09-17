@@ -6,6 +6,8 @@ const AppContext = ({ children }) => {
   const [showSlide, setShowSlide] = useState(false);
   const [Mobile, setMobile] = useState(false);
   const [chatValue, setChatValue] = useState("");
+  const [personalizedChatResult, setPersonalizedChatResult] = useState(null);
+  const [personalizedclicked, setPersonalizedClicked] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState("");
   const [message, setMessage] = useState([
     // {
@@ -26,42 +28,61 @@ const AppContext = ({ children }) => {
     }
   }, [message]);
 
+  const handlePersonalizedChatClick = async (userId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/checkPersonalizedChats",
+        { userId: userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
+      );
+      setPersonalizedChatResult(response.data.result);
+    } catch (error) {
+      console.error("Error checking personalized chat", error);
+    }
+  };
+
   const handleSend = async () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-  
+
     try {
       // Save the user's message first
-      setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
-  
-      const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
-        message: chatValue,
-        auth_message: import.meta.env.VITE_AUTH_MESSAGE
-      });
-  
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: chatValue, sender: "user" },
+      ]);
+
+      const response = await axios.post(
+        "https://ayurguru-flask-api.vercel.app/generate_response",
+        {
+          message: chatValue,
+          auth_message: import.meta.env.VITE_AUTH_MESSAGE,
+        }
+      );
+
       setChatValue(""); // Clear the chat input
-  
+
       // Save bot's response in chats
-      setChats(prevChats => [...prevChats, { message: response.data.response, sender: "bot" }]);
-  
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: response.data.response, sender: "bot" },
+      ]);
+
       // Send both messages to your backend server
       await axios.post(
         `http://localhost:5000/api/conversations/${currentConversationId}`,
         { message: chatValue, sender: "user", userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       await axios.post(
         `http://localhost:5000/api/conversations/${currentConversationId}`,
         { message: response.data.response, sender: "bot", userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
     } catch (error) {
       console.error("Error sending message", error);
     }
   };
-  
 
   // Enter Click function
   const handleKeyPress = (e) => {
@@ -70,33 +91,28 @@ const AppContext = ({ children }) => {
     }
   };
 
-  
-const handleConversationClick = async (conversation) => {
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
-  setCurrentConversationId(conversation.conversationId);
-  try {
-    
-    const response = await axios.get(
-      `http://localhost:5000/api/conversations/${conversation.conversationId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          userId: userId,
+  const handleConversationClick = async (conversation) => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    setCurrentConversationId(conversation.conversationId);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/conversations/${conversation.conversationId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            userId: userId,
+          },
         }
-      }
-    );
-    setChats(response.data);
-    console.log("Conversation clicked:", response.data);
-  } catch (error) {
-    console.error("Error fetching conversation", error);
-  }
-};
-
-    
-  
+      );
+      setChats(response.data);
+      console.log("Conversation clicked:", response.data);
+    } catch (error) {
+      console.error("Error fetching conversation", error);
+    }
+  };
 
   return (
     <ContextApp.Provider
@@ -111,9 +127,11 @@ const handleConversationClick = async (conversation) => {
         message,
         msgEnd,
         handleKeyPress,
-        handleConversationClick, 
+        handleConversationClick,
         chats,
-        setChats
+        setChats,
+        personalizedChatResult,
+        handlePersonalizedChatClick,
       }}
     >
       {children}

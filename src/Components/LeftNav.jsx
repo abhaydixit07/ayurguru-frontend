@@ -2,16 +2,17 @@ import React, { useContext, useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { FiMessageSquare } from "react-icons/fi";
-import { RiDeleteBinLine } from "react-icons/ri"; // Import the delete icon
+import { RiDeleteBinLine } from "react-icons/ri";
 import { BsChatDots } from "react-icons/bs";
 import axios from "axios";
 import { ContextApp } from "../utils/Context";
 import test from "../assets/test.png";
 
 function LeftNav() {
-  const { setShowSlide, showSlide, handleConversationClick } = useContext(ContextApp);
+  const { setShowSlide, showSlide, handleConversationClick } =
+    useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
-
+  const { handlePersonalizedChatClick } = useContext(ContextApp);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
@@ -25,8 +26,7 @@ function LeftNav() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          },
-          
+          }
         );
         console.log("Conversations fetched:", response.data);
         setConversations(response.data); // Update state with fetched conversations
@@ -45,8 +45,7 @@ function LeftNav() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
-        
+        }
       );
       console.log("New conversation created:", response.data);
       setConversations([...conversations, response.data]); // Add new conversation to state
@@ -137,21 +136,23 @@ function LeftNav() {
             </div>
           ))
         ) : (
-          <span className="text-gray-400">No conversations yet</span>
+          <span className="text-white font-bold">No conversations yet</span>
         )}
       </div>
 
       {/* Bottom section */}
       <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-        <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
-          <span className="flex gap-2 items-center justify-center text-lg">
-            <BsChatDots />
+        <div onClick={() => handlePersonalizedChatClick(userId)}>
+          <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
+            <span className="flex gap-2 items-center justify-center text-lg">
+              <BsChatDots />
+            </span>
+            <span className="text-lg">Personalized Chat</span>
+            <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
+              NEW
+            </span>
           </span>
-          <span className="text-lg">Personalized Chat</span>
-          <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
-            NEW
-          </span>
-        </span>
+        </div>
         <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
           <span className="flex gap-2 items-center justify-center text-3xl font-bold">
             <img
