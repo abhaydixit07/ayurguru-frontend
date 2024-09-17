@@ -9,6 +9,7 @@ const AppContext = ({ children }) => {
   const [personalizedChatResult, setPersonalizedChatResult] = useState(null);
   const [personalizedclicked, setPersonalizedClicked] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState("");
+  const [personalizedChatisSelected, setPersonalizedChatisSelected] = useState(false);
   const [message, setMessage] = useState([
     // {
     //   text: "Hi, I am AyurChatBot. How can I help you today?. I specialie in Ayurvedic medicine and treatments. You can ask me anything related to Ayurveda.",
@@ -46,21 +47,16 @@ const AppContext = ({ children }) => {
 
     try {
       // Save the user's message first
-      setChats((prevChats) => [
-        ...prevChats,
-        { message: chatValue, sender: "user" },
-      ]);
-
-      const response = await axios.post(
-        "https://ayurguru-flask-api.vercel.app/generate_response",
-        {
-          message: chatValue,
-          auth_message: import.meta.env.VITE_AUTH_MESSAGE,
-        }
-      );
-
-      setChatValue(""); // Clear the chat input
-
+      setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
+      setChatValue("");
+  
+      const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
+        message: chatValue,
+        auth_message: import.meta.env.VITE_AUTH_MESSAGE
+      });
+  
+       
+  
       // Save bot's response in chats
       setChats((prevChats) => [
         ...prevChats,
@@ -83,8 +79,12 @@ const AppContext = ({ children }) => {
       console.error("Error sending message", error);
     }
   };
+  
+  const handlePersonalizedChatClick = async () => {
+    setPersonalizedChatisSelected(!personalizedChatisSelected);
+  };
 
-  // Enter Click function
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSend();
@@ -130,8 +130,9 @@ const AppContext = ({ children }) => {
         handleConversationClick,
         chats,
         setChats,
-        personalizedChatResult,
-        handlePersonalizedChatClick,
+        currentConversationId,
+        personalizedChatisSelected,
+        handlePersonalizedChatClick
       }}
     >
       {children}

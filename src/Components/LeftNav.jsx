@@ -9,8 +9,7 @@ import { ContextApp } from "../utils/Context";
 import test from "../assets/test.png";
 
 function LeftNav() {
-  const { setShowSlide, showSlide, handleConversationClick } =
-    useContext(ContextApp);
+  const { setShowSlide, showSlide, handleConversationClick, handlePersonalizedChatClick } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
   const { handlePersonalizedChatClick } = useContext(ContextApp);
   const token = localStorage.getItem("token");
@@ -142,17 +141,16 @@ function LeftNav() {
 
       {/* Bottom section */}
       <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-        <div onClick={() => handlePersonalizedChatClick(userId)}>
-          <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
-            <span className="flex gap-2 items-center justify-center text-lg">
-              <BsChatDots />
-            </span>
-            <span className="text-lg">Personalized Chat</span>
-            <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
-              NEW
-            </span>
+        <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
+        onClick={handlePersonalizedChatClick}>
+          <span className="flex gap-2 items-center justify-center text-lg">
+            <BsChatDots />
           </span>
-        </div>
+          <span className="text-lg">Personalized Chat</span>
+          <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
+            NEW
+          </span>
+        </span>
         <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
           <span className="flex gap-2 items-center justify-center text-3xl font-bold">
             <img
