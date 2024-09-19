@@ -113,9 +113,13 @@ function ChatContainer() {
           </div>
         </>
       ) : (
-        // Render branding if no conversation is selected and personalizedChatisSelected is false
-        <div className="w-full h-full flex items-center justify-center">
-          <h1 className="text-4xl text-gray-600 font-bold">AyurGuru</h1>
+        <div className="w-full h-full flex flex-col items-center justify-center">
+          <h1 className="text-6xl text-gray-800 font-bold drop-shadow-3xl">
+            AyurGuru
+          </h1>
+          <p className="text-2xl text-gray-500 mt-4 drop-shadow-md">
+            Your Personalized Ayurvedic Guide
+          </p>
         </div>
       )}
     </div>
