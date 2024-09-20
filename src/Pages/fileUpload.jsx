@@ -1,90 +1,98 @@
 import React, { useState } from "react";
-import { FileUpload } from "../Components/ui/file-upload";
 
 export default function Fileupload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
-  const [customFileType, setCustomFileType] = useState("");
+  const [summary, setSummary] = useState(""); 
 
   const handleFileUpload = (e) => {
-    setSelectedFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedFile(file); 
+      
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      if (fileExtension === "pdf") {
+        setFileType("pdf");
+      } else if (["png", "jpg", "jpeg"].includes(fileExtension)) {
+        setFileType("image");
+      } else {
+        alert("Unsupported file type. Please upload a PDF or an image.");
+        setSelectedFile(null);
+        setFileType("");
+      }
+    }
   };
 
-  const handleFileTypeChange = (e) => {
-    setFileType(e.target.value);
-  };
-
-  const handleCustomTypeChange = (e) => {
-    setCustomFileType(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedFile) {
-      alert("Please upload a file!");
+    if (!selectedFile || !fileType) {
+      alert("Please upload a valid file!");
       return;
     }
-    if (fileType === "other" && !customFileType) {
-      alert("Please describe the file type!");
-      return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const apiUrl = fileType === "pdf"
+        ? import.meta.env.VITE_API_URL_PDF
+        : import.meta.env.VITE_API_URL_IMAGE;
+        
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SECRET_TOKEN}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+
+      console.log("Summary:", result.summary || result.text);
+      setSummary(result.summary || result.text); // Update the summary state to display it in the UI
+    } catch (error) {
+      console.error("Error uploading file:", error);
     }
-    // Submit logic can go here.
-    console.log("File:", selectedFile);
-    console.log("File Type:", fileType === "other" ? customFileType : fileType);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#a8ff78] via-[#78ffd6] to-[#e0f7c5] flex items-center justify-center">
       <div className="bg-white shadow-md rounded-lg p-6 max-w-lg">
         <h1 className="text-2xl font-semibold mb-4">
-          AyurGuru: Upload Your Report
+          AyurGuru: Upload Your Document or Image
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
-            <FileUpload onChange={handleFileUpload} />
-          </div>
-
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">
-              Select File Type
+              Upload your PDF or Image
             </label>
-            <select
-              className="w-full text-sm p-2 border rounded-lg cursor-pointer"
-              value={fileType}
-              onChange={handleFileTypeChange}
-            >
-              <option value="" disabled>
-                Select file type
-              </option>
-              <option value="prescription">Prescription</option>
-              <option value="medical_record">Medical Record</option>
-              <option value="test_report">Test Report</option>
-              <option value="other">Other</option>
-            </select>
+            <input
+              type="file"
+              className="w-full text-sm p-2 border rounded-lg"
+              onChange={handleFileUpload}
+              accept=".pdf,image/*" // Allow both PDFs and images
+            />
           </div>
-
-          {fileType === "other" && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">
-                Describe the file
-              </label>
-              <input
-                type="text"
-                className="w-full text-sm p-2 border rounded-lg focus:outline-none"
-                value={customFileType}
-                onChange={handleCustomTypeChange}
-                placeholder="Describe the file type"
-              />
-            </div>
-          )}
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg "
+            className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg"
           >
             Submit
           </button>
         </form>
+
+        {/* Display the summary */}
+        {summary && (
+          <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+            <h2 className="text-lg font-semibold mb-2">Document Summary</h2>
+            <p>{summary}</p>
+          </div>
+        )}
       </div>
     </div>
   );
