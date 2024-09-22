@@ -3,9 +3,10 @@ import Nav from "./Components/Navbar";
 import Home from "./Pages/Home";
 import Chat from "./Pages/Chat";
 import AppContext from "./utils/Context";
-import Upload from "./Pages/Fileupload";
+import Upload from "./Pages/fileUpload";
 import Signup from "./Pages/Signup";
 import Signin from "./Pages/Signin";
+import About from "./Pages/About";
 
 function App() {
   return (
@@ -28,6 +29,17 @@ function App() {
             </AppContext>
           }
         />
+
+        <Route
+          path="/about"
+          element={
+            <AppContext>
+              <Nav />
+              <About />
+            </AppContext>
+          }
+        />
+
         <Route
           path="/upload"
           element={

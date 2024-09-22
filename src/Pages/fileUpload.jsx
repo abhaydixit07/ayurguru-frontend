@@ -1,90 +1,216 @@
-import React, { useState } from "react";
-import { FileUpload } from "../Components/ui/file-upload";
+import React, { useState, useEffect } from "react";
 
-export default function Fileupload() {
+export default function Fileupload({ userId }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
-  const [customFileType, setCustomFileType] = useState("");
+  const [summary, setSummary] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [blobUrls, setBlobUrls] = useState({});
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
+  // Handle file selection
   const handleFileUpload = (e) => {
-    setSelectedFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedFile(file);
+
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      if (fileExtension === "pdf") {
+        setFileType("pdf");
+      } else if (["png", "jpg", "jpeg"].includes(fileExtension)) {
+        setFileType("image");
+      } else {
+        alert("Unsupported file type. Please upload a PDF or an image.");
+        setSelectedFile(null);
+        setFileType("");
+      }
+    }
   };
 
-  const handleFileTypeChange = (e) => {
-    setFileType(e.target.value);
-  };
-
-  const handleCustomTypeChange = (e) => {
-    setCustomFileType(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  // Handle file submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedFile) {
-      alert("Please upload a file!");
+    if (!selectedFile || !fileType) {
+      alert("Please upload a valid file!");
       return;
     }
-    if (fileType === "other" && !customFileType) {
-      alert("Please describe the file type!");
-      return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("userId", userId);
+
+    // API call for Google Gemini Docs
+    try {
+      const apiUrl =
+        fileType === "pdf"
+          ? import.meta.env.VITE_API_URL_PDF
+          : import.meta.env.VITE_API_URL_IMAGE;
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_SECRET_TOKEN}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Summary:", result.summary || result.text);
+      setSummary(result.summary || result.text); // Display summary in UI
+    } catch (error) {
+      console.error("Error uploading file to Google Gemini:", error);
     }
-    // Submit logic can go here.
-    console.log("File:", selectedFile);
-    console.log("File Type:", fileType === "other" ? customFileType : fileType);
+
+    // Upload the file to your server to store in PostgreSQL
+    try {
+      const response = await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Error uploading the file to the server.");
+      }
+
+      alert("File uploaded successfully to PostgreSQL!");
+      fetchUserFiles(); // Refresh the file list after upload
+    } catch (error) {
+      console.error("Error uploading file to server:", error);
+    }
+
+    setSelectedFile(null);
   };
+
+  // Fetch uploaded files by userId
+  const fetchUserFiles = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/userfiles/${userId}`
+      );
+      if (response.ok) {
+        const files = await response.json();
+        setUploadedFiles(files); // Only store file names
+      } else {
+        throw new Error("Error fetching files.");
+      }
+    } catch (error) {
+      console.error("Error fetching files:", error);
+    }
+  };
+
+  // Handle file deletion
+  const handleDelete = async (fileName) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/delete/${fileName}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        alert("File deleted successfully.");
+        fetchUserFiles(); // Refresh the file list after deletion
+      } else {
+        throw new Error("Error deleting file.");
+      }
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
+  };
+
+  // Generate blob URL and open the file
+  const handleFileClick = async (fileName) => {
+    if (blobUrls[fileName]) {
+      // If the URL is already generated, just open it
+      window.open(blobUrls[fileName]);
+    } else {
+      setIsLoading(true); // Start loading
+      try {
+        const blobResponse = await fetch(`http://localhost:5000/pdf/${fileName}`);
+        const blob = await blobResponse.blob();
+        const url = URL.createObjectURL(blob);
+        setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
+        window.open(url); // Open the file
+      } catch (error) {
+        console.error("Error generating blob URL:", error);
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    }
+  };
+
+  // Fetch files on component mount
+  useEffect(() => {
+    fetchUserFiles();
+  }, [userId]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#a8ff78] via-[#78ffd6] to-[#e0f7c5] flex items-center justify-center">
-      <div className="bg-white shadow-md rounded-lg p-6 max-w-lg">
+    <div className="min-h-screen bg-gradient-to-r from-[#a8ff78] via-[#78ffd6] to-[#e0f7c5] flex items-center justify-center p-4">
+      <div className="bg-white shadow-md rounded-lg p-6 max-w-lg w-full">
         <h1 className="text-2xl font-semibold mb-4">
-          AyurGuru: Upload Your Report
+          AyurGuru: Upload Your Document or Image
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
-            <FileUpload onChange={handleFileUpload} />
-          </div>
-
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">
-              Select File Type
+              Upload your PDF or Image
             </label>
-            <select
-              className="w-full text-sm p-2 border rounded-lg cursor-pointer"
-              value={fileType}
-              onChange={handleFileTypeChange}
-            >
-              <option value="" disabled>
-                Select file type
-              </option>
-              <option value="prescription">Prescription</option>
-              <option value="medical_record">Medical Record</option>
-              <option value="test_report">Test Report</option>
-              <option value="other">Other</option>
-            </select>
+            <input
+              type="file"
+              className="w-full text-sm p-2 border rounded-lg"
+              onChange={handleFileUpload}
+              accept=".pdf,image/*"
+            />
           </div>
-
-          {fileType === "other" && (
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">
-                Describe the file
-              </label>
-              <input
-                type="text"
-                className="w-full text-sm p-2 border rounded-lg focus:outline-none"
-                value={customFileType}
-                onChange={handleCustomTypeChange}
-                placeholder="Describe the file type"
-              />
-            </div>
-          )}
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg "
+            className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg"
           >
             Submit
           </button>
         </form>
+
+        {summary && (
+          <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+            <h2 className="text-lg font-semibold mb-2">Document Summary</h2>
+            <p>{summary}</p>
+          </div>
+        )}
+
+        <div className="mt-4">
+          <h2 className="text-lg font-semibold mb-2">Your Uploaded Files</h2>
+          <ul className="list-disc pl-5">
+            {uploadedFiles.map((fileName, index) => (
+              <li key={index} className="flex justify-between items-center">
+                <a
+                  href="#"
+                  onClick={() => handleFileClick(fileName)} // Use handleFileClick
+                  className="text-blue-500 hover:underline cursor-pointer"
+                >
+                  {fileName}
+                </a>
+                <button
+                  onClick={() => handleDelete(fileName)}
+                  className="ml-4 bg-red-500 text-white py-1 px-2 rounded-lg"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {isLoading && (
+          <div className="mt-4 p-4 bg-yellow-100 text-yellow-700 rounded-lg">
+            Loading... Please wait.
+          </div>
+        )}
       </div>
     </div>
   );
