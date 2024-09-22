@@ -6,7 +6,7 @@ import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import FileUpload from "../Pages/fileUpload"; // Import the fileUpload component
+import Fileupload from "../Pages/fileUpload"; // Import the fileUpload component
 
 function ChatContainer() {
   const {
@@ -25,7 +25,7 @@ function ChatContainer() {
   } = useContext(ContextApp);
 
   const navigate = useNavigate();
-
+  const userId = localStorage.getItem("userId");
   // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -80,7 +80,7 @@ function ChatContainer() {
       {personalizedChatisSelected ? (
         // Render fileUpload component if personalizedChatisSelected is true
         <div className="w-full h-full flex items-center justify-center">
-          <FileUpload />
+          <Fileupload userId={userId} />
           <Chat/>
           <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
             <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
