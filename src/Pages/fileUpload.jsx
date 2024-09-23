@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Fileupload({ userId }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -59,7 +60,16 @@ export default function Fileupload({ userId }) {
       }
 
       const result = await response.json();
-      console.log("Summary:", result.summary || result.text);
+      // console.log("Summary:", result.summary || result.text);
+      await axios.post(
+        "http://localhost:5000/api/personalizedChats/addPersonalizedFileText",
+        {
+          userId: userId,
+          authMessage: import.meta.env.VITE_AUTH_MESSAGE,
+          text: result.summary || result.text,
+          sender: "user",
+        }
+      );
       setSummary(result.summary || result.text); // Display summary in UI
     } catch (error) {
       console.error("Error uploading file to Google Gemini:", error);
@@ -88,9 +98,7 @@ export default function Fileupload({ userId }) {
   // Fetch uploaded files by userId
   const fetchUserFiles = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/userfiles/${userId}`
-      );
+      const response = await fetch(`http://localhost:5000/userfiles/${userId}`);
       if (response.ok) {
         const files = await response.json();
         setUploadedFiles(files); // Only store file names
@@ -105,12 +113,9 @@ export default function Fileupload({ userId }) {
   // Handle file deletion
   const handleDelete = async (fileName) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/delete/${fileName}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`http://localhost:5000/delete/${fileName}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         alert("File deleted successfully.");
@@ -131,7 +136,9 @@ export default function Fileupload({ userId }) {
     } else {
       setIsLoading(true); // Start loading
       try {
-        const blobResponse = await fetch(`http://localhost:5000/pdf/${fileName}`);
+        const blobResponse = await fetch(
+          `http://localhost:5000/pdf/${fileName}`
+        );
         const blob = await blobResponse.blob();
         const url = URL.createObjectURL(blob);
         setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
