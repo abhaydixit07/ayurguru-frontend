@@ -88,7 +88,7 @@ export const FileUpload = ({ onChange }) => {
       return (
         <div className="flex flex-col items-center">
           <img src={pdfSvg} alt="PDF File" className="w-16 h-16" />
-          <p className="text-sm text-neutral-600 dark:text-neutral-300">
+          <p className="text-sm text-neutral-600">
             PDF File
           </p>
         </div>
@@ -101,7 +101,7 @@ export const FileUpload = ({ onChange }) => {
       return (
         <div className="flex flex-col items-center">
           <img src={docxSvg} alt="DOCX File" className="w-16 h-16" />
-          <p className="text-sm text-neutral-600 dark:text-neutral-300">
+          <p className="text-sm text-neutral-600">
             DOCX File
           </p>
         </div>
@@ -130,7 +130,7 @@ export const FileUpload = ({ onChange }) => {
           {file ? (
             <div className="text-center">
               <div className="mb-4">{renderThumbnail()}</div>
-              <p className="font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
+              <p className="font-sans font-bold text-neutral-700 text-base">
                 {file.name}
               </p>
               <button
@@ -142,10 +142,10 @@ export const FileUpload = ({ onChange }) => {
             </div>
           ) : (
             <div className="text-center">
-              <p className="font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
+              <p className="font-sans font-bold text-neutral-700">
                 Upload file
               </p>
-              <p className="font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
+              <p className="font-sans font-normal text-neutral-400 text-base mt-2">
                 Drag or drop your file here or click to upload
               </p>
               <motion.div
@@ -156,15 +156,15 @@ export const FileUpload = ({ onChange }) => {
                   stiffness: 300,
                   damping: 20,
                 }}
-                className="relative group-hover:shadow-2xl z-40 bg-white dark:bg-neutral-900 flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+                className="relative group-hover:shadow-2xl z-40 bg-white flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
               >
                 {isDragActive ? (
                   <p className="text-neutral-600 flex flex-col items-center">
                     Drop it
-                    <IconUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+                    <IconUpload className="h-4 w-4 text-neutral-600" />
                   </p>
                 ) : (
-                  <IconUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
+                  <IconUpload className="h-4 w-4 text-neutral-600" />
                 )}
               </motion.div>
             </div>

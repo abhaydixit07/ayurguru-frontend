@@ -1,16 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        'leftNav': '#61AB3D',
-        'mainChat': '#DCF7C5'
-      }
+        leftNav: "#61AB3D",
+        mainChat: "#DCF7C5",
+      },
+      fontFamily: {
+        spacegroteskbold: "Space Grotesk Bold",
+        spacegrotesklight: "Space Grotesk Light",
+        spacegroteskmedium: "Space Grotesk Medium",
+        spacegroteskregular: "Space Grotesk Regular",
+        spacegrotesksemibold: "Space Grotesk Semibold",
+      },
     },
   },
   plugins: [],
-}
+};

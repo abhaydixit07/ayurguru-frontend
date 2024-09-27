@@ -14,3 +14,28 @@
   background-color: rgb(70, 70, 70); /* color of the scroll thumb */
   border-radius: 8px; /* roundness of the scroll thumb */
 }
+
+@font-face {
+  font-family: "Space Grotesk Bold";
+  src: url("./assets/fonts/SpaceGrotesk-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Space Grotesk Light";
+  src: url("./assets/fonts/SpaceGrotesk-Light.ttf");
+}
+
+@font-face {
+  font-family: "Space Grotesk Medium";
+  src: url("./assets/fonts/SpaceGrotesk-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Space Grotesk Regular";
+  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Space Grotesk Semibold";
+  src: url("./assets/fonts/SpaceGrotesk-SemiBold.ttf");
+}
