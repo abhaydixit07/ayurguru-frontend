@@ -7,6 +7,8 @@ import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Fileupload from "../Pages/fileUpload"; // Import the fileUpload component
+import MobileFileUpload from "../Pages/mobileFileUpload";
+import { FaFileUpload } from "react-icons/fa";
 
 function ChatContainer() {
   const {
@@ -75,42 +77,100 @@ function ChatContainer() {
         >
           <BiLogOut fontSize={30} />
         </button>
+        {personalizedChatisSelected ? (
+          <div className="flex items-center justify-center">
+            <button
+              className="btn bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+              onClick={() => document.getElementById("my_modal_3").showModal()}
+            >
+              <FaFileUpload fontSize={30} />
+            </button>
+            <dialog id="my_modal_3" className="modal p-4 rounded-lg">
+              <div className="modal-box">
+                <form method="dialog">
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    ✕
+                  </button>
+                </form>
+                <h3 className="text-md pt-4 text-center font-spacegrotesksemibold">
+                  Upload Your Document or Image
+                </h3>
+                <p className="py-4">
+                  <MobileFileUpload userId={userId} />
+                </p>
+              </div>
+            </dialog>
+          </div>
+        ) : null}
       </div>
 
       {personalizedChatisSelected ? (
         // Render fileUpload component if personalizedChatisSelected is true
-        <div className="w-full h-full flex items-center justify-center">
-          <Fileupload userId={userId} />
-          <div className="flex flex-col h-[100%]">
-            <Chat />
-            <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
-              <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
-                <input
-                  type="text"
-                  placeholder="Send a message"
-                  className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
-                  value={chatValue}
-                  onChange={(e) => setChatValue(e.target.value)}
-                  onKeyUp={handleKeyPress2}
-                />
-                <RiSendPlane2Fill
-                  title="send message"
-                  className={
-                    chatValue.length <= 0
-                      ? "text-gray-400 cursor-auto mx-3 text-xl"
-                      : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
-                  }
-                  onClick={handlePersonalizedSend}
-                />
-              </span>
-              <p className="lg:text-xs text-gray-400 text-center text-[10px]">
-                *Ayurvedic Suggestions are based on AI and ML. Please consult a
-                doctor if you have any health issues. We are not responsible for
-                any wrong suggestions given by the AI*
-              </p>
+        <>
+          <div className="w-full h-full lg:flex items-center justify-center hidden">
+            <Fileupload userId={userId} />
+            <div className="flex flex-col h-[100%]">
+              <Chat />
+              <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
+                <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
+                  <input
+                    type="text"
+                    placeholder="Send a message"
+                    className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
+                    value={chatValue}
+                    onChange={(e) => setChatValue(e.target.value)}
+                    onKeyUp={handleKeyPress2}
+                  />
+                  <RiSendPlane2Fill
+                    title="send message"
+                    className={
+                      chatValue.length <= 0
+                        ? "text-gray-400 cursor-auto mx-3 text-xl"
+                        : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
+                    }
+                    onClick={handlePersonalizedSend}
+                  />
+                </span>
+                <p className="lg:text-xs text-gray-400 text-center text-[10px]">
+                  *Ayurvedic Suggestions are based on AI and ML. Please consult
+                  a doctor if you have any health issues. We are not responsible
+                  for any wrong suggestions given by the AI*
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="w-full h-full lg:hidden items-center justify-center flex">
+            <div className="flex flex-col h-[100%]">
+              <Chat />
+              <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
+                <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
+                  <input
+                    type="text"
+                    placeholder="Send a message"
+                    className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
+                    value={chatValue}
+                    onChange={(e) => setChatValue(e.target.value)}
+                    onKeyUp={handleKeyPress2}
+                  />
+                  <RiSendPlane2Fill
+                    title="send message"
+                    className={
+                      chatValue.length <= 0
+                        ? "text-gray-400 cursor-auto mx-3 text-xl"
+                        : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
+                    }
+                    onClick={handlePersonalizedSend}
+                  />
+                </span>
+                <p className="lg:text-xs text-gray-400 text-center text-[10px]">
+                  *Ayurvedic Suggestions are based on AI and ML. Please consult
+                  a doctor if you have any health issues. We are not responsible
+                  for any wrong suggestions given by the AI*
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
       ) : currentConversationId ? (
         // Render Chat and Input if a conversation is selected
         <>
