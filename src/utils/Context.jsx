@@ -33,6 +33,10 @@ const AppContext = ({ children }) => {
     setChats([]);
     setPersonalizedChatisSelected(true);
     try{
+      const res = await axios.post("http://localhost:5000/api/personalizedChats/checkPersonalizedChats", {
+        userId: userId,
+        authMessage: import.meta.env.VITE_AUTH_MESSAGE
+      });
       const response = await axios.post("http://localhost:5000/api/personalizedChats/getPersonalizedChats", {
         userId: userId,
         authMessage: import.meta.env.VITE_AUTH_MESSAGE

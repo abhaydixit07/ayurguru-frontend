@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../index.css";
 
 export default function Fileupload({ userId }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -129,28 +130,29 @@ export default function Fileupload({ userId }) {
   };
 
   // Generate blob URL and open the file
-const handleFileClick = async (fileName) => {
-  setIsLoading(true); // Start loading immediately when clicked
-  try {
-    let url = blobUrls[fileName];
+  const handleFileClick = async (fileName) => {
+    setIsLoading(true); // Start loading immediately when clicked
+    try {
+      let url = blobUrls[fileName];
 
-    if (!url) {
-      // If the URL is not already generated, fetch the blob and create the URL
-      const blobResponse = await fetch(`http://localhost:5000/pdf/${fileName}`);
-      const blob = await blobResponse.blob();
-      url = URL.createObjectURL(blob);
-      setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
+      if (!url) {
+        // If the URL is not already generated, fetch the blob and create the URL
+        const blobResponse = await fetch(
+          `http://localhost:5000/pdf/${fileName}`
+        );
+        const blob = await blobResponse.blob();
+        url = URL.createObjectURL(blob);
+        setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
+      }
+
+      // Automatically open the file after the URL is ready
+      window.open(url);
+    } catch (error) {
+      console.error("Error generating blob URL:", error);
+    } finally {
+      setIsLoading(false); // Stop loading after the URL is ready or on error
     }
-
-    // Automatically open the file after the URL is ready
-    window.open(url);
-  } catch (error) {
-    console.error("Error generating blob URL:", error);
-  } finally {
-    setIsLoading(false); // Stop loading after the URL is ready or on error
-  }
-};
-
+  };
 
   // Fetch files on component mount
   useEffect(() => {
@@ -158,68 +160,71 @@ const handleFileClick = async (fileName) => {
   }, [userId]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#a8ff78] via-[#78ffd6] to-[#e0f7c5] flex items-center justify-center p-4">
-      <div className="bg-white shadow-md rounded-lg p-6 max-w-lg w-full">
-        <h1 className="text-2xl font-semibold mb-4">
-          AyurGuru: Upload Your Document or Image
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Upload your PDF or Image
-            </label>
-            <input
-              type="file"
-              className="w-full text-sm p-2 border rounded-lg"
-              onChange={handleFileUpload}
-              accept=".pdf,image/*"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg"
-          >
-            Submit
-          </button>
-        </form>
-
-        {summary && (
-          <div className="mt-4 p-4 bg-gray-100 rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Document Summary</h2>
-            <p>{summary}</p>
-          </div>
-        )}
-
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Your Uploaded Files</h2>
-          <ul className="list-disc pl-5">
-            {uploadedFiles.map((fileName, index) => (
-              <li key={index} className="flex justify-between items-center">
-                <a
-                  href="#"
-                  onClick={() => handleFileClick(fileName)} // Use handleFileClick
-                  className="text-blue-500 hover:underline cursor-pointer"
-                >
-                  {fileName}
-                </a>
-                <button
-                  onClick={() => handleDelete(fileName)}
-                  className="ml-4 bg-red-500 text-white py-1 px-2 rounded-lg"
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
+    <div className="h-[100%] w-[4000px] flex flex-col border border-r-2 p-4 overflow-y-scroll scroll">
+      <h1 className="text-2xl font-spacegrotesksemibold mb-4">
+        Upload Your Document or Image
+      </h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-md font-spacegroteskmedium mb-2">
+            Upload your PDF or Image
+          </label>
+          <input
+            type="file"
+            className="w-full text-sm p-2 border rounded-lg font-spacegroteskregular"
+            onChange={handleFileUpload}
+            accept=".pdf,image/*"
+          />
         </div>
 
-        {isLoading && (
-          <div className="mt-4 p-4 bg-yellow-100 text-yellow-700 rounded-lg">
-            Loading... Please wait.
-          </div>
-        )}
+        <button
+          type="submit"
+          className="w-full font-spacegroteskmedium bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-4 rounded-lg"
+        >
+          Submit
+        </button>
+      </form>
+
+      {summary && (
+        <div className="mt-4 p-4 bg-gray-100 rounded-lg">
+          <h2 className="text-lg font-semibold mb-2">Document Summary</h2>
+          <p>{summary}</p>
+        </div>
+      )}
+
+      <div className="mt-4">
+        <h2 className="text-lg font-spacegrotesksemibold mb-2">
+          Your Uploaded Files
+        </h2>
+        <ul className="list-disc pl-2">
+          {uploadedFiles.map((fileName, index) => (
+            <li
+              key={index}
+              className="flex justify-between items-center font-spacegroteskregular p-2 pl-0"
+            >
+              <a
+                href="#"
+                onClick={() => handleFileClick(fileName)} // Use handleFileClick
+                className="text-blue-500 hover:underline cursor-pointer"
+              >
+                {fileName}
+              </a>
+              <button
+                onClick={() => handleDelete(fileName)}
+                className="ml-4 bg-red-500 text-white py-1 px-2 rounded-lg"
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+
+      {isLoading && (
+        <div className="mt-4 p-4 bg-yellow-100 text-yellow-700 rounded-lg">
+          Loading... Please wait.
+        </div>
+      )}
     </div>
   );
 }
