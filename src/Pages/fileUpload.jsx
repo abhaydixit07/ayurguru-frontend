@@ -129,27 +129,28 @@ export default function Fileupload({ userId }) {
   };
 
   // Generate blob URL and open the file
-  const handleFileClick = async (fileName) => {
-    if (blobUrls[fileName]) {
-      // If the URL is already generated, just open it
-      window.open(blobUrls[fileName]);
-    } else {
-      setIsLoading(true); // Start loading
-      try {
-        const blobResponse = await fetch(
-          `http://localhost:5000/pdf/${fileName}`
-        );
-        const blob = await blobResponse.blob();
-        const url = URL.createObjectURL(blob);
-        setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
-        window.open(url); // Open the file
-      } catch (error) {
-        console.error("Error generating blob URL:", error);
-      } finally {
-        setIsLoading(false); // Stop loading
-      }
+const handleFileClick = async (fileName) => {
+  setIsLoading(true); // Start loading immediately when clicked
+  try {
+    let url = blobUrls[fileName];
+
+    if (!url) {
+      // If the URL is not already generated, fetch the blob and create the URL
+      const blobResponse = await fetch(`http://localhost:5000/pdf/${fileName}`);
+      const blob = await blobResponse.blob();
+      url = URL.createObjectURL(blob);
+      setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
     }
-  };
+
+    // Automatically open the file after the URL is ready
+    window.open(url);
+  } catch (error) {
+    console.error("Error generating blob URL:", error);
+  } finally {
+    setIsLoading(false); // Stop loading after the URL is ready or on error
+  }
+};
+
 
   // Fetch files on component mount
   useEffect(() => {
