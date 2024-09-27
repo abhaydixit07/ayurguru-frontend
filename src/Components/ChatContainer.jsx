@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ContextApp } from "../utils/Context";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
@@ -34,6 +34,12 @@ function ChatContainer() {
     localStorage.removeItem("userId");
     navigate("/");
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div
