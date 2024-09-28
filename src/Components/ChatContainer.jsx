@@ -145,7 +145,7 @@ function ChatContainer() {
               </div>
             </div>
           </div>
-          <div className="w-full h-full lg:hidden items-center justify-center flex">
+          <div className="w-full h-full lg:hidden items-center justify-center flex overflow-y-hidden">
             <div className="flex flex-col h-[100%]">
               <Chat />
               <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">

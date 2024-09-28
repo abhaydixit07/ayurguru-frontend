@@ -186,7 +186,7 @@ export default function Fileupload({ userId }) {
   }, [userId]);
 
   return (
-    <div className="h-[100%] w-[4000px] flex flex-col border border-r-2 p-4 overflow-y-scroll scroll">
+    <div className="h-[100%] w-[1500px] flex flex-col border border-r-2 p-4 overflow-y-scroll scroll">
       <h1 className="text-2xl font-spacegrotesksemibold mb-4">
         Upload Your Document or Image
       </h1>
