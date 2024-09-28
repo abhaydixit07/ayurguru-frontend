@@ -6,7 +6,6 @@ import userIcon from "../assets/userIcon.png";
 function Chat() {
   const { chats, msgEnd } = useContext(ContextApp);
 
-  
   useEffect(() => {
     if (msgEnd.current) {
       msgEnd.current.scrollIntoView({ behavior: "smooth" });
@@ -16,7 +15,6 @@ function Chat() {
   return (
     <div className="w-full h-[85%] flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">
       <div className="w-full lg:w-4/5 flex flex-col h-full items-start justify-start">
-      
         {chats?.map((msg, i) => (
           <div
             key={msg._id?.$oid || i}
@@ -26,7 +24,7 @@ function Chat() {
           >
             {msg.sender === "user" ? (
               <>
-                <p className="text-white text-[18px]">{msg.message}</p>
+                <p className="text-white text-[18px] whitespace-pre-wrap">{msg.message}</p>
                 <img
                   src={userIcon}
                   alt="user"
@@ -40,13 +38,11 @@ function Chat() {
                   alt="bot"
                   className="w-10 h-10 rounded object-cover"
                 />
-                <p className="text-white text-[18px]">{msg.message}</p>
+                <p className="text-white text-[18px] whitespace-pre-wrap">{msg.message}</p>
               </>
             )}
           </div>
         ))}
-        
-        
         <div ref={msgEnd} />
       </div>
     </div>
