@@ -7,6 +7,8 @@ import Upload from "./Pages/fileUpload";
 import Signup from "./Pages/Signup";
 import Signin from "./Pages/Signin";
 import About from "./Pages/About";
+import Blog from "./Pages/Blogs";
+import BlogDetail from "./Pages/BlogDeatils"
 
 function App() {
   return (
@@ -21,6 +23,16 @@ function App() {
             </>
           }
         />
+         <Route
+          path="/blogs"
+          element={
+            <>
+              <Nav />
+              <Blog />
+            </>
+          }
+        />
+        <Route path="/blog/:id" element={<><Nav/><BlogDetail /></>} />
         <Route
           path="/consult"
           element={
