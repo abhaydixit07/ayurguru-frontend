@@ -24,7 +24,7 @@ function Chat() {
           >
             {msg.sender === "user" ? (
               <>
-                <p className="text-white text-[18px] whitespace-pre-wrap">{msg.message}</p>
+                <p className="text-white font-spacegroteskregular text-[18px] whitespace-pre-wrap">{msg.message}</p>
                 <img
                   src={userIcon}
                   alt="user"
@@ -38,7 +38,7 @@ function Chat() {
                   alt="bot"
                   className="w-10 h-10 rounded object-cover"
                 />
-                <p className="text-white text-[18px] whitespace-pre-wrap">{msg.message}</p>
+                <p className="text-white text-[18px] font-spacegroteskregular whitespace-pre-wrap">{msg.message}</p>
               </>
             )}
           </div>

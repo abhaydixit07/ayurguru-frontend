@@ -65,7 +65,7 @@ const AppContext = ({ children }) => {
               userId:userId,
               authMessage: import.meta.env.VITE_AUTH_MESSAGE
           });
-          console.log(summaryResponse.data)
+          
   
           const documentSummary = summaryResponse.data.length > 0 
             ? summaryResponse.data.map(item => item.text).join(' ') 
@@ -125,47 +125,56 @@ const AppContext = ({ children }) => {
     }
   };
 
-  const handleSend = async () => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-    const currentChatValue = chatValue;
-    setChatValue("");
-    try {
-      // Save the user's message first
-      setChats((prevChats) => [
-        ...prevChats,
-        { message: currentChatValue, sender: "user" },
-      ]);
-
-      const response = await axios.post(
-        "https://ayurguru-flask-api.vercel.app/generate_response",
-        {
-          message: currentChatValue,
-          auth_message: import.meta.env.VITE_AUTH_MESSAGE,
-        }
-      );
-
-      // Save bot's response in chats
-      setChats((prevChats) => [
-        ...prevChats,
-        { message: response.data.response, sender: "bot" },
-      ]);
-
-      // Send both messages to your backend server
-      await axios.post(
-        `http://localhost:5000/api/conversations/${currentConversationId}`,
-        { message: currentChatValue, sender: "user", userId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      await axios.post(
-        `http://localhost:5000/api/conversations/${currentConversationId}`,
-        { message: response.data.response, sender: "bot", userId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    } catch (error) {
-      console.error("Error sending message", error);
-    }
+    const handleSend = async () => {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      const currentChatValue = chatValue;
+      setChatValue("");
+  
+      try {
+          // Save the user's message first
+          setChats((prevChats) => [
+              ...prevChats,
+              { message: currentChatValue, sender: "user" },
+          ]);
+          
+          // Construct chat history
+          const chatHistory = chats.map(chat => ({
+              role: chat.sender === 'bot' ? 'assistant' : 'user',
+              content: chat.message
+          }));
+  
+          // Generate bot's response using the Flask API with context
+          const response = await axios.post(
+              "https://ayurguru-flask-api.vercel.app/generate_response",
+              {
+                  message: currentChatValue,
+                  auth_message: import.meta.env.VITE_AUTH_MESSAGE,
+                  chat_history: chatHistory
+              }
+          );
+  
+          // Save bot's response in chats
+          setChats((prevChats) => [
+              ...prevChats,
+              { message: response.data.response, sender: "bot" },
+          ]);
+  
+          // Send both messages to your backend server
+          await axios.post(
+              `http://localhost:5000/api/conversations/${currentConversationId}`,
+              { message: currentChatValue, sender: "user", userId },
+              { headers: { Authorization: `Bearer ${token}` } }
+          );
+  
+          await axios.post(
+              `http://localhost:5000/api/conversations/${currentConversationId}`,
+              { message: response.data.response, sender: "bot", userId },
+              { headers: { Authorization: `Bearer ${token}` } }
+          );
+      } catch (error) {
+          console.error("Error sending message", error);
+      }
   };
 
   const handleConversationClick = async (conversation) => {
