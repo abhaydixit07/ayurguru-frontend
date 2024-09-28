@@ -36,7 +36,7 @@ function ChatContainer() {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("userId")) {
+    if (!localStorage.getItem("token")) {
       navigate("/");
     }
   }, []);
@@ -84,7 +84,7 @@ function ChatContainer() {
           <BiLogOut fontSize={30} />
         </button>
         {personalizedChatisSelected ? (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center lg:hidden">
             <button
               className="btn bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
               onClick={() => document.getElementById("my_modal_3").showModal()}

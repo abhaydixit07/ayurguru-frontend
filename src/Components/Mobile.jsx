@@ -9,7 +9,7 @@ import test from "../assets/test.png";
 import { ContextApp } from "../utils/Context";
 
 function Mobile() {
-  const { Mobile, setMobile, handleConversationClick } = useContext(ContextApp);
+  const { Mobile, setMobile, handleConversationClick, handlePersonalizedChatClick } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
   
   const token = localStorage.getItem("token");
@@ -121,7 +121,8 @@ function Mobile() {
 
         {/* Bottom section */}
         <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-          <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300">
+          <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
+            onClick={()=>handlePersonalizedChatClick(userId)}>
             <span className="flex gap-2 items-center justify-center text-lg">
               <BsChatDots />
             </span>

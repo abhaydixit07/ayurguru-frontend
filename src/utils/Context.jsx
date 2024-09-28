@@ -54,14 +54,16 @@ const AppContext = ({ children }) => {
   const handlePersonalizedSend = async () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
+    const currentChatValue = chatValue;
+    setChatValue("")
   
     try {
       // Save the user's message first
-      setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
+      setChats(prevChats => [...prevChats, { message: currentChatValue, sender: "user" }]);
       
       // Generate bot's response using the Flask API
       const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
-        message: chatValue,
+        message: currentChatValue,
         auth_message: import.meta.env.VITE_AUTH_MESSAGE
       });
   
@@ -74,7 +76,7 @@ const AppContext = ({ children }) => {
       // Save the user's message to the DB
       await axios.post(
         `http://localhost:5000/api/personalizedChats/addPersonalizedChat`,
-        { chat: chatValue, sender: "user", userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
+        { chat: currentChatValue, sender: "user", userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
       );
   
       // Save bot's response to the DB
@@ -111,14 +113,15 @@ const AppContext = ({ children }) => {
   const handleSend = async () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-
+    const currentChatValue = chatValue;
+    setChatValue("");
     try {
       // Save the user's message first
-      setChats(prevChats => [...prevChats, { message: chatValue, sender: "user" }]);
+      setChats(prevChats => [...prevChats, { message: currentChatValue, sender: "user" }]);
       
   
       const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response', {
-        message: chatValue,
+        message: currentChatValue,
         auth_message: import.meta.env.VITE_AUTH_MESSAGE
       });
   
@@ -133,10 +136,10 @@ const AppContext = ({ children }) => {
       // Send both messages to your backend server
       await axios.post(
         `http://localhost:5000/api/conversations/${currentConversationId}`,
-        { message: chatValue, sender: "user", userId },
+        { message: currentChatValue, sender: "user", userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setChatValue("");
+      
       await axios.post(
         `http://localhost:5000/api/conversations/${currentConversationId}`,
         { message: response.data.response, sender: "bot", userId },
