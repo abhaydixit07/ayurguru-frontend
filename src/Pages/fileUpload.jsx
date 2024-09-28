@@ -12,6 +12,7 @@ export default function Fileupload({ userId }) {
   const [isLoading, setIsLoading] = useState(false); // Loading state for file upload
   const [deleteLoading, setDeleteLoading] = useState({}); // Loading state for file deletion
   const [fileFetchLoading, setFileFetchLoading] = useState(true); // Loading state for file fetch
+  const [fileContentId, setFileContentId] = useState("");
 
   // Handle file selection
   const handleFileUpload = (e) => {
@@ -31,28 +32,26 @@ export default function Fileupload({ userId }) {
       }
     }
   };
-
-  // Handle file submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile || !fileType) {
       alert("Please upload a valid file!");
       return;
     }
-
+  
     setIsLoading(true); // Set loading state to true
-
+  
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", userId);
-
+  
     // API call for Google Gemini Docs
     try {
       const apiUrl =
         fileType === "pdf"
           ? import.meta.env.VITE_API_URL_PDF
           : import.meta.env.VITE_API_URL_IMAGE;
-
+  
       const response = await fetch(apiUrl, {
         method: "POST",
         body: formData,
@@ -60,13 +59,13 @@ export default function Fileupload({ userId }) {
           Authorization: `Bearer ${import.meta.env.VITE_SECRET_TOKEN}`,
         },
       });
-
+  
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const result = await response.json();
-      await axios.post(
+      const fileContent = await axios.post(
         "http://localhost:5000/api/personalizedChats/addPersonalizedFileText",
         {
           userId: userId,
@@ -75,31 +74,47 @@ export default function Fileupload({ userId }) {
           sender: "user",
         }
       );
+  
+      // Store the MongoDB ID in the local variable
+      const fileContentId = fileContent.data.id; 
+      
+      setFileContentId(fileContentId); // Update state with MongoDB ID
+  
       setSummary(result.summary || result.text); // Display summary in UI
-    } catch (error) {
-      console.error("Error uploading file to Google Gemini:", error);
-    }
-
-    // Upload the file to your server to store in PostgreSQL
-    try {
-      const response = await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Error uploading the file to the server.");
+  
+      // Only proceed with PostgreSQL upload if MongoDB ID is fetched
+      if (fileContentId) {
+        // Prepare FormData with additional fields
+        const formDataForUpload = new FormData();
+        formDataForUpload.append("file", selectedFile); // Append the selected file
+        formDataForUpload.append("userId", userId); // Add user ID to the form data
+        formDataForUpload.append("mongodb_id", fileContentId); // Use the MongoDB ID
+  
+        // Make the fetch request with FormData
+        const uploadResponse = await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formDataForUpload,
+        });
+  
+        if (!uploadResponse.ok) {
+          throw new Error("Error uploading the file to the server.");
+        }
+  
+        alert("File uploaded successfully to PostgreSQL!");
+        fetchUserFiles(); // Refresh the file list after upload
+      } else {
+        console.error("MongoDB ID not found, skipping PostgreSQL upload.");
       }
-
-      alert("File uploaded successfully to PostgreSQL!");
-      fetchUserFiles(); // Refresh the file list after upload
     } catch (error) {
-      console.error("Error uploading file to server:", error);
+      console.error("Error uploading file:", error);
+    } finally {
+      // Reset states after completion
+      setSelectedFile(null);
+      setFileContentId("");
+      setIsLoading(false); // Set loading state to false after completion
     }
-
-    setSelectedFile(null);
-    setIsLoading(false); // Set loading state to false after completion
   };
+  
 
   // Fetch uploaded files by userId
   const fetchUserFiles = async () => {
@@ -120,10 +135,10 @@ export default function Fileupload({ userId }) {
   };
 
   // Handle file deletion
-  const handleDelete = async (fileName) => {
+  const handleDelete = async (fileName, mongodb_id) => {
     setDeleteLoading((prev) => ({ ...prev, [fileName]: true })); // Start loading for the specific file
     try {
-      const response = await fetch(`http://localhost:5000/delete/${fileName}`, {
+      const response = await fetch(`http://localhost:5000/delete/${userId}/${fileName}`, {
         method: "DELETE",
       });
 
