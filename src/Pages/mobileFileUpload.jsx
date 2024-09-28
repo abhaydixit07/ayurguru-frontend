@@ -10,6 +10,9 @@ export default function MobileFileUpload({ userId }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [blobUrls, setBlobUrls] = useState({});
   const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [deleteLoading, setDeleteLoading] = useState({}); // Loading state for file deletion
+  const [fileFetchLoading, setFileFetchLoading] = useState(true); // Loading state for file fetch
+  const [fileContentId, setFileContentId] = useState("");
 
   // Handle file selection
   const handleFileUpload = (e) => {
@@ -38,6 +41,8 @@ export default function MobileFileUpload({ userId }) {
       return;
     }
 
+    setIsLoading(true); // Set loading state to true
+
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", userId);
@@ -62,8 +67,7 @@ export default function MobileFileUpload({ userId }) {
       }
 
       const result = await response.json();
-      // console.log("Summary:", result.summary || result.text);
-      await axios.post(
+      const fileContent = await axios.post(
         "http://localhost:5000/api/personalizedChats/addPersonalizedFileText",
         {
           userId: userId,
@@ -72,33 +76,50 @@ export default function MobileFileUpload({ userId }) {
           sender: "user",
         }
       );
+
+      // Store the MongoDB ID in the local variable
+      const fileContentId = fileContent.data.id; 
+      
+      setFileContentId(fileContentId); // Update state with MongoDB ID
+
       setSummary(result.summary || result.text); // Display summary in UI
-    } catch (error) {
-      console.error("Error uploading file to Google Gemini:", error);
-    }
 
-    // Upload the file to your server to store in PostgreSQL
-    try {
-      const response = await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        body: formData,
-      });
+      // Only proceed with PostgreSQL upload if MongoDB ID is fetched
+      if (fileContentId) {
+        // Prepare FormData with additional fields
+        const formDataForUpload = new FormData();
+        formDataForUpload.append("file", selectedFile); // Append the selected file
+        formDataForUpload.append("userId", userId); // Add user ID to the form data
+        formDataForUpload.append("mongodb_id", fileContentId); // Use the MongoDB ID
 
-      if (!response.ok) {
-        throw new Error("Error uploading the file to the server.");
+        // Make the fetch request with FormData
+        const uploadResponse = await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formDataForUpload,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Error uploading the file to the server.");
+        }
+
+        alert("File uploaded successfully to PostgreSQL!");
+        fetchUserFiles(); // Refresh the file list after upload
+      } else {
+        console.error("MongoDB ID not found, skipping PostgreSQL upload.");
       }
-
-      alert("File uploaded successfully to PostgreSQL!");
-      fetchUserFiles(); // Refresh the file list after upload
     } catch (error) {
-      console.error("Error uploading file to server:", error);
+      console.error("Error uploading file:", error);
+    } finally {
+      // Reset states after completion
+      setSelectedFile(null);
+      setFileContentId("");
+      setIsLoading(false); // Set loading state to false after completion
     }
-
-    setSelectedFile(null);
   };
 
   // Fetch uploaded files by userId
   const fetchUserFiles = async () => {
+    setFileFetchLoading(true); // Start loading
     try {
       const response = await fetch(`http://localhost:5000/userfiles/${userId}`);
       if (response.ok) {
@@ -109,13 +130,16 @@ export default function MobileFileUpload({ userId }) {
       }
     } catch (error) {
       console.error("Error fetching files:", error);
+    } finally {
+      setFileFetchLoading(false); // Stop loading after completion or error
     }
   };
 
   // Handle file deletion
-  const handleDelete = async (fileName) => {
+  const handleDelete = async (fileName, mongodb_id) => {
+    setDeleteLoading((prev) => ({ ...prev, [fileName]: true })); // Start loading for the specific file
     try {
-      const response = await fetch(`http://localhost:5000/delete/${fileName}`, {
+      const response = await fetch(`http://localhost:5000/delete/${userId}/${fileName}`, {
         method: "DELETE",
       });
 
@@ -127,6 +151,8 @@ export default function MobileFileUpload({ userId }) {
       }
     } catch (error) {
       console.error("Error deleting file:", error);
+    } finally {
+      setDeleteLoading((prev) => ({ ...prev, [fileName]: false })); // Stop loading after deletion or error
     }
   };
 
@@ -177,9 +203,14 @@ export default function MobileFileUpload({ userId }) {
 
         <button
           type="submit"
-          className="w-full font-spacegroteskmedium bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-2 rounded-lg"
+          className="w-full font-spacegroteskmedium bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-2 rounded-lg flex justify-center"
+          disabled={isLoading} // Disable button while loading
         >
-          Submit
+          {isLoading ? (
+            <div className="w-5 h-5 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
 
@@ -194,35 +225,38 @@ export default function MobileFileUpload({ userId }) {
         <h2 className="text-md font-spacegrotesksemibold mb-2">
           Your Uploaded Files
         </h2>
-        <ul className="list-disc pl-2">
-          {uploadedFiles.map((fileName, index) => (
-            <li
-              key={index}
-              className="flex justify-between items-center font-spacegroteskregular p-2 pl-0"
-            >
-              <a
-                href="#"
-                onClick={() => handleFileClick(fileName)} // Use handleFileClick
-                className="text-blue-500 hover:underline cursor-pointer"
+        {fileFetchLoading ? (
+          <div className="w-6 h-6 border-4 border-t-transparent border-green-600 rounded-full animate-spin"></div>
+        ) : (
+          <ul className="list-disc pl-2">
+            {uploadedFiles.map((fileName, index) => (
+              <li
+                key={index}
+                className="flex justify-between items-center font-spacegroteskregular p-2 pl-0"
               >
-                {fileName}
-              </a>
-              <button
-                onClick={() => handleDelete(fileName)}
-                className="ml-4 bg-red-500 text-white py-1 px-2 rounded-lg"
-              >
-                <MdDelete />
-              </button>
-            </li>
-          ))}
-        </ul>
+                <a
+                  href="#"
+                  onClick={() => handleFileClick(fileName)} // Use handleFileClick
+                  className="text-blue-500 hover:underline cursor-pointer"
+                >
+                  {fileName}
+                </a>
+                <button
+                  className="ml-4 text-red-600 hover:text-red-800"
+                  onClick={() => handleDelete(fileName)}
+                  disabled={deleteLoading[fileName]} // Disable button while loading
+                >
+                  {deleteLoading[fileName] ? (
+                    <div className="w-4 h-4 border-4 border-t-transparent border-red-600 rounded-full animate-spin"></div>
+                  ) : (
+                    <MdDelete size={23} />
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-
-      {isLoading && (
-        <div className="mt-4 p-4 bg-yellow-100 text-yellow-700 rounded-lg">
-          Loading... Please wait.
-        </div>
-      )}
     </div>
   );
 }
