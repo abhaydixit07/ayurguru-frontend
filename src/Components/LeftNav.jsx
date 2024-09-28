@@ -18,7 +18,7 @@ function LeftNav() {
     const fetchConversations = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/conversations",
+          `${import.meta.env.VITE_BACKEND_URL}/api/conversations`,
           { userId: userId },
           {
             headers: {
@@ -37,7 +37,7 @@ function LeftNav() {
   const handleNewChat = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/conversations/new",
+        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/new`,
         { userId: userId },
         {
           headers: {
@@ -55,7 +55,7 @@ function LeftNav() {
   const deleteConversation = async (conversationId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/conversations/${conversationId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/${conversationId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

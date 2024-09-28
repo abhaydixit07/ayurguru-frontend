@@ -38,20 +38,20 @@ export default function Fileupload({ userId }) {
       alert("Please upload a valid file!");
       return;
     }
-  
+
     setIsLoading(true); // Set loading state to true
-  
+
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", userId);
-  
+
     // API call for Google Gemini Docs
     try {
       const apiUrl =
         fileType === "pdf"
           ? import.meta.env.VITE_API_URL_PDF
           : import.meta.env.VITE_API_URL_IMAGE;
-  
+
       const response = await fetch(apiUrl, {
         method: "POST",
         body: formData,
@@ -59,14 +59,16 @@ export default function Fileupload({ userId }) {
           Authorization: `Bearer ${import.meta.env.VITE_SECRET_TOKEN}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const result = await response.json();
       const fileContent = await axios.post(
-        "http://localhost:5000/api/personalizedChats/addPersonalizedFileText",
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/addPersonalizedFileText`,
         {
           userId: userId,
           authMessage: import.meta.env.VITE_AUTH_MESSAGE,
@@ -74,14 +76,14 @@ export default function Fileupload({ userId }) {
           sender: "user",
         }
       );
-  
+
       // Store the MongoDB ID in the local variable
-      const fileContentId = fileContent.data.id; 
-      
+      const fileContentId = fileContent.data.id;
+
       setFileContentId(fileContentId); // Update state with MongoDB ID
-  
+
       setSummary(result.summary || result.text); // Display summary in UI
-  
+
       // Only proceed with PostgreSQL upload if MongoDB ID is fetched
       if (fileContentId) {
         // Prepare FormData with additional fields
@@ -89,17 +91,20 @@ export default function Fileupload({ userId }) {
         formDataForUpload.append("file", selectedFile); // Append the selected file
         formDataForUpload.append("userId", userId); // Add user ID to the form data
         formDataForUpload.append("mongodb_id", fileContentId); // Use the MongoDB ID
-  
+
         // Make the fetch request with FormData
-        const uploadResponse = await fetch("http://localhost:5000/upload", {
-          method: "POST",
-          body: formDataForUpload,
-        });
-  
+        const uploadResponse = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/upload`,
+          {
+            method: "POST",
+            body: formDataForUpload,
+          }
+        );
+
         if (!uploadResponse.ok) {
           throw new Error("Error uploading the file to the server.");
         }
-  
+
         alert("File uploaded successfully to PostgreSQL!");
         fetchUserFiles(); // Refresh the file list after upload
       } else {
@@ -114,13 +119,14 @@ export default function Fileupload({ userId }) {
       setIsLoading(false); // Set loading state to false after completion
     }
   };
-  
 
   // Fetch uploaded files by userId
   const fetchUserFiles = async () => {
     setFileFetchLoading(true); // Start loading
     try {
-      const response = await fetch(`http://localhost:5000/userfiles/${userId}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/userfiles/${userId}`
+      );
       if (response.ok) {
         const files = await response.json();
         setUploadedFiles(files); // Only store file names
@@ -138,9 +144,12 @@ export default function Fileupload({ userId }) {
   const handleDelete = async (fileName, mongodb_id) => {
     setDeleteLoading((prev) => ({ ...prev, [fileName]: true })); // Start loading for the specific file
     try {
-      const response = await fetch(`http://localhost:5000/delete/${userId}/${fileName}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/delete/${userId}/${fileName}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         alert("File deleted successfully.");
@@ -164,7 +173,7 @@ export default function Fileupload({ userId }) {
       if (!url) {
         // If the URL is not already generated, fetch the blob and create the URL
         const blobResponse = await fetch(
-          `http://localhost:5000/pdf/${fileName}`
+          `${import.meta.env.VITE_BACKEND_URL}/pdf/${fileName}`
         );
         const blob = await blobResponse.blob();
         url = URL.createObjectURL(blob);
@@ -518,4 +527,3 @@ export default function Fileupload({ userId }) {
 //     </div>
 //   );
 // }
-

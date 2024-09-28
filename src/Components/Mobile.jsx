@@ -9,9 +9,14 @@ import test from "../assets/test.png";
 import { ContextApp } from "../utils/Context";
 
 function Mobile() {
-  const { Mobile, setMobile, handleConversationClick, handlePersonalizedChatClick } = useContext(ContextApp);
+  const {
+    Mobile,
+    setMobile,
+    handleConversationClick,
+    handlePersonalizedChatClick,
+  } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
-  
+
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
@@ -19,7 +24,7 @@ function Mobile() {
     const fetchConversations = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/conversations",
+          `${import.meta.env.VITE_BACKEND_URL}/api/conversations`,
           { userId },
           {
             headers: {
@@ -38,7 +43,7 @@ function Mobile() {
   const handleNewChat = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/conversations/new",
+        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/new`,
         { userId },
         {
           headers: {
@@ -55,7 +60,9 @@ function Mobile() {
   const deleteConversation = async (conversationId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/conversations/${conversationId}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/conversations/${conversationId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +97,7 @@ function Mobile() {
             </span>
           </div>
         </div>
-        
+
         {/* Middle section - Conversations */}
         <div className="h-[80%] w-full p-2 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
           {conversations.length > 0 ? (
@@ -102,7 +109,9 @@ function Mobile() {
               >
                 <span className="flex gap-2 items-center justify-center text-base">
                   <FiMessageSquare />
-                  <span className="text-md">{conversation.chats[0]?.message || "No chats yet"}</span>
+                  <span className="text-md">
+                    {conversation.chats[0]?.message || "No chats yet"}
+                  </span>
                 </span>
                 <RiDeleteBinLine
                   className="text-white"
@@ -121,8 +130,10 @@ function Mobile() {
 
         {/* Bottom section */}
         <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-          <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
-            onClick={()=>handlePersonalizedChatClick(userId)}>
+          <span
+            className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
+            onClick={() => handlePersonalizedChatClick(userId)}
+          >
             <span className="flex gap-2 items-center justify-center text-lg">
               <BsChatDots />
             </span>
@@ -143,7 +154,7 @@ function Mobile() {
           </span>
         </div>
       </div>
-      
+
       {Mobile && (
         <span
           className="border bg-gray-600 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"

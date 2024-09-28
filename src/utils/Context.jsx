@@ -34,14 +34,18 @@ const AppContext = ({ children }) => {
     setPersonalizedChatisSelected(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/personalizedChats/checkPersonalizedChats",
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/checkPersonalizedChats`,
         {
           userId: userId,
           authMessage: import.meta.env.VITE_AUTH_MESSAGE,
         }
       );
       const response = await axios.post(
-        "http://localhost:5000/api/personalizedChats/getPersonalizedChats",
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/getPersonalizedChats`,
         {
           userId: userId,
           authMessage: import.meta.env.VITE_AUTH_MESSAGE,
@@ -53,64 +57,88 @@ const AppContext = ({ children }) => {
     }
   };
 
-    const handlePersonalizedSend = async () => {
-      const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId");
-      const currentChatValue = chatValue;
+  const handlePersonalizedSend = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const currentChatValue = chatValue;
+    setChatValue("");
+
+    try {
+      // Fetch the document summary from the server
+      const summaryResponse = await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/getPersonalizedFileText`,
+        {
+          userId: userId,
+          authMessage: import.meta.env.VITE_AUTH_MESSAGE,
+        }
+      );
+
+      const documentSummary =
+        summaryResponse.data.length > 0
+          ? summaryResponse.data.map((item) => item.text).join(" ")
+          : "No document summary available.";
+
+      const chatHistory = chats.map((chat) => ({
+        role: chat.sender === "bot" ? "assistant" : "user",
+        content: chat.message,
+      }));
+
+      // Save the user's message first
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: currentChatValue, sender: "user" },
+      ]);
+      console.log(documentSummary);
+      // Generate bot's response using the Flask API with context
+      const response = await axios.post(
+        "https://ayurguru-flask-api.vercel.app/generate_response_with_context",
+        {
+          message: currentChatValue,
+          auth_message: import.meta.env.VITE_AUTH_MESSAGE,
+          document_summary: documentSummary,
+          chat_history: chatHistory,
+        }
+      );
+
+      // Append bot's response to chats
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: response.data.response, sender: "bot" },
+      ]);
+
+      // Save the user's message to the DB
+      await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/addPersonalizedChat`,
+        {
+          chat: currentChatValue,
+          sender: "user",
+          userId,
+          authMessage: import.meta.env.VITE_AUTH_MESSAGE,
+        }
+      );
+
+      // Save bot's response to the DB
+      await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/addPersonalizedChat`,
+        {
+          chat: response.data.response,
+          sender: "bot",
+          userId,
+          authMessage: import.meta.env.VITE_AUTH_MESSAGE,
+        }
+      );
+
+      // Clear the input after sending
       setChatValue("");
-  
-      try {
-          // Fetch the document summary from the server
-          const summaryResponse = await axios.post('http://localhost:5000/api/personalizedChats/getPersonalizedFileText', {
-              userId:userId,
-              authMessage: import.meta.env.VITE_AUTH_MESSAGE
-          });
-          
-  
-          const documentSummary = summaryResponse.data.length > 0 
-            ? summaryResponse.data.map(item => item.text).join(' ') 
-            : "No document summary available.";
-  
-          const chatHistory = chats.map(chat => ({
-              role: chat.sender === 'bot' ? 'assistant' : 'user',
-              content: chat.message
-          }));
-  
-          // Save the user's message first
-          setChats(prevChats => [...prevChats, { message: currentChatValue, sender: "user" }]);
-          console.log(documentSummary)
-          // Generate bot's response using the Flask API with context
-          const response = await axios.post('https://ayurguru-flask-api.vercel.app/generate_response_with_context', {
-              message: currentChatValue,
-              auth_message: import.meta.env.VITE_AUTH_MESSAGE,
-              document_summary: documentSummary,
-              chat_history: chatHistory
-          });
-  
-          // Append bot's response to chats
-          setChats((prevChats) => [
-              ...prevChats,
-              { message: response.data.response, sender: "bot" },
-          ]);
-  
-          // Save the user's message to the DB
-          await axios.post(
-              `http://localhost:5000/api/personalizedChats/addPersonalizedChat`,
-              { chat: currentChatValue, sender: "user", userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE }
-          );
-  
-          // Save bot's response to the DB
-          await axios.post(
-              `http://localhost:5000/api/personalizedChats/addPersonalizedChat`,
-              { chat: response.data.response, sender: "bot", userId, authMessage: import.meta.env.VITE_AUTH_MESSAGE },
-          );
-  
-          // Clear the input after sending
-          setChatValue("");
-  
-      } catch (error) {
-          console.error("Error sending personalized chat:", error);
-      }
+    } catch (error) {
+      console.error("Error sending personalized chat:", error);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -125,56 +153,60 @@ const AppContext = ({ children }) => {
     }
   };
 
-    const handleSend = async () => {
-      const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId");
-      const currentChatValue = chatValue;
-      setChatValue("");
-  
-      try {
-          // Save the user's message first
-          setChats((prevChats) => [
-              ...prevChats,
-              { message: currentChatValue, sender: "user" },
-          ]);
-          
-          // Construct chat history
-          const chatHistory = chats.map(chat => ({
-              role: chat.sender === 'bot' ? 'assistant' : 'user',
-              content: chat.message
-          }));
-  
-          // Generate bot's response using the Flask API with context
-          const response = await axios.post(
-              "https://ayurguru-flask-api.vercel.app/generate_response",
-              {
-                  message: currentChatValue,
-                  auth_message: import.meta.env.VITE_AUTH_MESSAGE,
-                  chat_history: chatHistory
-              }
-          );
-  
-          // Save bot's response in chats
-          setChats((prevChats) => [
-              ...prevChats,
-              { message: response.data.response, sender: "bot" },
-          ]);
-  
-          // Send both messages to your backend server
-          await axios.post(
-              `http://localhost:5000/api/conversations/${currentConversationId}`,
-              { message: currentChatValue, sender: "user", userId },
-              { headers: { Authorization: `Bearer ${token}` } }
-          );
-  
-          await axios.post(
-              `http://localhost:5000/api/conversations/${currentConversationId}`,
-              { message: response.data.response, sender: "bot", userId },
-              { headers: { Authorization: `Bearer ${token}` } }
-          );
-      } catch (error) {
-          console.error("Error sending message", error);
-      }
+  const handleSend = async () => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const currentChatValue = chatValue;
+    setChatValue("");
+
+    try {
+      // Save the user's message first
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: currentChatValue, sender: "user" },
+      ]);
+
+      // Construct chat history
+      const chatHistory = chats.map((chat) => ({
+        role: chat.sender === "bot" ? "assistant" : "user",
+        content: chat.message,
+      }));
+
+      // Generate bot's response using the Flask API with context
+      const response = await axios.post(
+        "https://ayurguru-flask-api.vercel.app/generate_response",
+        {
+          message: currentChatValue,
+          auth_message: import.meta.env.VITE_AUTH_MESSAGE,
+          chat_history: chatHistory,
+        }
+      );
+
+      // Save bot's response in chats
+      setChats((prevChats) => [
+        ...prevChats,
+        { message: response.data.response, sender: "bot" },
+      ]);
+
+      // Send both messages to your backend server
+      await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/conversations/${currentConversationId}`,
+        { message: currentChatValue, sender: "user", userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/conversations/${currentConversationId}`,
+        { message: response.data.response, sender: "bot", userId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    } catch (error) {
+      console.error("Error sending message", error);
+    }
   };
 
   const handleConversationClick = async (conversation) => {
@@ -185,7 +217,9 @@ const AppContext = ({ children }) => {
     setPersonalizedChatisSelected(false);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/conversations/${conversation.conversationId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/${
+          conversation.conversationId
+        }`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

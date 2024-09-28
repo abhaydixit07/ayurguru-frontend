@@ -18,11 +18,14 @@ function Signup() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", {
-        email,
-        username,
-        password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
+        {
+          email,
+          username,
+          password,
+        }
+      );
       localStorage.setItem("userId", response.data.userId);
       navigate("/signin");
     } catch (error) {

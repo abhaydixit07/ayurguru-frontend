@@ -68,7 +68,9 @@ export default function MobileFileUpload({ userId }) {
 
       const result = await response.json();
       const fileContent = await axios.post(
-        "http://localhost:5000/api/personalizedChats/addPersonalizedFileText",
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/personalizedChats/addPersonalizedFileText`,
         {
           userId: userId,
           authMessage: import.meta.env.VITE_AUTH_MESSAGE,
@@ -78,8 +80,8 @@ export default function MobileFileUpload({ userId }) {
       );
 
       // Store the MongoDB ID in the local variable
-      const fileContentId = fileContent.data.id; 
-      
+      const fileContentId = fileContent.data.id;
+
       setFileContentId(fileContentId); // Update state with MongoDB ID
 
       setSummary(result.summary || result.text); // Display summary in UI
@@ -93,10 +95,13 @@ export default function MobileFileUpload({ userId }) {
         formDataForUpload.append("mongodb_id", fileContentId); // Use the MongoDB ID
 
         // Make the fetch request with FormData
-        const uploadResponse = await fetch("http://localhost:5000/upload", {
-          method: "POST",
-          body: formDataForUpload,
-        });
+        const uploadResponse = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/upload`,
+          {
+            method: "POST",
+            body: formDataForUpload,
+          }
+        );
 
         if (!uploadResponse.ok) {
           throw new Error("Error uploading the file to the server.");
@@ -121,7 +126,9 @@ export default function MobileFileUpload({ userId }) {
   const fetchUserFiles = async () => {
     setFileFetchLoading(true); // Start loading
     try {
-      const response = await fetch(`http://localhost:5000/userfiles/${userId}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/userfiles/${userId}`
+      );
       if (response.ok) {
         const files = await response.json();
         setUploadedFiles(files); // Only store file names
@@ -139,9 +146,12 @@ export default function MobileFileUpload({ userId }) {
   const handleDelete = async (fileName, mongodb_id) => {
     setDeleteLoading((prev) => ({ ...prev, [fileName]: true })); // Start loading for the specific file
     try {
-      const response = await fetch(`http://localhost:5000/delete/${userId}/${fileName}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/delete/${userId}/${fileName}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         alert("File deleted successfully.");
@@ -165,7 +175,7 @@ export default function MobileFileUpload({ userId }) {
       if (!url) {
         // If the URL is not already generated, fetch the blob and create the URL
         const blobResponse = await fetch(
-          `http://localhost:5000/pdf/${fileName}`
+          `${import.meta.env.VITE_BACKEND_URL}/pdf/${fileName}`
         );
         const blob = await blobResponse.blob();
         url = URL.createObjectURL(blob);
