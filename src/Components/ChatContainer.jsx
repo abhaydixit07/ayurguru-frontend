@@ -65,8 +65,8 @@ function ChatContainer() {
     <div
       className={
         showSlide
-          ? "h-screen w-screen flex items-start justify-between flex-col p-2"
-          : "h-screen w-full lg:w-[calc(100%-300px)] flex items-start justify-between flex-col"
+          ? "h-[100%] w-screen flex items-start justify-between flex-col p-2"
+          : "h-[100%] w-full lg:w-[calc(100%-300px)] flex items-start justify-between flex-col"
       }
     >
       {showSlide && (
