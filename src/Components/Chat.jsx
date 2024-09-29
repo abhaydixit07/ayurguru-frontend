@@ -13,7 +13,7 @@ function Chat() {
   }, [chats]);
 
   return (
-    <div className="w-full flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">
+    <div className="w-full h-[85%] flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">
       <div className="w-full lg:w-4/5 flex flex-col h-full items-start justify-start">
         {chats?.map((msg, i) => (
           <div
