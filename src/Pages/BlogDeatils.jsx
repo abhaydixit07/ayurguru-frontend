@@ -19,31 +19,18 @@ const BlogDetail = () => {
       .then(data => setSimilarBlogs(data.filter((b) => b.id !== Number(id))));
   }, [id]);
 
-  if (!blog) return <div>Loading...</div>;
+  if (!blog) return <div className='flex justify-center'><div
+  class="w-32 aspect-square rounded-full relative flex justify-center items-center animate-[spin_3s_linear_infinite] z-40 bg-[conic-gradient(white_0deg,white_300deg,transparent_270deg,transparent_360deg)] before:animate-[spin_2s_linear_infinite] before:absolute before:w-[60%] before:aspect-square before:rounded-full before:z-[80] before:bg-[conic-gradient(white_0deg,white_270deg,transparent_180deg,transparent_360deg)] after:absolute after:w-3/4 after:aspect-square after:rounded-full after:z-[60] after:animate-[spin_3s_linear_infinite] after:bg-[conic-gradient(#065f46_0deg,#065f46_180deg,transparent_180deg,transparent_360deg)]"
+>
+  <span
+    class="absolute w-[85%] aspect-square rounded-full z-[60] animate-[spin_5s_linear_infinite] bg-[conic-gradient(#34d399_0deg,#34d399_180deg,transparent_180deg,transparent_360deg)]"
+  >
+  </span>
+</div></div>;
 
   return (
     <div className="container mx-auto p-4 flex flex-col md:flex-row">
-      <div className="w-full md:w-1/4">
-        {/* Circular Image */}
-        <img
-          src={blog.imageUrl}
-          alt={blog.title}
-          className="rounded-full w-48 h-48 object-cover mx-auto md:mx-0"
-        />
-        <div className="mt-8">
-          <h2 className="text-xl font-serif text-green-700 mb-4">Similar Blogs</h2>
-          {similarBlogs.map((similarBlog) => (
-            <BlogCard
-              key={similarBlog.id}
-              id={similarBlog.id}
-              title={similarBlog.title}
-              excerpt={similarBlog.excerpt}
-              author={similarBlog.author}
-              date={similarBlog.publishedDate}
-            />
-          ))}
-        </div>
-      </div>
+      
       
       <div className="w-full md:w-3/4 md:pl-8 mt-8 md:mt-0">
   {/* Blog Heading */}
@@ -70,6 +57,29 @@ const BlogDetail = () => {
     {/* <h3 className="text-lg font-semibold text-brown-700 mb-2">Tags:</h3> */}
     
   </div>
+  <div className="w-full md:w-1/4">
+        {/* Circular Image */}
+        <div className='flex justify-center'>
+        <img
+          src={blog.imageUrl}
+          alt={blog.title}
+          className="rounded-full w-48 h-48 object-cover mx-auto md:mx-0"
+        />
+        </div>
+        <div className="mt-8">
+          <h2 className="text-xl font-serif text-green-700 mb-4">Similar Blogs</h2>
+          {similarBlogs.map((similarBlog) => (
+            <BlogCard
+              key={similarBlog.id}
+              id={similarBlog.id}
+              title={similarBlog.title}
+              excerpt={similarBlog.excerpt}
+              author={similarBlog.author}
+              date={similarBlog.publishedDate}
+            />
+          ))}
+        </div>
+      </div>
   </div>
 
   );
