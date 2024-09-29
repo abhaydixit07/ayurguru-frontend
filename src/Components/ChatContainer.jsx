@@ -9,6 +9,7 @@ import { BiLogOut } from "react-icons/bi";
 import Fileupload from "../Pages/fileUpload"; // Import the fileUpload component
 import MobileFileUpload from "../Pages/mobileFileUpload";
 import { FaFileUpload } from "react-icons/fa";
+import axios from "axios";
 
 function ChatContainer() {
   const {
@@ -27,6 +28,7 @@ function ChatContainer() {
   } = useContext(ContextApp);
 
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   // Logout handler
   const handleLogout = () => {
@@ -36,10 +38,28 @@ function ChatContainer() {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/auth/is-auth`,
+          {
+            token: token,
+          }
+        );
+        if (response.error) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error during authentication:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        navigate("/");
+      }
+    };
+    checkAuth();
+  }, [token, navigate]);
 
   return (
     <div
