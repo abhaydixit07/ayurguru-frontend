@@ -22,6 +22,7 @@ const BlogList = () => {
             excerpt={blog.excerpt}
             author={blog.author}
             date={blog.publishedDate}
+            img={blog.imageUrl}
           />
         ))}
       </div>

@@ -76,6 +76,7 @@ const BlogDetail = () => {
               excerpt={similarBlog.excerpt}
               author={similarBlog.author}
               date={similarBlog.publishedDate}
+              img={similarBlog.imageUrl}
             />
           ))}
         </div>
