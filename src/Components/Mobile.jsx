@@ -82,7 +82,7 @@ function Mobile() {
       <div
         className={
           Mobile
-            ? "h-[90vh] bg-leftNav w-[300px] flex items-center justify-between p-2 text-white flex-col translate-x-0"
+            ? "h-screen bg-leftNav w-[300px] flex items-center justify-between p-2 text-white flex-col translate-x-0"
             : "hidden"
         }
       >
