@@ -1,4 +1,6 @@
 import React from "react";
+import ABhay from '../assets/Abhay.jpg';
+import Khagesh from "../assets/Khagesh.png";
 
 const About1 = () => {
     return (
@@ -19,21 +21,21 @@ const About1 = () => {
                     <p className="font-normal text-base leading-6 text-gray-600 ">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.In the first place we have granted to God, and by this our present charter confirmed for us and our heirs forever that the English Church shall be free, and shall have her rights entire, and her liberties inviolate; and we will that it be thus observed; which is apparent from</p>
                 </div>
                 <div className="w-full lg:w-8/12 lg:pt-8">
-                    <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md">
+                    <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md">
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/FYTKDG6/Rectangle-118-2.png" alt="Alexa featured Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/zHjXqg4/Rectangle-118.png" alt="Alexa featured Img" />
-                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Alexa</p>
+                            <img className="md:block hidden" src={ABhay} alt="Alexa featured Img" />
+                            {/* <img className="md:hidden block" src="https://i.ibb.co/zHjXqg4/Rectangle-118.png" alt="Alexa featured Img" /> */}
+                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Abhay</p>
                         </div>
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/fGmxhVy/Rectangle-119.png" alt="Olivia featured Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/NrWKJ1M/Rectangle-119.png" alt="Olivia featured Img" />
-                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Olivia</p>
+                            <img className="md:block hidden" src={Khagesh} alt="Olivia featured Img" />
+                            {/* <img className="md:hidden block" src="https://i.ibb.co/NrWKJ1M/Rectangle-119.png" alt="Olivia featured Img" /> */}
+                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Khagesh</p>
                         </div>
                         <div className="p-4 pb-6 flex justify-center flex-col items-center">
-                            <img className="md:block hidden" src="https://i.ibb.co/Pc6XVVC/Rectangle-120.png" alt="Liam featued Img" />
-                            <img className="md:hidden block" src="https://i.ibb.co/C5MMBcs/Rectangle-120.png" alt="Liam featued Img" />
-                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Liam</p>
+                            <img className="md:block hidden" src="https://media.licdn.com/dms/image/v2/D5635AQE0cl_YLRZtkA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1727464891759?e=1728118800&v=beta&t=g9ZcaclpE4Mn9amGm6QDDa1iDk13pmJYzpfujGbQRuk" alt="Liam featued Img" />
+                            {/* <img className="md:hidden block" src="https://media.licdn.com/dms/image/v2/D5635AQE0cl_YLRZtkA/profile-framedphoto-shrink_200_200/profile-framedphoto-shrink_200_200/0/1727464891759?e=1728118800&v=beta&t=g9ZcaclpE4Mn9amGm6QDDa1iDk13pmJYzpfujGbQRuk" alt="Liam featued Img" /> */}
+                            <p className="font-medium text-xl leading-5 text-gray-800 mt-4">Shaurya</p>
                         </div>
                     </div>
                 </div>

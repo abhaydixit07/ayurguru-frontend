@@ -25,7 +25,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="bg-white w-full z-20 top-0 start-0 mb-20">
+      <nav className="bg-white w-full z-20 top-0 start-0 mb-5">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="#"
@@ -122,10 +122,10 @@ export default function Nav() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/blogs"
                   className="block text-xl py-2 px-3 text-gray-900 rounded font-spacegroteskregular hover:bg-gray-100 md:hover:bg-transparent md:hover:text-emerald-400 md:p-0"
                 >
-                  Contact
+                  Blogs
                 </a>
               </li>
 
