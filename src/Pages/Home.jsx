@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
 import divpic1 from "../assets/divpic1.png";
+import Contact from "../Components/Contact";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -352,8 +353,9 @@ function App() {
           </div>
         </div>
       </div>
+      <Contact />
 
-      <div className="mt-20">
+      {/* <div className="mt-20">
         <div className="container px-4 mx-auto">
           <div className="mx-auto">
             <div className="max-w-md mx-auto px-8 py-6 bg-gray-100 rounded-lg shadow-lg">
@@ -415,7 +417,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <footer class="w-full mt-32 py-14 bg-slate-200">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center ">
