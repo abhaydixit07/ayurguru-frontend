@@ -120,7 +120,7 @@ const About1 = () => {
                                         alt={`${member.name} Profile`}
                                         className="w-full h-90 object-cover group-hover:brightness-75 transition-all duration-300"
                                     />
-                                    <div className="absolute inset-0 bg-blue-600 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                                 </div>
                                 <div className="p-6 text-center">
                                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{member.name}</h3>
