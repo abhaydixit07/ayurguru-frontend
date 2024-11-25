@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import ReactMarkdown from "react-markdown"; // Import ReactMarkdown
 import { ContextApp } from "../utils/Context";
 import chatIcon from "../assets/chatIcon.png";
 import userIcon from "../assets/userIcon.png";
@@ -38,7 +39,9 @@ function Chat() {
                   alt="bot"
                   className="w-10 h-10 rounded object-cover"
                 />
-                <p className="text-white text-[18px] font-spacegroteskregular whitespace-pre-wrap">{msg.message}</p>
+                <div className="text-white text-[18px] font-spacegroteskregular whitespace-pre-wrap">
+                  <ReactMarkdown>{msg.message}</ReactMarkdown>
+                </div>
               </>
             )}
           </div>
