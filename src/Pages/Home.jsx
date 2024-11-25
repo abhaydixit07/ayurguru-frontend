@@ -3,10 +3,18 @@ import { Link } from "react-router-dom";
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
 import divpic1 from "../assets/divpic1.png";
+import BlogCard from '../Components/BlogCard';
 import Contact from "../Components/Contact";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  
+  useEffect(() => {
+    fetch('https://api.npoint.io/b1bbae5a8e2b1ea80f69')
+      .then(response => response.json())
+      .then(data => setBlogs(data));
+      }, []);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLogged(true);
@@ -122,237 +130,22 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="mt-32">
-        <div className="font-spacegrotesksemibold lg:text-4xl md:text-3xl text-2xl text-center">
-          Ayurvedic Insights
-        </div>
-        <div className="flex flex-wrap p-4 items-center justify-center gap-10 lg:mt-10 md:mt-8 mt-8">
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="max-w-sm border border-gray-200 rounded-lg bg-gradient-to-br from-[#A1E396] shadow-lg shadow-green-400/50">
-            <a href="#">
-              <img class="rounded-t-lg" src={divpic1} alt="" />
-            </a>
-            <div class="p-5">
-              <a href="#">
-                <h5 class="mb-2 text-xl font-spacegrotesksemibold">
-                  The Ultimate Guide to Bookstagram for Beginners
-                </h5>
-              </a>
-              <p class="mb-3 font-spacegroteskregular">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                quis ante sit amet tellus ornare tincidunt.
-              </p>
-              <a
-                href="#"
-                class="inline-flex items-center px-3 py-2 text-sm text-center bg-gradient-to-br from-green-600 to-emerald-400 font-spacegrotesksemibold text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
-                Read more
-                <svg
-                  class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-serif text-center text-green-700 mb-8">Ayurveda Blogs</h1>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {blogs.map((blog) => (
+          <BlogCard
+            key={blog.id}
+            id={blog.id}
+            title={blog.title}
+            excerpt={blog.excerpt}
+            author={blog.author}
+            date={blog.publishedDate}
+            img={blog.imageUrl}
+          />
+        ))}
       </div>
+    </div>
       <Contact />
 
       {/* <div className="mt-20">
