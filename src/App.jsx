@@ -9,6 +9,7 @@ import Signin from "./Pages/Signin";
 import About from "./Pages/About";
 import Blog from "./Pages/Blogs";
 import BlogDetail from "./Pages/BlogDeatils"
+import Footer from "./Components/Footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <>
               <Nav />
               <Home />
+              <Footer />
             </>
           }
         />
@@ -29,6 +31,7 @@ function App() {
             <>
               <Nav />
               <Blog />
+              <Footer />
             </>
           }
         />
@@ -48,6 +51,7 @@ function App() {
             <AppContext>
               <Nav />
               <About />
+              <Footer />
             </AppContext>
           }
         />
