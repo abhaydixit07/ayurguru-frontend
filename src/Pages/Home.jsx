@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
 import divpic1 from "../assets/divpic1.png";
-import BlogCard from '../Components/BlogCard';
+import BlogCard from "../Components/BlogCard";
 import Contact from "../Components/Contact";
+import FeatureSection from "../Components/FeatureSection";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [blogs, setBlogs] = useState([]);
-  
+
   useEffect(() => {
     // Fetch the blogs from the API
     fetch("https://api.npoint.io/b1bbae5a8e2b1ea80f69")
@@ -142,36 +143,36 @@ function App() {
           </div>
         </div>
       </div>
-
-
-
-
+      <div className="text-3xl md:text-3xl lg:text-4xl mt-32 font-serif text-center text-green-700 flex flex-col justify-items-center">
+        <p>AyurGuru Features</p>
+      </div>
+      <FeatureSection />
       <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
-        Ayurveda Blogs
-      </h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {blogs.map((blog) => (
-          <BlogCard
-          key={blog.id}
-          id={blog.id}
-          title={blog.title}
-          excerpt={blog.excerpt}
-          author={blog.author}
-          date={blog.publishedDate}
-          img={blog.imageUrl}
-        />
-        ))}
+        <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
+          Ayurveda Blogs
+        </h1>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              id={blog.id}
+              title={blog.title}
+              excerpt={blog.excerpt}
+              author={blog.author}
+              date={blog.publishedDate}
+              img={blog.imageUrl}
+            />
+          ))}
+        </div>
+        <div className="text-center mt-8">
+          <button
+            onClick={() => (window.location.href = "/blogs")}
+            className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
+          >
+            Read More
+          </button>
+        </div>
       </div>
-      <div className="text-center mt-8">
-        <button
-          onClick={() => (window.location.href = "/blogs")}
-          className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
-        >
-          Read More
-        </button>
-      </div>
-    </div>
       <Contact />
 
       {/* <div className="mt-20">
