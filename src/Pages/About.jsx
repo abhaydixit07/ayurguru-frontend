@@ -46,7 +46,7 @@ const About1 = () => {
                 >
                     <div className="lg:w-1/2 p-12 space-y-6">
                         <h1 className="text-5xl font-black text-gray-900 leading-tight">
-                            About <span className="text-blue-600">Us</span>
+                            About <span className="text-emerald-600">Us</span>
                         </h1>
                         <p className="text-xl text-gray-600 leading-relaxed">
                             We transform challenges into opportunities, creating innovative solutions that inspire and empower individuals to reach their full potential.
@@ -87,7 +87,7 @@ const About1 = () => {
                     </div>
                     <div className="lg:w-1/2 p-12 space-y-6">
                         <h2 className="text-5xl font-black text-gray-900 leading-tight">
-                            Our <span className="text-blue-600">Story</span>
+                            Our <span className="text-emerald-600">Story</span>
                         </h2>
                         <p className="text-xl text-gray-600 leading-relaxed">
                             From humble beginnings to pioneering breakthroughs, our journey is driven by relentless passion, trust, and a commitment to excellence that transcends generations.
@@ -107,7 +107,7 @@ const About1 = () => {
                     className="text-center space-y-12"
                 >
                     <h2 className="text-5xl font-black text-gray-900">
-                        Meet <span className="text-blue-600">Our Team</span>
+                        Meet <span className="text-emerald-600">Our Team</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {teamMembers.map((member, index) => (
