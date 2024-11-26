@@ -68,7 +68,7 @@ function App() {
                   </Link>
                 )}
                 <div className="rounded-xl flex items-center justify-center h-14 bg-gradient-to-br w-full cursor-pointer from-[#A1E396] px-3 text-lg font-spacegroteskmedium shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center">
-                  <div href="/about">About</div>
+                  <a href="/about">About</a>
                 </div>
               </div>
             </div>
