@@ -28,10 +28,16 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+
+    // Check if any field is empty
+    if (!form.name || !form.email || !form.message) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
     setLoading(true); // Start loading state
     console.log(import.meta.env.VITE_AUTH_MESSAGE,`${import.meta.env.VITE_BACKEND_URL}/api/contact/submit`)
     try {
-      try{
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact/submit`, {
         method: "POST",
         headers: {
@@ -39,23 +45,18 @@ const Contact = () => {
           "Authorization": import.meta.env.VITE_AUTH_MESSAGE,
         },
         body: JSON.stringify(form),
-      })
-      alert('Submitted')
-      setForm({
-        name: "",
-        email: "",
-        message: "",
       });
 
-      console.log(response)
-    }
-      catch(err){
-        console.log(err)
-      };
-      
-      
-      // Reset form after successful submission
-      
+      if (response.ok) {
+        alert('Submitted');
+        setForm({
+          name: "",
+          email: "",
+          message: "",
+        });
+      } else {
+        console.error("Error submitting the form:", response.statusText);
+      }
     } catch (error) {
       console.error("Error submitting the form:", error);
     } finally {
