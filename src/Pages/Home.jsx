@@ -22,7 +22,7 @@ function App() {
       .then((data) => {
         // Shuffle blogs and pick the first 6
         const shuffledBlogs = [...data].sort(() => Math.random() - 0.5);
-        setBlogs(shuffledBlogs.slice(0, 6));
+        setBlogs(shuffledBlogs.slice(0, 3));
       })
       .catch((error) => console.error("Error fetching blogs:", error));
   }, []); // Empty dependency array ensures it runs only once after mounting
