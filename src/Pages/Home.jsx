@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ClipLoader } from "react-spinners"; // Import the ClipLoader
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
 import divpic1 from "../assets/divpic1.png";
@@ -10,6 +11,7 @@ import FeatureSection from "../Components/FeatureSection";
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true); // Loader state
 
   useEffect(() => {
     // Fetch the blogs from the API
@@ -25,7 +27,8 @@ function App() {
         const shuffledBlogs = [...data].sort(() => Math.random() - 0.5);
         setBlogs(shuffledBlogs.slice(0, 3));
       })
-      .catch((error) => console.error("Error fetching blogs:", error));
+      .catch((error) => console.error("Error fetching blogs:", error))
+      .finally(() => setLoading(false)); // Hide loader after fetching
   }, []); // Empty dependency array ensures it runs only once after mounting
 
   useEffect(() => {
@@ -33,6 +36,7 @@ function App() {
       setIsLogged(true);
     }
   }, []);
+
   return (
     <div>
       <div className="flex items-center justify-center">
@@ -41,7 +45,6 @@ function App() {
             <div className="lg:text-6xl md:text-4xl text-3xl font-spacegrotesksemibold lg:text-left md:text-left text-center">
               Unlock the Power of Ancient{" "}
               <span className="text-[#39DB4A]">Ayurvedic</span> Wisdom
-              {/* with Our ChatBot */}
             </div>
             <div className="mt-4 font-spacegroteskregular lg:text-xl md:text-xl text-lg lg:text-left md:text-left text-center">
               "Discover Balance, Wellness, and Harmony with Ayurveda: <br />
@@ -76,25 +79,6 @@ function App() {
         </div>
       </div>
 
-      {/* <div>
-        <div className='grid grid-cols-3 gap-10'>
-            <div className='rounded-xl bg-[#A1E396] text-7xl'>
-                TAILORED RECOMMENDATIONS
-            </div>
-            <div>
-                <img src={Chat} alt='chat with the bot' className='rounded-xl'/>
-
-            </div>
-            <div className='rounded-xl bg-[#A1E396] text-7xl'>
-                Continous Learning
-            </div>
-
-            <div className='rounded-xl bg-[#A1E396] text-7xl'>
-                Deep-rooted in Authentic Texts
-            </div>
-
-        </div>
-    </div> */}
       <div className="lg:mt-32 md:mt-32 mt-48">
         <div className="sm:rounded-xl flex lg:flex-row md:flex-row flex-col items-center justify-center gap-20 bg-gradient-to-r from-[#93FE51] to-[#A1E396] lg:m-10 lg:p-10 md:m-4 md:p-4">
           <div className="lg:w-[50%] md:w-[50%] flex flex-col gap-8 p-10 lg:p-0 md:p-0 text-center lg:text-left md:text-left">
@@ -109,7 +93,6 @@ function App() {
               provide valuable insights, tips, and guidance.
             </div>
             <div className="lg:hidden md:hidden flex items-center justify-center">
-              {/* <img src={YT} alt="YT" /> */}
               <iframe
                 width="200"
                 height="200"
@@ -130,7 +113,6 @@ function App() {
             </div>
           </div>
           <div className="lg:flex md:flex md:flex-col lg:justify-center md:justify-center hidden">
-            {/* <img src={YT} alt="YT" /> */}
             <iframe
               width="560"
               height="315"
@@ -151,134 +133,38 @@ function App() {
         <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
           Ayurveda Blogs
         </h1>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {blogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              id={blog.id}
-              title={blog.title}
-              excerpt={blog.excerpt}
-              author={blog.author}
-              date={blog.publishedDate}
-              img={blog.imageUrl}
-            />
-          ))}
-        </div>
-        <div className="text-center mt-8">
-          <button
-            onClick={() => (window.location.href = "/blogs")}
-            className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
-          >
-            Read More
-          </button>
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center">
+            {/* Clip Loader */}
+            <ClipLoader color="#4CAF50" loading={loading} size={50} />
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {blogs.map((blog) => (
+              <BlogCard
+                key={blog.id}
+                id={blog.id}
+                title={blog.title}
+                excerpt={blog.excerpt}
+                author={blog.author}
+                date={blog.publishedDate}
+                img={blog.imageUrl}
+              />
+            ))}
+          </div>
+        )}
+        {!loading && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => (window.location.href = "/blogs")}
+              className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
+            >
+              Read More
+            </button>
+          </div>
+        )}
       </div>
       <Contact />
-
-      {/* <div className="mt-20">
-        <div className="container px-4 mx-auto">
-          <div className="mx-auto">
-            <div className="max-w-md mx-auto px-8 py-6 bg-gray-100 rounded-lg shadow-lg">
-              <h2 className="text-2xl text-center lg:text-left md:text-left font-spacegrotesksemibold text-gray-800 mb-4">
-                Contact Us
-              </h2>
-              <form>
-                <div className="mb-4">
-                  <label
-                    className="block font-spacegroteskregular text-gray-800 mb-1"
-                    htmlFor="name"
-                  >
-                    Your Name
-                  </label>
-                  <input
-                    className="w-full px-4 py-2 font-spacegroteskregular bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300"
-                    placeholder="Enter your name"
-                    type="text"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    className="block font-spacegroteskregular text-gray-800 mb-1"
-                    htmlFor="email"
-                  >
-                    Your Email
-                  </label>
-                  <input
-                    className="w-full px-4 font-spacegroteskregular py-2 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300"
-                    placeholder="Enter your email"
-                    name="email"
-                    id="email"
-                    type="email"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    className="block font-spacegroteskregular text-gray-800 mb-1"
-                    htmlFor="message"
-                  >
-                    Your Message
-                  </label>
-                  <textarea
-                    className="w-full px-4 font-spacegroteskregular py-2 bg-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300"
-                    rows={4}
-                    placeholder="Enter your message"
-                    name="message"
-                    id="message"
-                    defaultValue={""}
-                  />
-                </div>
-                <button
-                  className="w-full font-spacegroteskregular bg-[#39DB4A] text-gray-800 py-2 px-4 rounded-lg hover:bg-green-400 transition duration-300"
-                  type="submit"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      <footer class="w-full mt-32 py-14 bg-slate-200">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center ">
-          <div className="flex items-center justify-center">
-            <img
-              src="https://png.pngtree.com/png-vector/20230918/ourmid/pngtree-wooden-mortar-illustration-png-image_10118702.png"
-              className="h-24"
-              alt="Logo"
-            />
-            <p className="font-spacegrotesksemibold text-2xl">AyurGuru</p>
-          </div>
-          <div class="max-w-3xl mx-auto">
-            <ul class="text-lg flex items-center justify-center font-spacegroteskregular flex-col gap-7 md:flex-row md:gap-12 transition-all duration-500 py-16 border-b border-gray-200">
-              <li>
-                <a href="#" class="text-gray-800 hover:text-gray-900">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Blogs
-                </a>
-              </li>
-            </ul>
-            <span class="text-lg font-spacegroteskregular text-gray-500 text-center block">
-              ©<a href="https://pagedone.io/">AyurGuru</a> 2024, All rights
-              reserved.
-            </span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

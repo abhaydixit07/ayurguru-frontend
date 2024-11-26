@@ -49,13 +49,13 @@ function ChatContainer() {
         if (response.error) {
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
-          navigate("/");
+          navigate("/signup");
         }
       } catch (error) {
         console.error("Error during authentication:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
-        navigate("/");
+        navigate("/signup");
       }
     };
     checkAuth();

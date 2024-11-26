@@ -11,7 +11,7 @@ const About1 = () => {
             name: "Abhay Dixit",
             img: Abhay,
             role: "Full Stack and AI Developer",
-            description: "Visionary leader driving innovation and strategic growth.",
+            // description: "Visionary leader driving innovation and strategic growth.",
             linkedin: "https://www.linkedin.com/in/abhay-dixit-546b85254/",
             github: "https://github.com/abhaydixit07",
         },
@@ -19,7 +19,7 @@ const About1 = () => {
             name: "Khagesh Sharma",
             img: Khagesh,
             role: "Full Stack and DevOps Engineer",
-            description: "Technical mastermind transforming complex challenges.",
+            // description: "Technical mastermind transforming complex challenges.",
             linkedin: "https://www.linkedin.com/in/khageshsharma",
             github: "https://github.com/khagesh2409",
         },
@@ -27,7 +27,7 @@ const About1 = () => {
             name: "Shaurya Gupta",
             img: Shaurya,
             role: "Frontend Developer",
-            description: "Innovation catalyst with a passion for user-centric design.",
+            // description: "Innovation catalyst with a passion for user-centric design.",
             linkedin: "https://www.linkedin.com/in/shaurya--gupta",
             github: "https://github.com/CodeByShaurya",
         },
@@ -49,7 +49,7 @@ const About1 = () => {
                             About <span className="text-emerald-600">Us</span>
                         </h1>
                         <p className="text-xl text-gray-600 leading-relaxed">
-                            We transform challenges into opportunities, creating innovative solutions that inspire and empower individuals to reach their full potential.
+                        We are three developers from USICT Delhi, united by our shared passion for technology, innovation, and wellness. Together, we’ve harnessed the power of AI to create a platform where modern solutions meet the timeless wisdom of Ayurveda.
                         </p>
                         <div className="flex space-x-4">
                             <div className="flex items-center space-x-2 text-blue-600">
@@ -64,7 +64,7 @@ const About1 = () => {
                     </div>
                     <div className="lg:w-1/2 h-96 overflow-hidden">
                         <img
-                            src="https://media.post.rvohealth.io/wp-content/uploads/2024/02/Ayurvedic-header.jpg"
+                            src="./Missing SemiColon.jpg"
                             alt="Team Collaboration"
                             className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
                         />
@@ -80,7 +80,8 @@ const About1 = () => {
                 >
                     <div className="lg:w-1/2 h-96 overflow-hidden">
                         <img
-                            src="https://i.ibb.co/ZYW3VTp/brown-brick-wall.jpg"
+                            src="https://media.post.rvohealth.io/wp-content/uploads/2024/02/Ayurvedic-header.jpg"
+                            // src="https://i.ibb.co/ZYW3VTp/brown-brick-wall.jpg"
                             alt="Our Story"
                             className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
                         />
@@ -90,7 +91,7 @@ const About1 = () => {
                             Our <span className="text-emerald-600">Story</span>
                         </h2>
                         <p className="text-xl text-gray-600 leading-relaxed">
-                            From humble beginnings to pioneering breakthroughs, our journey is driven by relentless passion, trust, and a commitment to excellence that transcends generations.
+                        What began as a simple idea among friends has evolved into a groundbreaking initiative. Inspired by the need for accessible, personalized care, we developed a platform that provides effective Ayurvedic treatments using AI-powered recommendations. Our journey is fueled by curiosity, a dedication to innovation, and a profound respect for India's rich Ayurvedic heritage.
                         </p>
                         <div className="flex items-center space-x-2 text-orange-600">
                             <Trophy className="w-6 h-6" />
@@ -142,46 +143,7 @@ const About1 = () => {
                 </motion.div>
             </div>
         </div>
-        <footer class="w-full mt-32 py-14 bg-slate-200">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center ">
-          <div className="flex items-center justify-center">
-            <img
-              src="https://png.pngtree.com/png-vector/20230918/ourmid/pngtree-wooden-mortar-illustration-png-image_10118702.png"
-              className="h-24"
-              alt="Logo"
-            />
-            <p className="font-spacegrotesksemibold text-2xl">AyurGuru</p>
-          </div>
-          <div class="max-w-3xl mx-auto">
-            <ul class="text-lg flex items-center justify-center font-spacegroteskregular flex-col gap-7 md:flex-row md:gap-12 transition-all duration-500 py-16 border-b border-gray-200">
-              <li>
-                <a href="#" class="text-gray-800 hover:text-gray-900">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="#" class=" text-gray-800 hover:text-gray-900">
-                  Blogs
-                </a>
-              </li>
-            </ul>
-            <span class="text-lg font-spacegroteskregular text-gray-500 text-center block">
-              ©<a href="https://pagedone.io/">AyurGuru</a> 2024, All rights
-              reserved.
-            </span>
-          </div>
-        </div>
-      </footer>
+        
       </>
     );
 };
