@@ -20,7 +20,7 @@ const About1 = () => {
             img: Khagesh,
             role: "Full Stack and DevOps Engineer",
             description: "Technical mastermind transforming complex challenges.",
-            linkedin: "https://www.linkedin.com/in/khagesh-sharma",
+            linkedin: "https://www.linkedin.com/in/khageshsharma",
             github: "https://github.com/khagesh2409",
         },
         {

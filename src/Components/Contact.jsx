@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-// import emailjs from "@emailjs/browser";
 
 import { styles } from "../styles";
 import EarthCanvas from "./canvas/Earth";
@@ -27,42 +26,41 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    // setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    setLoading(true); // Start loading state
+    console.log(import.meta.env.VITE_AUTH_MESSAGE,`${import.meta.env.VITE_BACKEND_URL}/api/contact/submit`)
+    try {
+      try{
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": import.meta.env.VITE_AUTH_MESSAGE,
+        },
+        body: JSON.stringify(form),
+      })
+      alert('Submitted')
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
 
-    // emailjs
-    //   .send(
-    //     import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-    //     import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-    //     {
-    //       from_name: form.name,
-    //       to_name: "JavaScript Mastery",
-    //       from_email: form.email,
-    //       to_email: "sujata@jsmastery.pro",
-    //       message: form.message,
-    //     },
-    //     import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-    //   )
-    //   .then(
-    //     () => {
-    //       setLoading(false);
-    //       alert("Thank you. I will get back to you as soon as possible.");
-
-    //       setForm({
-    //         name: "",
-    //         email: "",
-    //         message: "",
-    //       });
-    //     },
-    //     (error) => {
-    //       setLoading(false);
-    //       console.error(error);
-
-    //       alert("Ahh, something went wrong. Please try again.");
-    //     }
-    //   );
-    console.log("Form submitted");
+      console.log(response)
+    }
+      catch(err){
+        console.log(err)
+      };
+      
+      
+      // Reset form after successful submission
+      
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    } finally {
+      setLoading(false); // Stop loading state
+    }
   };
 
   return (
@@ -89,7 +87,7 @@ const Contact = () => {
               value={form.name}
               onChange={handleChange}
               placeholder="What's your good name?"
-              className='bg-white py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border-none font-spacegroteskmedium'
+              className='bg-white py-4 px-6 placeholder:text-gray-500 text-black rounded-lg outline-none border-none font-spacegroteskmedium'
             />
           </label>
           <label className='flex flex-col'>
@@ -100,7 +98,7 @@ const Contact = () => {
               value={form.email}
               onChange={handleChange}
               placeholder="What's your web address?"
-              className='bg-white py-4 px-6 placeholder:text-gray-500 font-spacegroteskmedium text-white rounded-lg outline-none border-none '
+              className='bg-white py-4 px-6 placeholder:text-gray-500 font-spacegroteskmedium text-black rounded-lg outline-none border-none '
             />
           </label>
           <label className='flex flex-col'>
@@ -111,7 +109,7 @@ const Contact = () => {
               value={form.message}
               onChange={handleChange}
               placeholder='What you want to say?'
-              className='bg-white py-4 px-6 placeholder:text-gray-500 font-spacegroteskmedium text-white rounded-lg outline-none border-none'
+              className='bg-white py-4 px-6 placeholder:text-gray-500 font-spacegroteskmedium text-black rounded-lg outline-none border-none'
             />
           </label>
 

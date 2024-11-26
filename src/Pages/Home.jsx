@@ -11,10 +11,22 @@ function App() {
   const [blogs, setBlogs] = useState([]);
   
   useEffect(() => {
-    fetch('https://api.npoint.io/b1bbae5a8e2b1ea80f69')
-      .then(response => response.json())
-      .then(data => setBlogs(data));
-      }, []);
+    // Fetch the blogs from the API
+    fetch("https://api.npoint.io/b1bbae5a8e2b1ea80f69")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Shuffle blogs and pick the first 6
+        const shuffledBlogs = [...data].sort(() => Math.random() - 0.5);
+        setBlogs(shuffledBlogs.slice(0, 6));
+      })
+      .catch((error) => console.error("Error fetching blogs:", error));
+  }, []); // Empty dependency array ensures it runs only once after mounting
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLogged(true);
@@ -130,20 +142,34 @@ function App() {
           </div>
         </div>
       </div>
+
+
+
+
       <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-serif text-center text-green-700 mb-8">Ayurveda Blogs</h1>
+      <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
+        Ayurveda Blogs
+      </h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {blogs.map((blog) => (
           <BlogCard
-            key={blog.id}
-            id={blog.id}
-            title={blog.title}
-            excerpt={blog.excerpt}
-            author={blog.author}
-            date={blog.publishedDate}
-            img={blog.imageUrl}
-          />
+          key={blog.id}
+          id={blog.id}
+          title={blog.title}
+          excerpt={blog.excerpt}
+          author={blog.author}
+          date={blog.publishedDate}
+          img={blog.imageUrl}
+        />
         ))}
+      </div>
+      <div className="text-center mt-8">
+        <button
+          onClick={() => (window.location.href = "/blogs")}
+          className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
+        >
+          Read More
+        </button>
       </div>
     </div>
       <Contact />
