@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners"; // Import the ClipLoader
 import Herbs from "../assets/Group 15105.png";
 import YT from "../assets/Group 15107.png";
+import divpic1 from "../assets/divpic1.png";
 import BlogCard from "../Components/BlogCard";
 import Contact from "../Components/Contact";
+import FeatureSection from "../Components/FeatureSection";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -123,7 +125,10 @@ function App() {
           </div>
         </div>
       </div>
-
+      <div className="text-3xl md:text-3xl lg:text-4xl mt-32 font-serif text-center text-green-700 flex flex-col justify-items-center">
+        <p>AyurGuru Features</p>
+      </div>
+      <FeatureSection />
       <div className="container mx-auto p-4">
         <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
           Ayurveda Blogs

@@ -126,19 +126,7 @@ export default function Nav() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/about"
-                className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
-                  isActive("/about")
-                    ? "text-emerald-500"
-                    : "text-gray-900 md:hover:text-emerald-400 hover:bg-gray-100 md:hover:bg-transparent"
-                }`}
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
+            <Link
                 to="/blogs"
                 className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
                   isActive("/blogs")
@@ -147,6 +135,19 @@ export default function Nav() {
                 }`}
               >
                 Blogs
+              </Link>
+             
+            </li>
+            <li>
+            <Link
+                to="/about"
+                className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
+                  isActive("/about")
+                    ? "text-emerald-500"
+                    : "text-gray-900 md:hover:text-emerald-400 hover:bg-gray-100 md:hover:bg-transparent"
+                }`}
+              >
+                About
               </Link>
             </li>
           </ul>
