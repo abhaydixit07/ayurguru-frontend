@@ -61,14 +61,14 @@ function App() {
                   </Link>
                 ) : (
                   <Link
-                    to="/signup"
+                    to="/consult"
                     className="rounded-xl flex items-center justify-center w-full bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-14 px-3 font-spacegroteskmedium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center"
                   >
                     Get Started
                   </Link>
                 )}
                 <div className="rounded-xl flex items-center justify-center h-14 bg-gradient-to-br w-full cursor-pointer from-[#A1E396] px-3 text-lg font-spacegroteskmedium shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center">
-                  <div href="#">Demo</div>
+                  <div href="/about">About</div>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@ function App() {
         </div>
       </div>
 
-      <div className="lg:mt-32 md:mt-32 mt-48">
+      {/* <div className="lg:mt-32 md:mt-32 mt-48">
         <div className="sm:rounded-xl flex lg:flex-row md:flex-row flex-col items-center justify-center gap-20 bg-gradient-to-r from-[#93FE51] to-[#A1E396] lg:m-10 lg:p-10 md:m-4 md:p-4">
           <div className="lg:w-[50%] md:w-[50%] flex flex-col gap-8 p-10 lg:p-0 md:p-0 text-center lg:text-left md:text-left">
             <div className="text-2xl md:text-3xl lg:text-3xl font-spacegrotesksemibold lg:m-10 lg:ml-0 md:m-4 ml-0">
@@ -124,7 +124,7 @@ function App() {
             ></iframe>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="text-3xl md:text-3xl lg:text-4xl mt-32 font-serif text-center text-green-700 flex flex-col justify-items-center">
         <p>AyurGuru Features</p>
       </div>
