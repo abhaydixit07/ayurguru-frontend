@@ -93,7 +93,9 @@ const AppContext = ({ children }) => {
       console.log(documentSummary);
       // Generate bot's response using the Flask API with context
       const response = await axios.post(
-        "https://ayurguru-flask-api.vercel.app/generate_response_with_context",
+        `${
+          import.meta.env.VITE_AI_API_URL
+        }/generate_response_with_context`,
         {
           message: currentChatValue,
           auth_message: import.meta.env.VITE_AUTH_MESSAGE,
@@ -174,7 +176,9 @@ const AppContext = ({ children }) => {
 
       // Generate bot's response using the Flask API with context
       const response = await axios.post(
-        "https://ayurguru-flask-api.vercel.app/generate_response",
+        `${
+          import.meta.env.VITE_AI_API_URL
+        }/generate_response`,
         {
           message: currentChatValue,
           auth_message: import.meta.env.VITE_AUTH_MESSAGE,
