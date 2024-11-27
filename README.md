@@ -41,10 +41,11 @@ The website is built using **React.js** and **Tailwind CSS**, ensuring a sleek a
 ## 📸 Screenshots
 
 ### 1. Homepage  
-![Homepage Screenshot](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172132.png)
+![Homepage Screenshot](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172132.png?raw=true)
 
 ### 2. Chatbot Interface  
-![Chatbot Interface](https://via.placeholder.com/800x400?text=Chatbot+Interface)
+![Chatbot Interface](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172504.png?raw=true)
+![Chatbot Interface](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172532.png?raw=true)
 
 ### 3. Blog Section  
 ![Blog Section](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172159.png?raw=true)
