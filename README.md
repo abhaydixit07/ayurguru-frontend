@@ -1,4 +1,4 @@
-# AyurGuru
+# 🌿 **AyurGuru**
 
 **AyurGuru** is an innovative platform integrating ancient Ayurvedic knowledge with modern AI to provide holistic health solutions. It features AI-driven tools for personalized insights and seamless user interaction.  
 
@@ -6,18 +6,18 @@
 
 ## 🚀 Features
 
-### 1. **AI-Driven Conversational Assistant**
+### 1. 🤖 **AI-Driven Conversational Assistant**
 AyurGuru includes a powerful AI-powered chatbot that:  
 - Provides **Ayurvedic remedies** and **insights** in real time.  
 - Offers accurate and personalized health solutions.  
 - Facilitates seamless conversations to address user queries about Ayurveda.
 
-### 2. **Personalized Health Insights**
+### 2. 📄 **Personalized Health Insights**
 - Users can **upload medical documents**, reports, or images.  
 - The AI analyzes these documents to deliver tailored recommendations.  
 - Chats adapt dynamically based on uploaded documents, ensuring personalized user experiences.
 
-### 3. **Comprehensive Ayurvedic Blogs**
+### 3. 📚 **Comprehensive Ayurvedic Blogs**
 - Explore rich blogs covering Ayurvedic experiences, insights, and wellness tips.  
 - Gain knowledge about Ayurveda and its applications for holistic health.  
 
@@ -26,10 +26,10 @@ AyurGuru includes a powerful AI-powered chatbot that:
 ## 🌐 Website Overview
 The website is built using **React.js** and **Tailwind CSS**, ensuring a sleek and responsive design across all devices.  
 
-### Key Features:
-- **Tabs:** For exploring blogs and learning more about the platform.  
-- **Contact Us:** Enables users to send direct messages.  
-- **Consultation App:**  
+### ✨ Key Features:
+- **📂 Tabs:** For exploring blogs and learning more about the platform.  
+- **📬 Contact Us:** Enables users to send direct messages.  
+- **💬 Consultation App:**  
   - Users must sign up or sign in to access the chatbot system.  
   - Chats are securely stored and available for reference in future conversations.  
   - Users can upload documents for analysis, enhancing personalized responses.  
@@ -40,14 +40,14 @@ The website is built using **React.js** and **Tailwind CSS**, ensuring a sleek a
 
 ## 📸 Screenshots
 
-### 1. Homepage  
+### 1. 🏠 Homepage  
 ![Homepage Screenshot](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172132.png?raw=true)
 
-### 2. Chatbot Interface  
+### 2. 💬 Chatbot Interface  
 ![Chatbot Interface](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172504.png?raw=true)
 ![Chatbot Interface](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172532.png?raw=true)
 
-### 3. Blog Section  
+### 3. 📖 Blog Section  
 ![Blog Section](https://github.com/abhaydixit07/ayurguru-frontend/blob/main/public/Screenshot%202024-11-27%20172159.png?raw=true)
 
 ---
@@ -55,26 +55,26 @@ The website is built using **React.js** and **Tailwind CSS**, ensuring a sleek a
 ## 🛠️ Tech Stack
 
 ### **Frontend:**
-- **Frameworks:** React.js, Vite  
-- **Styling:** Tailwind CSS for better responsiveness  
-- **Markdown:** React Markdown for dynamic content rendering  
+- **⚛️ Frameworks:** React.js, Vite  
+- **🎨 Styling:** Tailwind CSS for better responsiveness  
+- **📝 Markdown:** React Markdown for dynamic content rendering  
 
 ### **Backend:**
-- **Server:** Node.js with Express.js  
-- **Database:** MongoDB (for user data and chats)  
-- **Storage:** PostgreSQL (for files such as PDFs and images)  
-- **Integrations:** Google Sheets API for handling contact messages  
+- **🖥️ Server:** Node.js with Express.js  
+- **🗄️ Database:** MongoDB (for user data and chats)  
+- **📂 Storage:** PostgreSQL (for files such as PDFs and images)  
+- **🔗 Integrations:** Google Sheets API for handling contact messages  
 - [AyurGuru Backend Repository](https://github.com/abhaydixit07/Ayurguru-backend)
 
 ### **AI System:**
-- **Model:** Llama 3.1 by Meta  
-- **Platform:** Groq Cloud  
-- **API Framework:** Python with Flask  
+- **🧠 Model:** Llama 3.1 by Meta  
+- **☁️ Platform:** Groq Cloud  
+- **📡 API Framework:** Python with Flask  
 - [AyurGuru AI API Repository](https://github.com/abhaydixit07/ayurguru-flask-api)
 
 ### **File Summarization:**
-- **Model:** Gemini 1.5 Pro  
-- **API Framework:** Flask with python 
+- **📋 Model:** Gemini 1.5 Pro  
+- **⚙️ API Framework:** Flask with Python  
 - [Gemini File API Repository](https://github.com/abhaydixit07/gemini-file-api)
 
 ---
@@ -83,17 +83,17 @@ The website is built using **React.js** and **Tailwind CSS**, ensuring a sleek a
 
 Follow these steps to set up AyurGuru:
 
-### 1. Clone the Frontend Repository:
+### 1. 📂 Clone the Frontend Repository:
 ```bash
 git clone https://github.com/abhaydixit07/ayurguru-frontend
 ```
 
-### 2. Install Dependencies:
+### 2. 📦 Install Dependencies:
 ```bash
 npm install
 ```
 
-### 3. Configure Environment Variables:
+### 3. ⚙️ Configure Environment Variables:
 Create a `.env` file in the project root and add the following variables:
 ```env
 VITE_AUTH_MESSAGE=<your-auth-message>
@@ -104,13 +104,13 @@ VITE_BACKEND_URL=<backend-url>
 VITE_AI_API_URL=<ai-api-url>
 ```
 
-### 4. Coordinate with Other Repositories:
+### 4. 🔗 Coordinate with Other Repositories:
 Ensure the following repositories are set up and running as per their respective README instructions:  
 - [AyurGuru Backend](https://github.com/abhaydixit07/Ayurguru-backend)  
 - [AyurGuru Flask AI API](https://github.com/abhaydixit07/ayurguru-flask-api)  
 - [Gemini File API](https://github.com/abhaydixit07/gemini-file-api)  
 
-### 5. Run the Frontend:
+### 5. 🚀 Run the Frontend:
 ```bash
 npm run dev
 ```
@@ -132,8 +132,8 @@ This project is licensed under the terms of the [MIT License](https://github.com
 ---
 
 ## 📞 Contact
-For queries, feel free to reach out via the **Contact Us** section on the website or raise an issue in the repository.  
+For queries, feel free to reach out via the **📬 Contact Us** section on the website or raise an issue in the repository.  
 
 ---
 
-**AyurGuru: Unlock the Power of Ancient Ayurvedic Wisdom**
+**🌟 AyurGuru: Unlock the Power of Ancient Ayurvedic Wisdom 🌟**
