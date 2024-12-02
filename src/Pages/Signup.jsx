@@ -10,34 +10,39 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-    e.preventDefault();
-    setError(null);
-
-    const email = document.getElementById("email").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (!email || !username || !password) {
-      return setError("All fields are required.");
+  e.preventDefault();
+  setError(null);
+  const email = document.getElementById("email").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  if (!email || !username || !password) {
+    return setError("All fields are required.");
+  }
+  setLoading(true);
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
+      { email, username, password }
+    );
+    localStorage.setItem("userId", response.data.userId);
+    navigate("/signin");
+  } catch (error) {
+    console.error(error);
+    if (error.response) {
+      if (error.response.status === 400) {
+        setError(error.response.data.error || "Invalid signup details (email and username should be unique).");
+      } else if (error.response.status === 500) {
+        setError("A server error occurred. Please try again later.");
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    } else {
+      setError("Unable to connect to the server. Please check your internet connection.");
     }
-
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
-        { email, username, password }
-      );
-      localStorage.setItem("userId", response.data.userId);
-      navigate("/signin");
-    } catch (error) {
-      console.error(error);
-      setError(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex w-full h-screen items-center justify-center bg-gray-100">
