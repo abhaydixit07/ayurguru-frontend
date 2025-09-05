@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners"; // Import the ClipLoader
-import Herbs from "../assets/Group 15105.png";
-import YT from "../assets/Group 15107.png";
-import divpic1 from "../assets/divpic1.png";
-import BlogCard from "../Components/BlogCard";
+import "../App.css";
 import Contact from "../Components/Contact";
 import FeatureSection from "../Components/FeatureSection";
+import Nav from "../Components/Navbar";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true); // Loader state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch the blogs from the API
     fetch("https://api.npoint.io/b1bbae5a8e2b1ea80f69")
       .then((response) => {
         if (!response.ok) {
@@ -23,13 +18,12 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        // Shuffle blogs and pick the first 6
         const shuffledBlogs = [...data].sort(() => Math.random() - 0.5);
         setBlogs(shuffledBlogs.slice(0, 3));
       })
       .catch((error) => console.error("Error fetching blogs:", error))
-      .finally(() => setLoading(false)); // Hide loader after fetching
-  }, []); // Empty dependency array ensures it runs only once after mounting
+      .finally(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -39,131 +33,131 @@ function App() {
 
   return (
     <div>
-      <div className="flex items-center justify-center">
-        <div className="w-[90%] flex items-center justify-center">
-          <div className="sm:mx-10">
-            <div className="lg:text-6xl md:text-4xl text-3xl font-spacegrotesksemibold lg:text-left md:text-left text-center">
-              Unlock the Power of Ancient{" "}
-              <span className="text-[#39DB4A]">Ayurvedic</span> Wisdom
-            </div>
-            <div className="mt-4 font-spacegroteskregular lg:text-xl md:text-xl text-lg lg:text-left md:text-left text-center">
-              "Discover Balance, Wellness, and Harmony with Ayurveda: <br />
-              Your Journey to Holistic Health Begins Here."
-            </div>
-            <div className="flex lg:justify-start items-center justify-center">
-              <div className="flex lg:flex-row md:flex-row flex-col mt-8 lg:gap-8 md:gap-8 gap-4 w-[80%] cursor-pointer">
-                {isLogged ? (
-                  <Link
-                    to="/consult"
-                    className="rounded-xl flex items-center justify-center w-full bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-14 px-3 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center"
-                  >
-                    Get Started
-                  </Link>
-                ) : (
-                  <Link
-                    to="/consult"
-                    className="rounded-xl flex items-center justify-center w-full bg-gradient-to-br from-green-600 to-emerald-400 font-dm text-lg h-14 px-3 font-spacegroteskmedium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center"
-                  >
-                    Get Started
-                  </Link>
-                )}
-                <div className="rounded-xl flex items-center justify-center h-14 bg-gradient-to-br w-full cursor-pointer from-[#A1E396] px-3 text-lg font-spacegroteskmedium shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center">
-                  <a href="/about">About</a>
+      <div>
+        <Nav />
+        <div className="overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-96 h-96 bg-gradient-to-r from-green-200 via-emerald-200 to-teal-200 rounded-full opacity-40 blur-3xl animate-floating" />
+          </div>
+          <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 pb-20 relative z-10">
+            <div className="max-w-7xl mx-auto w-full">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-green-200 text-sm font-spacegroteskmedium text-green-700 shadow-sm">
+                  <span className="mr-2">🌿</span>
+                  Trusted by 10,000+ wellness seekers worldwide
+                  <span className="ml-2">→</span>
+                </div>
+              </div>
+
+              <div className="text-center mb-16">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-spacegrotesksemibold text-gray-900 leading-tight mb-6">
+                  Unlock the Power of{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
+                    Ancient Wisdom
+                  </span>
+                </h1>
+
+                <p className="text-lg sm:text-xl lg:text-3xl font-spacegroteskregular text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed">
+                  Discover Balance, Wellness, and Harmony with Ayurveda<br className="hidden sm:block" />
+
+                  Your Journey to Holistic Health Begins Here.                        </p>
+
+                <div className="mb-10 animate-fade-in-up delay-400">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+                    <button
+                      onClick={() => (window.location.href = isLogged ? "/consult" : "/consult")}
+                      className="group relative w-full sm:w-auto px-8 py-3 bg-gray-900 text-white font-medium text-base rounded-lg hover:bg-gray-800 transition-all duration-200 shadow-lg hover:shadow-xl overflow-hidden"
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        Get Started
+                        <svg
+                          className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => (window.location.href = "/about")}
+                      className="group w-full sm:w-auto px-8 py-3 bg-white text-gray-700 font-medium text-base rounded-lg hover:bg-gray-50 transition-all duration-200 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md"
+                    >
+                      <span className="flex items-center justify-center">
+                        Learn More
+                        <svg
+                          className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="lg:block md:block hidden">
-            <img src={Herbs} alt="Ayurvedic Herbs" className="w-[1100px]" />
-          </div>
         </div>
       </div>
 
-      {/* <div className="lg:mt-32 md:mt-32 mt-48">
-        <div className="sm:rounded-xl flex lg:flex-row md:flex-row flex-col items-center justify-center gap-20 bg-gradient-to-r from-[#93FE51] to-[#A1E396] lg:m-10 lg:p-10 md:m-4 md:p-4">
-          <div className="lg:w-[50%] md:w-[50%] flex flex-col gap-8 p-10 lg:p-0 md:p-0 text-center lg:text-left md:text-left">
-            <div className="text-2xl md:text-3xl lg:text-3xl font-spacegrotesksemibold lg:m-10 lg:ml-0 md:m-4 ml-0">
-              Take a Guided Tour of Our Innovative Software
-            </div>
-            <div className="sm:text-xl font-spacegroteskregular">
-              Explore Our Knowledge Hub: Dive deeper into the world of Ayurveda
-              and our software with our collection of informative documents and
-              resources. Whether you're a seasoned Ayurvedic practitioner or
-              just beginning your wellness journey, our curated materials
-              provide valuable insights, tips, and guidance.
-            </div>
-            <div className="lg:hidden md:hidden flex items-center justify-center">
-              <iframe
-                width="200"
-                height="200"
-                src="https://www.youtube.com/embed/TCGh0IcYf3g"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            </div>
-            <div className="flex lg:items-start lg:justify-start md:items-start md:justify-start items-center justify-center">
-              <div
-                href="#"
-                className="w-[200px] cursor-pointer rounded-2xl bg-gradient-to-br lg:ml-0 from-green-600 to-emerald-400 font-spacegrotesksemibold text-lg h-12 py-2 font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center lg:m-10 md:m-4"
-              >
-                Read Docs
-              </div>
-            </div>
+      <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 py-3">
+        <div className="flex animate-scroll">
+          <div className="flex items-center whitespace-nowrap">
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🌿 AyurGuru - Ancient Wisdom, Modern Solutions
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              ✨ Discover Your Path to Wellness
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🍃 Personalized Ayurvedic Consultations
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              💚 Trusted by 10,000+ Happy Users
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🌱 Natural Healing for Mind, Body & Soul
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              ⭐ Experience the Power of Ayurveda
+            </span>
           </div>
-          <div className="lg:flex md:flex md:flex-col lg:justify-center md:justify-center hidden">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/TCGh0IcYf3g"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+          <div className="flex items-center whitespace-nowrap">
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🌿 AyurGuru - Ancient Wisdom, Modern Solutions
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              ✨ Discover Your Path to Wellness
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🍃 Personalized Ayurvedic Consultations
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              💚 Trusted by 10,000+ Happy Users
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              🌱 Natural Healing for Mind, Body & Soul
+            </span>
+            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+              ⭐ Experience the Power of Ayurveda
+            </span>
           </div>
         </div>
-      </div> */}
-      <div className="text-3xl md:text-3xl lg:text-4xl mt-32 font-serif text-center text-green-700 flex flex-col justify-items-center">
-        <p>AyurGuru Features</p>
+
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
+
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
+      </div>
+
+      <div className="text-3xl md:text-3xl lg:text-5xl mt-20 font-spacegrotesksemibold text-center text-green-700 flex flex-col justify-items-center">
+        <p>Features our Platform Offers</p>
       </div>
       <FeatureSection />
-      <div className="container mx-auto p-4">
-        <h1 className="text-4xl font-serif text-center text-green-700 mb-8">
-          Ayurveda Blogs
-        </h1>
-        {loading ? (
-          <div className="flex justify-center items-center">
-            {/* Clip Loader */}
-            <ClipLoader color="#4CAF50" loading={loading} size={50} />
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {blogs.map((blog) => (
-              <BlogCard
-                key={blog.id}
-                id={blog.id}
-                title={blog.title}
-                excerpt={blog.excerpt}
-                author={blog.author}
-                date={blog.publishedDate}
-                img={blog.imageUrl}
-              />
-            ))}
-          </div>
-        )}
-        {!loading && (
-          <div className="text-center mt-8">
-            <button
-              onClick={() => (window.location.href = "/blogs")}
-              className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
-            >
-              Read More
-            </button>
-          </div>
-        )}
-      </div>
       <Contact />
     </div>
   );

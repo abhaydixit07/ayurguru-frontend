@@ -19,7 +19,6 @@ function App() {
           path="/"
           element={
             <>
-              <Nav />
               <Home />
               <Footer />
             </>

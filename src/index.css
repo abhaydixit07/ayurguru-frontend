@@ -2,17 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+}
+
 .scroll::-webkit-scrollbar {
-  width: 7px; /* width of the entire scrollbar */
+  width: 7px;
 }
 
 .scroll::-webkit-scrollbar-track {
-  background: #30303000; /* color of the tracking area */
+  background: #30303000;
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  background-color: rgb(70, 70, 70); /* color of the scroll thumb */
-  border-radius: 8px; /* roundness of the scroll thumb */
+  background-color: rgb(70, 70, 70);
+  border-radius: 8px;
 }
 
 @font-face {
@@ -38,4 +56,37 @@
 @font-face {
   font-family: "Space Grotesk Semibold";
   src: url("./assets/fonts/SpaceGrotesk-SemiBold.ttf");
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll-reverse {
+  animation: scroll-reverse 25s linear infinite;
+}
+
+.animate-scroll:hover,
+.animate-scroll-reverse:hover {
+  animation-play-state: paused;
 }
