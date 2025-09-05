@@ -4,8 +4,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // Track the current route
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,6 +16,12 @@ export default function Nav() {
     if (localStorage.getItem("token")) {
       setIsLogged(true);
     }
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleLogout = () => {
@@ -24,133 +31,173 @@ export default function Nav() {
     navigate("/");
   };
 
-  // Helper function to check if a route is active
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white w-full z-20 top-0 start-0 mb-5">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* Logo */}
-        <Link
-          to="/"
-          className="flex items-center justify-center space-x-3 rtl:space-x-reverse"
-        >
-          <img
-            src="https://png.pngtree.com/png-vector/20230918/ourmid/pngtree-wooden-mortar-illustration-png-image_10118702.png"
-            className="sm:h-20 h-14"
-            alt="Logo"
-          />
-          <span className="self-center lg:block md:block hidden sm:text-2xl font-spacegrotesksemibold whitespace-nowrap">
-            AyurGuru
-          </span>
-        </Link>
+    <nav className={`w-full z-50 transition-all duration-300 ${scrolled ? 'py-1' : 'py-2'
+      }`}>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl min-w-3xl mx-auto">
+          <div className={`${scrolled
+            ? 'bg-white/90 backdrop-blur-xl shadow-md border-gray-200/60'
+            : 'bg-white/80 backdrop-blur-md shadow-md border-gray-200/40'
+            } rounded-2xl border transition-all duration-300 px-4 py-2`}>
+            <div className="flex items-center justify-between h-12">
 
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-            onClick={toggleMenu}
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
-
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex space-x-4">
-            {isLogged ? (
-              <>
-                <Link
-                  to="/consult"
-                  className={`inline-flex items-center px-4 py-2 text-sm font-spacegroteskmedium text-white rounded-lg ${
-                    isActive("/consult")
-                      ? "bg-blue-800"
-                      : "bg-blue-700 hover:bg-blue-800"
-                  }`}
-                >
-                  Consult
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="inline-flex items-center px-4 py-2 text-sm font-spacegroteskmedium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-white"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link to="/signup">
-                <button
-                  type="button"
-                  className="rounded-xl bg-gradient-to-br from-green-600 to-emerald-400 font-dm sm:text-lg h-12 px-3 py-1.5 font-spacegroteskmedium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03] text-center sm:w-28"
-                >
-                  Signup
-                </button>
+              <Link to="/" className="flex items-center space-x-2 group">
+                <div className="relative">
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                    <img
+                      src="https://png.pngtree.com/png-vector/20230918/ourmid/pngtree-wooden-mortar-illustration-png-image_10118702.png"
+                      alt="AyurGuru Logo"
+                      className="w-9 h-9 object-contain"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <span className="text-lg font-spacegrotesksemibold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                    AyurGuru
+                  </span>
+                </div>
               </Link>
-            )}
+
+              <div className="hidden md:flex items-center space-x-6">
+                {[
+                  { path: "/", label: "Home" },
+                  { path: "/blogs", label: "Blogs" },
+                  { path: "/about", label: "About" }
+                ].map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`relative font-spacegroteskmedium transition-all duration-300 py-1 px-1 text-sm ${isActive(path)
+                      ? "text-green-600"
+                      : "text-gray-700 hover:text-green-600"
+                      } group`}
+                  >
+                    {label}
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-green-600 to-emerald-500 transition-all duration-300 ${isActive(path) ? "w-full" : "w-0 group-hover:w-full"
+                      }`}></span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="hidden md:flex items-center space-x-2">
+                {isLogged ? (
+                  <>
+                    <Link
+                      to="/consult"
+                      className="relative px-3 py-1.5 text-sm font-medium text-green-700 hover:text-green-800 transition-all duration-300 rounded-lg hover:bg-green-50 group"
+                    >
+                      <span className="relative z-10">Consult</span>
+                      <div className="absolute inset-0 bg-green-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="relative px-3 py-1.5 bg-gradient-to-r from-red-600 to-red-500 text-white text-sm font-medium rounded-lg hover:from-red-700 hover:to-red-600 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
+                    >
+                      <span className="relative z-10">Logout</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/signin"
+                      className="px-3 py-1.5 text-sm font-spacegroteskmedium text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-lg hover:bg-gray-50"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="relative px-4 py-1.5 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-sm font-spacegroteskmedium rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 overflow-hidden group"
+                    >
+                      <span className="relative z-10">Sign Up</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-gray-800 to-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </Link>
+                  </>
+                )}
+              </div>
+
+              <button
+                onClick={toggleMenu}
+                className="md:hidden relative p-2.5 text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 group"
+              >
+                <div className="w-6 h-6 flex flex-col justify-center items-center">
+                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-0.5' : ''
+                    }`}></span>
+                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 mt-1.5 ${isMenuOpen ? 'opacity-0' : ''
+                    }`}></span>
+                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 mt-1.5 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                    }`}></span>
+                </div>
+              </button>
+            </div>
+
+            <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen
+              ? 'max-h-96 opacity-100 mt-6 pt-6 border-t border-gray-200'
+              : 'max-h-0 opacity-0 overflow-hidden'
+              }`}>
+              <div className="flex flex-col space-y-4">
+                {[
+                  { path: "/", label: "Home" },
+                  { path: "/blogs", label: "Blogs" },
+                  { path: "/about", label: "About" }
+                ].map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`relative font-medium transition-all duration-300 py-3 px-4 rounded-xl ${isActive(path)
+                      ? "text-green-600 bg-green-50"
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                      } group`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                ))}
+
+                <div className="border-t border-gray-200 pt-4 mt-2">
+                  {isLogged ? (
+                    <>
+                      <Link
+                        to="/consult"
+                        className="block w-full px-4 py-3 font-medium text-green-700 hover:text-green-800 transition-all duration-300 rounded-xl hover:bg-green-50 mb-3"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Consult
+                      </Link>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-xl hover:from-red-700 hover:to-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/signin"
+                        className="block w-full px-4 py-3 font-medium text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 mb-3"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className="block w-full px-4 py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-medium rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-md hover:shadow-lg text-center"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div
-          className={`${
-            isMenuOpen ? "block" : "hidden"
-          } items-center justify-between w-full md:flex md:w-auto md:order-1`}
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
-            <li>
-              <Link
-                to="/"
-                className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
-                  isActive("/")
-                    ? "text-emerald-500"
-                    : "text-gray-900 md:hover:text-emerald-400 hover:bg-gray-100 md:hover:bg-transparent"
-                }`}
-                aria-current="page"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-            <Link
-                to="/blogs"
-                className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
-                  isActive("/blogs")
-                    ? "text-emerald-500"
-                    : "text-gray-900 md:hover:text-emerald-400 hover:bg-gray-100 md:hover:bg-transparent"
-                }`}
-              >
-                Blogs
-              </Link>
-             
-            </li>
-            <li>
-            <Link
-                to="/about"
-                className={`block text-xl py-2 px-3 font-spacegroteskregular rounded ${
-                  isActive("/about")
-                    ? "text-emerald-500"
-                    : "text-gray-900 md:hover:text-emerald-400 hover:bg-gray-100 md:hover:bg-transparent"
-                }`}
-              >
-                About
-              </Link>
-            </li>
-          </ul>
         </div>
       </div>
     </nav>

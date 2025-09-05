@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import Feature1 from "../assets/Chatsectionimage.png";
 import Feature2 from "../assets/Ayurvedicblogsfeatureimage.png";
@@ -59,7 +58,7 @@ const FeatureSection = () => {
 
   return (
     <motion.div
-      className="container lg:w-[80vw] mx-auto px-4 py-16 font-spacegroteskmedium"
+      className="container lg:w-[80vw] mx-auto px-4 py-12 font-spacegroteskmedium"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}

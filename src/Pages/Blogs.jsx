@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import BlogCard from '../Components/BlogCard';
-import { ClipLoader } from 'react-spinners'; // Import the ClipLoader
+import { ClipLoader } from 'react-spinners';
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true); // Loader state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('https://api.npoint.io/b1bbae5a8e2b1ea80f69')
       .then((response) => response.json())
       .then((data) => {
         setBlogs(data);
-        setLoading(false); // Hide loader after data is fetched
+        setLoading(false);
       });
   }, []);
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-serif text-center text-green-700 mb-8">Ayurveda Blogs</h1>
-
       {loading ? (
         <div className="flex justify-center items-center">
-          {/* Clip Loader */}
           <ClipLoader color="#4CAF50" loading={loading} size={50} />
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex gap-6 justify-center items-center flex-wrap">
           {blogs.map((blog) => (
             <BlogCard
               key={blog.id}
