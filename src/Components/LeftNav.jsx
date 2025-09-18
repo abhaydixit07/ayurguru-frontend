@@ -27,7 +27,7 @@ function LeftNav() {
           }
         );
         console.log("Conversations fetched:", response.data);
-        setConversations(response.data); // Update state with fetched conversations
+        setConversations(response.data);
       } catch (error) {
         console.error("Error fetching conversations", error);
       }
@@ -46,7 +46,7 @@ function LeftNav() {
         }
       );
       console.log("New conversation created:", response.data);
-      setConversations([...conversations, response.data]); // Add new conversation to state
+      setConversations([...conversations, response.data]);
     } catch (error) {
       console.error("Error creating new conversation", error);
     }
@@ -82,7 +82,6 @@ function LeftNav() {
           : "hidden"
       }
     >
-      {/* Top section */}
       <div className="flex flex-col items-start justify-start w-full gap-2">
         <div className="flex items-center w-full gap-2">
           <span
@@ -102,7 +101,6 @@ function LeftNav() {
         </div>
       </div>
 
-      {/* Middle section */}
       <div className="h-[80%] w-full p-2 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
         {conversations.length > 0 ? (
           conversations.map((conversation) => (
@@ -125,7 +123,7 @@ function LeftNav() {
                 className="border bg-gray-600 border-gray-600 rounded-xl px-3 ml-2 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
                 title="Close sidebar"
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent click on parent span
+                  e.stopPropagation();
                   deleteConversation(conversation.conversationId);
                 }}
               >
@@ -138,10 +136,9 @@ function LeftNav() {
         )}
       </div>
 
-      {/* Bottom section */}
       <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
         <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
-        onClick={()=>handlePersonalizedChatClick(userId)}>
+          onClick={() => handlePersonalizedChatClick(userId)}>
           <span className="flex gap-2 items-center justify-center text-lg">
             <BsChatDots />
           </span>

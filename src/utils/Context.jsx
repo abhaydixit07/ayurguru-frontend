@@ -1,6 +1,5 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { s } from "framer-motion/client";
 export const ContextApp = createContext();
 
 const AppContext = ({ children }) => {
@@ -34,8 +33,7 @@ const AppContext = ({ children }) => {
     setPersonalizedChatisSelected(true);
     try {
       const res = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/checkPersonalizedChats`,
         {
           userId: userId,
@@ -43,8 +41,7 @@ const AppContext = ({ children }) => {
         }
       );
       const response = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/getPersonalizedChats`,
         {
           userId: userId,
@@ -64,10 +61,8 @@ const AppContext = ({ children }) => {
     setChatValue("");
 
     try {
-      // Fetch the document summary from the server
       const summaryResponse = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/getPersonalizedFileText`,
         {
           userId: userId,
@@ -85,16 +80,13 @@ const AppContext = ({ children }) => {
         content: chat.message,
       }));
 
-      // Save the user's message first
       setChats((prevChats) => [
         ...prevChats,
         { message: currentChatValue, sender: "user" },
       ]);
       console.log(documentSummary);
-      // Generate bot's response using the Flask API with context
       const response = await axios.post(
-        `${
-          import.meta.env.VITE_AI_API_URL
+        `${import.meta.env.VITE_AI_API_URL
         }/generate_response_with_context`,
         {
           message: currentChatValue,
@@ -104,16 +96,13 @@ const AppContext = ({ children }) => {
         }
       );
 
-      // Append bot's response to chats
       setChats((prevChats) => [
         ...prevChats,
         { message: response.data.response, sender: "bot" },
       ]);
 
-      // Save the user's message to the DB
       await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/addPersonalizedChat`,
         {
           chat: currentChatValue,
@@ -123,10 +112,8 @@ const AppContext = ({ children }) => {
         }
       );
 
-      // Save bot's response to the DB
       await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/addPersonalizedChat`,
         {
           chat: response.data.response,
@@ -136,7 +123,6 @@ const AppContext = ({ children }) => {
         }
       );
 
-      // Clear the input after sending
       setChatValue("");
     } catch (error) {
       console.error("Error sending personalized chat:", error);
@@ -162,22 +148,18 @@ const AppContext = ({ children }) => {
     setChatValue("");
 
     try {
-      // Save the user's message first
       setChats((prevChats) => [
         ...prevChats,
         { message: currentChatValue, sender: "user" },
       ]);
 
-      // Construct chat history
       const chatHistory = chats.map((chat) => ({
         role: chat.sender === "bot" ? "assistant" : "user",
         content: chat.message,
       }));
 
-      // Generate bot's response using the Flask API with context
       const response = await axios.post(
-        `${
-          import.meta.env.VITE_AI_API_URL
+        `${import.meta.env.VITE_AI_API_URL
         }/generate_response`,
         {
           message: currentChatValue,
@@ -186,24 +168,20 @@ const AppContext = ({ children }) => {
         }
       );
 
-      // Save bot's response in chats
       setChats((prevChats) => [
         ...prevChats,
         { message: response.data.response, sender: "bot" },
       ]);
 
-      // Send both messages to your backend server
       await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/conversations/${currentConversationId}`,
         { message: currentChatValue, sender: "user", userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/conversations/${currentConversationId}`,
         { message: response.data.response, sender: "bot", userId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -221,8 +199,7 @@ const AppContext = ({ children }) => {
     setPersonalizedChatisSelected(false);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/${
-          conversation.conversationId
+        `${import.meta.env.VITE_BACKEND_URL}/api/conversations/${conversation.conversationId
         }`,
         {
           headers: {

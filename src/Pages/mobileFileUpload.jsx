@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import "../index.css";
@@ -9,12 +9,11 @@ export default function MobileFileUpload({ userId }) {
   const [summary, setSummary] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [blobUrls, setBlobUrls] = useState({});
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const [deleteLoading, setDeleteLoading] = useState({}); // Loading state for file deletion
-  const [fileFetchLoading, setFileFetchLoading] = useState(true); // Loading state for file fetch
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState({});
+  const [fileFetchLoading, setFileFetchLoading] = useState(true);
   const [fileContentId, setFileContentId] = useState("");
 
-  // Handle file selection
   const handleFileUpload = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -33,7 +32,6 @@ export default function MobileFileUpload({ userId }) {
     }
   };
 
-  // Handle file submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile || !fileType) {
@@ -41,13 +39,12 @@ export default function MobileFileUpload({ userId }) {
       return;
     }
 
-    setIsLoading(true); // Set loading state to true
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", userId);
 
-    // API call for Google Gemini Docs
     try {
       const apiUrl =
         fileType === "pdf"
@@ -68,8 +65,7 @@ export default function MobileFileUpload({ userId }) {
 
       const result = await response.json();
       const fileContent = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
+        `${import.meta.env.VITE_BACKEND_URL
         }/api/personalizedChats/addPersonalizedFileText`,
         {
           userId: userId,
@@ -79,22 +75,17 @@ export default function MobileFileUpload({ userId }) {
         }
       );
 
-      // Store the MongoDB ID in the local variable
       const fileContentId = fileContent.data.id;
 
-      setFileContentId(fileContentId); // Update state with MongoDB ID
+      setFileContentId(fileContentId);
+      setSummary(result.summary || result.text);
 
-      setSummary(result.summary || result.text); // Display summary in UI
-
-      // Only proceed with PostgreSQL upload if MongoDB ID is fetched
       if (fileContentId) {
-        // Prepare FormData with additional fields
         const formDataForUpload = new FormData();
-        formDataForUpload.append("file", selectedFile); // Append the selected file
-        formDataForUpload.append("userId", userId); // Add user ID to the form data
-        formDataForUpload.append("mongodb_id", fileContentId); // Use the MongoDB ID
+        formDataForUpload.append("file", selectedFile);
+        formDataForUpload.append("userId", userId);
+        formDataForUpload.append("mongodb_id", fileContentId);
 
-        // Make the fetch request with FormData
         const uploadResponse = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/upload`,
           {
@@ -108,43 +99,40 @@ export default function MobileFileUpload({ userId }) {
         }
 
         alert("File uploaded successfully to PostgreSQL!");
-        fetchUserFiles(); // Refresh the file list after upload
+        fetchUserFiles();
       } else {
         console.error("MongoDB ID not found, skipping PostgreSQL upload.");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
-      // Reset states after completion
       setSelectedFile(null);
       setFileContentId("");
-      setIsLoading(false); // Set loading state to false after completion
+      setIsLoading(false);
     }
   };
 
-  // Fetch uploaded files by userId
   const fetchUserFiles = async () => {
-    setFileFetchLoading(true); // Start loading
+    setFileFetchLoading(true);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/userfiles/${userId}`
       );
       if (response.ok) {
         const files = await response.json();
-        setUploadedFiles(files); // Only store file names
+        setUploadedFiles(files);
       } else {
         throw new Error("Error fetching files.");
       }
     } catch (error) {
       console.error("Error fetching files:", error);
     } finally {
-      setFileFetchLoading(false); // Stop loading after completion or error
+      setFileFetchLoading(false);
     }
   };
 
-  // Handle file deletion
   const handleDelete = async (fileName, mongodb_id) => {
-    setDeleteLoading((prev) => ({ ...prev, [fileName]: true })); // Start loading for the specific file
+    setDeleteLoading((prev) => ({ ...prev, [fileName]: true }));
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/delete/${userId}/${fileName}`,
@@ -155,43 +143,39 @@ export default function MobileFileUpload({ userId }) {
 
       if (response.ok) {
         alert("File deleted successfully.");
-        fetchUserFiles(); // Refresh the file list after deletion
+        fetchUserFiles();
       } else {
         throw new Error("Error deleting file.");
       }
     } catch (error) {
       console.error("Error deleting file:", error);
     } finally {
-      setDeleteLoading((prev) => ({ ...prev, [fileName]: false })); // Stop loading after deletion or error
+      setDeleteLoading((prev) => ({ ...prev, [fileName]: false }));
     }
   };
 
-  // Generate blob URL and open the file
   const handleFileClick = async (fileName) => {
-    setIsLoading(true); // Start loading immediately when clicked
+    setIsLoading(true);
     try {
       let url = blobUrls[fileName];
 
       if (!url) {
-        // If the URL is not already generated, fetch the blob and create the URL
         const blobResponse = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/pdf/${fileName}`
         );
         const blob = await blobResponse.blob();
         url = URL.createObjectURL(blob);
-        setBlobUrls((prev) => ({ ...prev, [fileName]: url })); // Store the URL
+        setBlobUrls((prev) => ({ ...prev, [fileName]: url }));
       }
 
-      // Automatically open the file after the URL is ready
       window.open(url);
     } catch (error) {
       console.error("Error generating blob URL:", error);
     } finally {
-      setIsLoading(false); // Stop loading after the URL is ready or on error
+      setIsLoading(false);
     }
   };
 
-  // Fetch files on component mount
   useEffect(() => {
     fetchUserFiles();
   }, [userId]);
@@ -214,7 +198,7 @@ export default function MobileFileUpload({ userId }) {
         <button
           type="submit"
           className="w-full font-spacegroteskmedium bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 px-2 rounded-lg flex justify-center"
-          disabled={isLoading} // Disable button while loading
+          disabled={isLoading}
         >
           {isLoading ? (
             <div className="w-5 h-5 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
@@ -246,7 +230,7 @@ export default function MobileFileUpload({ userId }) {
               >
                 <a
                   href="#"
-                  onClick={() => handleFileClick(fileName)} // Use handleFileClick
+                  onClick={() => handleFileClick(fileName)}
                   className="text-blue-500 hover:underline cursor-pointer"
                 >
                   {fileName}
@@ -254,7 +238,7 @@ export default function MobileFileUpload({ userId }) {
                 <button
                   className="ml-4 text-red-600 hover:text-red-800"
                   onClick={() => handleDelete(fileName)}
-                  disabled={deleteLoading[fileName]} // Disable button while loading
+                  disabled={deleteLoading[fileName]}
                 >
                   {deleteLoading[fileName] ? (
                     <div className="w-4 h-4 border-4 border-t-transparent border-red-600 rounded-full animate-spin"></div>

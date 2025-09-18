@@ -102,7 +102,7 @@ const Contact = () => {
                       className="w-full bg-white border border-gray-200 rounded-xl py-3 sm:py-4 px-4 sm:px-6 text-gray-900 placeholder-gray-500 font-spacegroteskregular focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-spacegroteskmedium text-gray-700 mb-2">
                       Email Address
@@ -116,7 +116,7 @@ const Contact = () => {
                       className="w-full bg-white border border-gray-200 rounded-xl py-3 sm:py-4 px-4 sm:px-6 text-gray-900 placeholder-gray-500 font-spacegroteskregular focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-spacegroteskmedium text-gray-700 mb-2">
                       Your Message
@@ -151,21 +151,17 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Earth Canvas with Enhanced Container */}
           <motion.div
             variants={slideIn("right", "tween", 0.2, 1)}
             className="relative order-1 lg:order-2"
           >
             <div className="relative bg-gradient-to-br from-green-900/20 to-emerald-900/20 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 overflow-hidden">
-              {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/30"></div>
-              
-              {/* Earth Canvas */}
+
               <div className="relative z-10 h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[600px]">
                 <EarthCanvas />
               </div>
-              
-              {/* Overlay Content */}
+
               <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8 z-20">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/30">
                   <h4 className="text-base sm:text-lg font-spacegrotesksemibold text-gray-900 mb-1 sm:mb-2">

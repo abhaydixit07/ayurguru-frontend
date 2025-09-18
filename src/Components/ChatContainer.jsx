@@ -6,7 +6,7 @@ import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import Fileupload from "../Pages/fileUpload"; // Import the fileUpload component
+import Fileupload from "../Pages/fileUpload";
 import MobileFileUpload from "../Pages/mobileFileUpload";
 import { FaFileUpload } from "react-icons/fa";
 import axios from "axios";
@@ -24,7 +24,7 @@ function ChatContainer() {
     handleKeyPress2,
     currentConversationId,
     handlePersonalizedSend,
-    personalizedChatisSelected, // Fetch personalizedChatisSelected from context
+    personalizedChatisSelected,
   } = useContext(ContextApp);
 
   const navigate = useNavigate();
@@ -131,7 +131,6 @@ function ChatContainer() {
       </div>
 
       {personalizedChatisSelected ? (
-        // Render fileUpload component if personalizedChatisSelected is true
         <>
           <div className="w-full h-full lg:flex items-center justify-center hidden">
             <Fileupload userId={userId} />
@@ -198,7 +197,6 @@ function ChatContainer() {
           </div>
         </>
       ) : currentConversationId ? (
-        // Render Chat and Input if a conversation is selected
         <>
           <Chat />
 

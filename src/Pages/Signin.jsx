@@ -79,9 +79,8 @@ function Signin() {
           </div>
           <div className="flex flex-col items-center justify-between gap-4">
             <button
-              className={`${
-                loading ? "bg-green-300 cursor-not-allowed" : "bg-green-500 hover:bg-green-700"
-              } text-white font-bold py-2 px-4 rounded w-full shadow-lg flex items-center justify-center`}
+              className={`${loading ? "bg-green-300 cursor-not-allowed" : "bg-green-500 hover:bg-green-700"
+                } text-white font-bold py-2 px-4 rounded w-full shadow-lg flex items-center justify-center`}
               type="submit"
               onClick={handleSignin}
               disabled={loading}

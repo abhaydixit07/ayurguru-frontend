@@ -105,7 +105,7 @@ function App() {
         </div>
       </div>
 
-      <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 py-3">
+      <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 py-2">
         <div className="flex animate-scroll">
           <div className="flex items-center whitespace-nowrap">
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">

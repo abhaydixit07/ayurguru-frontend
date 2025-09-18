@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiMessageSquare } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
@@ -98,7 +98,6 @@ function Mobile() {
           </div>
         </div>
 
-        {/* Middle section - Conversations */}
         <div className="h-[80%] w-full p-2 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
           {conversations.length > 0 ? (
             conversations.map((conversation) => (
@@ -117,7 +116,7 @@ function Mobile() {
                   className="text-white"
                   fontSize={20}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent click on parent span
+                    e.stopPropagation();
                     deleteConversation(conversation.conversationId);
                   }}
                 />
@@ -128,7 +127,6 @@ function Mobile() {
           )}
         </div>
 
-        {/* Bottom section */}
         <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
           <span
             className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
