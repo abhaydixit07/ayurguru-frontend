@@ -21,23 +21,20 @@ export const FileUpload = ({ onChange }) => {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Allowed file types
   const allowedFileTypes = [
-    "application/pdf", // PDF files
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // DOCX files
-    "image/png", // PNG images
-    "image/jpeg", // JPG/JPEG images
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "image/png",
+    "image/jpeg",
   ];
 
   const handleFileChange = (newFiles) => {
     if (!newFiles || newFiles.length === 0) {
-      // Handle case where no file was selected or dropped
       return;
     }
 
     const newFile = newFiles[0];
 
-    // Validate file type
     if (newFile && allowedFileTypes.includes(newFile.type)) {
       setFile(newFile);
       onChange && onChange(newFile);
@@ -73,7 +70,6 @@ export const FileUpload = ({ onChange }) => {
 
     const fileType = file.type;
     if (fileType.startsWith("image/")) {
-      // Show image preview for image files
       return (
         <div className="flex items-center justify-center h-full">
           <img
@@ -84,7 +80,6 @@ export const FileUpload = ({ onChange }) => {
         </div>
       );
     } else if (fileType === "application/pdf") {
-      // Placeholder for PDF files
       return (
         <div className="flex flex-col items-center">
           <img src={pdfSvg} alt="PDF File" className="w-16 h-16" />
@@ -97,7 +92,6 @@ export const FileUpload = ({ onChange }) => {
       fileType ===
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ) {
-      // Placeholder for DOCX files
       return (
         <div className="flex flex-col items-center">
           <img src={docxSvg} alt="DOCX File" className="w-16 h-16" />

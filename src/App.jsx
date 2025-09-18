@@ -8,7 +8,7 @@ import Signup from "./Pages/Signup";
 import Signin from "./Pages/Signin";
 import About from "./Pages/About";
 import Blog from "./Pages/Blogs";
-import BlogDetail from "./Pages/BlogDeatils"
+import BlogDetail from "./Pages/BlogDetails";
 import Footer from "./Components/Footer";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             </>
           }
         />
-         <Route
+        <Route
           path="/blogs"
           element={
             <>
@@ -34,7 +34,8 @@ function App() {
             </>
           }
         />
-        <Route path="/blog/:id" element={<><Nav/><BlogDetail /></>} />
+        <Route path="/blogs/:slug" element={<><Nav /><BlogDetail /></>} />
+        \        <Route path="/blog/:id" element={<><Nav /><BlogDetail /></>} />
         <Route
           path="/consult"
           element={

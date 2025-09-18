@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import ReactMarkdown from "react-markdown"; // Import ReactMarkdown
+import { useContext, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import { ContextApp } from "../utils/Context";
 import chatIcon from "../assets/chatIcon.png";
 import userIcon from "../assets/userIcon.png";
@@ -19,9 +19,8 @@ function Chat() {
         {chats?.map((msg, i) => (
           <div
             key={msg._id?.$oid || i}
-            className={`flex items-center gap-2 lg:gap-5 my-2 p-3 rounded-2xl max-w-[80%] ${
-              msg.sender === "user" ? "bg-blue-600 self-end" : "bg-gray-800/80 self-start"
-            }`}
+            className={`flex items-center gap-2 lg:gap-5 my-2 p-3 rounded-2xl max-w-[80%] ${msg.sender === "user" ? "bg-blue-600 self-end" : "bg-gray-800/80 self-start"
+              }`}
           >
             {msg.sender === "user" ? (
               <>
