@@ -58,9 +58,9 @@ function App() {
                 </h1>
 
                 <p className="text-lg sm:text-xl lg:text-3xl font-spacegroteskregular text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed">
-                  Discover Balance, Wellness, and Harmony with Ayurveda<br className="hidden sm:block" />
-
-                  Your Journey to Holistic Health Begins Here.                        </p>
+                  Your AI-Powered Ayurvedic Consultant<br className="hidden sm:block" />
+                  Get instant, personalized wellness guidance powered by thousands of years of Ayurvedic wisdom.
+                </p>
 
                 <div className="mb-10 animate-fade-in-up delay-400">
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
@@ -107,43 +107,43 @@ function App() {
 
       <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 py-2">
         <div className="flex animate-scroll">
-          <div className="flex items-center whitespace-nowrap">
-            <span className="text-white font-spacegrotesksemibold text-sm md:text-lg mx-8">
+          <div className="flex items-center whitespace-nowrap text-sm md:text-lg">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🌿 AyurGuru - Ancient Wisdom, Modern Solutions
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               ✨ Discover Your Path to Wellness
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🍃 Personalized Ayurvedic Consultations
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               💚 Trusted by alot of Happy Users
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🌱 Natural Healing for Mind, Body & Soul
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               ⭐ Experience the Power of Ayurveda
             </span>
           </div>
-          <div className="flex items-center whitespace-nowrap">
-            <span className="text-white font-spacegrotesksemibold text-sm md:text-lg mx-8">
+          <div className="flex items-center whitespace-nowrap text-sm md:text-lg">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🌿 AyurGuru - Ancient Wisdom, Modern Solutions
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               ✨ Discover Your Path to Wellness
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🍃 Personalized Ayurvedic Consultations
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               💚 Trusted by alot of Happy Users
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               🌱 Natural Healing for Mind, Body & Soul
             </span>
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold mx-8">
               ⭐ Experience the Power of Ayurveda
             </span>
           </div>

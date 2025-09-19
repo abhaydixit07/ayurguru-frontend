@@ -158,45 +158,52 @@ export default function Nav() {
                     </Link>
                   ))}
 
-                  <div className="border-t border-gray-200 px-4 py-4">
-                    {isLogged ? (
-                      <>
-                        <Link
-                          to="/consult"
-                          className="block w-full px-4 py-3 font-medium text-green-700 hover:text-green-800 transition-all duration-300 rounded-xl hover:bg-green-50 mb-3"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Consult
-                        </Link>
-                        <button
-                          onClick={() => {
-                            handleLogout();
-                            setIsMenuOpen(false);
-                          }}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-xl hover:from-red-700 hover:to-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
-                        >
-                          Logout
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <Link
-                          to="/signin"
-                          className="block w-full px-4 py-3 font-medium text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 mb-3"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Login
-                        </Link>
-                        <Link
-                          to="/signup"
-                          className="block w-full px-4 py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-medium rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-md hover:shadow-lg text-center"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Sign Up
-                        </Link>
-                      </>
-                    )}
-                  </div>
+                  {isLogged ? (
+                    <>
+                      <Link
+                        to="/consult"
+                        className={`relative font-medium transition-all duration-300 py-3 px-4 ${isActive("/consult")
+                          ? "text-green-600 bg-green-50"
+                          : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                          } group`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Consult
+                      </Link>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsMenuOpen(false);
+                        }}
+                        className="relative font-medium transition-all duration-300 py-3 px-4 text-red-600 hover:text-red-700 hover:bg-red-50 text-left"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/signin"
+                        className={`relative font-medium transition-all duration-300 py-3 px-4 ${isActive("/signin")
+                          ? "text-green-600 bg-green-50"
+                          : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                          } group`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className={`relative font-medium transition-all duration-300 py-3 px-4 ${isActive("/signup")
+                          ? "text-green-600 bg-green-50"
+                          : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                          } group`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
