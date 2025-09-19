@@ -172,6 +172,18 @@ function ChatContainer() {
           <FaHome fontSize={30} />
         </button>
 
+        {personalizedChatisSelected && (
+          <button
+            className="bg-emerald-600 text-white p-2 rounded-xl shadow-md hover:bg-emerald-800 transition-all duration-300"
+            title="View All Files"
+            onClick={() => setShowFilesModal(true)}
+          >
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+            </svg>
+          </button>
+        )}
+
         <button
           className="bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
           title="Logout"
@@ -197,15 +209,6 @@ function ChatContainer() {
                 >
                   <FaPaperclip className="text-md" />
                   <span className="hidden lg:inline text-sm">Upload</span>
-                </button>
-                
-                <button
-                  onClick={() => setShowFilesModal(true)}
-                  className="p-2 text-gray-300 hover:text-emerald-400 hover:bg-gray-700 rounded-lg transition-all duration-300 flex items-center gap-2"
-                  title="View All Attachments"
-                >
-                  <HiViewGrid className="text-md" />
-                  <span className="hidden lg:inline text-sm">View</span>
                 </button>
                 
                 {/* Separator */}
@@ -276,7 +279,7 @@ function ChatContainer() {
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
               <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden transform animate-slideUp border border-gray-200">
                 {/* Header */}
-                <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
+                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-8 py-6">
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="text-2xl font-bold text-white">Your Medical Documents</h3>
