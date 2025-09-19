@@ -37,10 +37,10 @@ export default function Nav() {
     <nav className={`w-full z-50 transition-all duration-300 ${scrolled ? 'py-1' : 'py-2'
       }`}>
       <div className="px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl min-w-3xl mx-auto">
+        <div className="max-w-5xl min-w-3xl mx-auto relative">
           <div className={`${scrolled
-            ? 'bg-white/90 backdrop-blur-xl shadow-md border-gray-200/60'
-            : 'bg-white/80 backdrop-blur-md shadow-md border-gray-200/40'
+            ? 'bg-white shadow-md border-gray-200/60'
+            : 'bg-white shadow-md border-gray-200/40'
             } rounded-2xl border transition-all duration-300 px-4 py-2`}>
             <div className="flex items-center justify-between h-12">
 
@@ -122,78 +122,81 @@ export default function Nav() {
                 onClick={toggleMenu}
                 className="md:hidden relative p-2.5 text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 group"
               >
-                <div className="w-6 h-6 flex flex-col justify-center items-center">
-                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-0.5' : ''
+                <div className="w-6 h-6 relative flex items-center justify-center">
+                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 w-5' : '-rotate-0 -translate-y-2'
                     }`}></span>
-                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 mt-1.5 ${isMenuOpen ? 'opacity-0' : ''
+                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''
                     }`}></span>
-                  <span className={`block h-0.5 w-6 bg-current transition-all duration-300 mt-1.5 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                  <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45' : 'rotate-0 translate-y-2'
                     }`}></span>
                 </div>
               </button>
             </div>
 
-            <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen
-              ? 'max-h-96 opacity-100 mt-6 pt-6 border-t border-gray-200'
-              : 'max-h-0 opacity-0 overflow-hidden'
+            {/* Mobile dropdown menu - positioned absolutely */}
+            <div className={`md:hidden absolute top-full left-0 right-0 mt-2 z-50 transition-all duration-300 ease-in-out ${isMenuOpen
+              ? 'opacity-100 visible translate-y-0'
+              : 'opacity-0 invisible -translate-y-2'
               }`}>
-              <div className="flex flex-col space-y-4">
-                {[
-                  { path: "/", label: "Home" },
-                  { path: "/blogs", label: "Blogs" },
-                  { path: "/about", label: "About" }
-                ].map(({ path, label }) => (
-                  <Link
-                    key={path}
-                    to={path}
-                    className={`relative font-medium transition-all duration-300 py-3 px-4 rounded-xl ${isActive(path)
-                      ? "text-green-600 bg-green-50"
-                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
-                      } group`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {label}
-                  </Link>
-                ))}
+              <div className="bg-white rounded-2xl border border-gray-200 shadow-lg mx-4 overflow-hidden">
+                <div className="flex flex-col">
+                  {[
+                    { path: "/", label: "Home" },
+                    { path: "/blogs", label: "Blogs" },
+                    { path: "/about", label: "About" }
+                  ].map(({ path, label }) => (
+                    <Link
+                      key={path}
+                      to={path}
+                      className={`relative font-medium transition-all duration-300 py-3 px-4 ${isActive(path)
+                        ? "text-green-600 bg-green-50"
+                        : "text-gray-700 hover:text-green-600 hover:bg-green-50"
+                        } group`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {label}
+                    </Link>
+                  ))}
 
-                <div className="border-t border-gray-200 pt-4 mt-2">
-                  {isLogged ? (
-                    <>
-                      <Link
-                        to="/consult"
-                        className="block w-full px-4 py-3 font-medium text-green-700 hover:text-green-800 transition-all duration-300 rounded-xl hover:bg-green-50 mb-3"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Consult
-                      </Link>
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          setIsMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-xl hover:from-red-700 hover:to-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
-                      >
-                        Logout
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to="/signin"
-                        className="block w-full px-4 py-3 font-medium text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 mb-3"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Login
-                      </Link>
-                      <Link
-                        to="/signup"
-                        className="block w-full px-4 py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-medium rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-md hover:shadow-lg text-center"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Sign Up
-                      </Link>
-                    </>
-                  )}
+                  <div className="border-t border-gray-200 px-4 py-4">
+                    {isLogged ? (
+                      <>
+                        <Link
+                          to="/consult"
+                          className="block w-full px-4 py-3 font-medium text-green-700 hover:text-green-800 transition-all duration-300 rounded-xl hover:bg-green-50 mb-3"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Consult
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsMenuOpen(false);
+                          }}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-xl hover:from-red-700 hover:to-red-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to="/signin"
+                          className="block w-full px-4 py-3 font-medium text-gray-700 hover:text-gray-900 transition-all duration-300 rounded-xl hover:bg-gray-50 mb-3"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          to="/signup"
+                          className="block w-full px-4 py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-medium rounded-xl hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-md hover:shadow-lg text-center"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Sign Up
+                        </Link>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

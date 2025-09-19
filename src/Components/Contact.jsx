@@ -1,10 +1,30 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import EarthCanvas from "./canvas/Earth";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../lib/motion";
 
+const minimalFadeIn = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 0.7, ease: "easeOut" },
+  },
+};
+
+function useIsSmallScreen() {
+  const [isSmall, setIsSmall] = useState(false);
+  React.useEffect(() => {
+    const check = () => setIsSmall(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isSmall;
+}
+
 const Contact = () => {
+  const isSmallScreen = useIsSmallScreen();
   const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
@@ -74,7 +94,10 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center">
           <motion.div
-            variants={slideIn("left", "tween", 0.2, 1)}
+            variants={isSmallScreen ? minimalFadeIn : slideIn("left", "tween", 0.2, 1)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
             className="relative order-2 lg:order-1"
           >
             <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl">
@@ -152,7 +175,10 @@ const Contact = () => {
           </motion.div>
 
           <motion.div
-            variants={slideIn("right", "tween", 0.2, 1)}
+            variants={isSmallScreen ? minimalFadeIn : slideIn("right", "tween", 0.2, 1)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
             className="relative order-1 lg:order-2"
           >
             <div className="relative bg-gradient-to-br from-green-900/20 to-emerald-900/20 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 overflow-hidden">
