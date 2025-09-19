@@ -154,7 +154,7 @@ function App() {
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
       </div>
 
-      <div className="text-3xl md:text-3xl lg:text-5xl mt-20 font-spacegrotesksemibold text-center text-green-700 flex flex-col justify-items-center">
+      <div className="text-2xl md:text-3xl lg:text-5xl mt-20 font-spacegrotesksemibold text-center text-green-700 flex flex-col justify-items-center">
         <p>Features our Platform Offers</p>
       </div>
       <FeatureSection />
