@@ -1,17 +1,59 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { ContextApp } from "../utils/Context";
 import chatIcon from "../assets/chatIcon.png";
 import userIcon from "../assets/userIcon.png";
 
 function Chat() {
-  const { chats, msgEnd } = useContext(ContextApp);
+  const { chats, msgEnd, personalizedChatisSelected } = useContext(ContextApp);
+  const prevChatsLength = useRef(chats?.length || 0);
 
   useEffect(() => {
     if (msgEnd.current) {
       msgEnd.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chats]);
+
+  // Immediate scroll when chats first load or when length changes significantly
+  useEffect(() => {
+    if (chats && chats.length > 0 && msgEnd.current) {
+      // Check if this is initial load (big jump in length) or just one new message
+      const lengthDiff = chats.length - prevChatsLength.current;
+      
+      if (lengthDiff > 2) {
+        // Initial load - immediate scroll
+        setTimeout(() => {
+          msgEnd.current.scrollIntoView({ behavior: "auto" });
+        }, 100);
+      } else if (lengthDiff > 0) {
+        // New message - smooth scroll
+        setTimeout(() => {
+          msgEnd.current.scrollIntoView({ behavior: "smooth" });
+        }, 50);
+      }
+      
+      prevChatsLength.current = chats.length;
+    }
+  }, [chats?.length]);
+
+  // Force scroll when switching to personalized chat with existing messages
+  useEffect(() => {
+    if (personalizedChatisSelected && chats && chats.length > 0 && msgEnd.current) {
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "auto" });
+      }, 200);
+    }
+  }, [personalizedChatisSelected]);
+
+  // Initial mount scroll - ensure we scroll to bottom when component first renders with data
+  useEffect(() => {
+    if (chats && chats.length > 0 && msgEnd.current) {
+      // Use auto behavior for initial scroll (faster)
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "auto" });
+      }, 100);
+    }
+  }, []); // Only run on mount
 
   return (
     <div className="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">
