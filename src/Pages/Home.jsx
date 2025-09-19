@@ -58,7 +58,7 @@ function App() {
                 </h1>
 
                 <p className="text-lg sm:text-xl lg:text-3xl font-spacegroteskregular text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed">
-                  Your AI-Powered Ayurvedic Consultant<br className="hidden sm:block" />
+                  Your AI-Powered Ayurvedic Consultant<br className="block" />
                   Get instant, personalized wellness guidance powered by thousands of years of Ayurvedic wisdom.
                 </p>
 
