@@ -115,20 +115,20 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
   return (
     <div className="h-full w-full flex flex-col">
       {/* Upload Section */}
-      <form onSubmit={handleSubmit} className="mb-6">
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-all duration-300 p-8">
+      <form onSubmit={handleSubmit} className="mb-4 md:mb-6">
+        <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-all duration-300 p-4 md:p-8">
           <div className="text-center">
-            <FaCloudUploadAlt className="mx-auto text-6xl text-gray-400 mb-4" />
-            <label className="block text-lg font-semibold text-gray-700 mb-4 font-spacegroteskmedium">
+            <FaCloudUploadAlt className="mx-auto text-4xl md:text-6xl text-gray-400 mb-3 md:mb-4" />
+            <label className="block text-base md:text-lg font-semibold text-gray-700 mb-3 md:mb-4 font-spacegroteskmedium">
               Drop your files here or click to browse
             </label>
             <input
               type="file"
-              className="w-full text-sm p-4 border-2 border-gray-300 rounded-xl font-spacegroteskregular focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
+              className="w-full text-xs md:text-sm p-3 md:p-4 border-2 border-gray-300 rounded-lg md:rounded-xl font-spacegroteskregular focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300 file:mr-2 md:file:mr-4 file:py-1 md:file:py-2 file:px-2 md:file:px-4 file:rounded-full file:border-0 file:text-xs md:file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
               onChange={handleFileUpload}
               accept=".pdf,image/*"
             />
-            <p className="text-sm text-gray-500 mt-2 font-spacegroteskregular">
+            <p className="text-xs md:text-sm text-gray-500 mt-2 font-spacegroteskregular">
               Supports PDF files and images (PNG, JPG, JPEG)
             </p>
           </div>
@@ -137,11 +137,11 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
         <button
           type="submit"
           disabled={!selectedFile || isLoading}
-          className="w-full mt-4 font-spacegroteskmedium bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full mt-3 md:mt-4 font-spacegroteskmedium bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 disabled:from-gray-400 disabled:to-gray-500 text-white py-3 md:py-4 px-4 md:px-6 rounded-lg md:rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm md:text-base"
         >
           {isLoading ? (
             <>
-              <ClipLoader color="#ffffff" size={20} />
+              <ClipLoader color="#ffffff" size={16} />
               <span>Processing...</span>
             </>
           ) : (
@@ -155,17 +155,17 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
 
       {/* Summary Section */}
       {summary && (
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-l-4 border-blue-500">
-          <div className="flex items-start gap-3">
-            <MdDescription className="text-blue-600 text-2xl mt-1" />
-            <div>
-              <h3 className="text-lg font-semibold text-blue-800 mb-2 font-spacegrotesksemibold">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl md:rounded-2xl p-4 md:p-6 border-l-4 border-blue-500">
+          <div className="flex items-start gap-2 md:gap-3">
+            <MdDescription className="text-blue-600 text-xl md:text-2xl mt-1 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <h3 className="text-base md:text-lg font-semibold text-blue-800 mb-2 font-spacegrotesksemibold">
                 Document Summary
               </h3>
-              <p className="text-blue-700 font-spacegroteskregular leading-relaxed">
+              <p className="text-sm md:text-base text-blue-700 font-spacegroteskregular leading-relaxed break-words">
                 {summary}
               </p>
-              <p className="text-sm text-blue-600 mt-3 font-spacegroteskregular">
+              <p className="text-xs md:text-sm text-blue-600 mt-2 md:mt-3 font-spacegroteskregular">
                 ✅ Your document has been successfully processed and added to your medical profile!
               </p>
             </div>
