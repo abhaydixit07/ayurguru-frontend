@@ -153,7 +153,7 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
         </button>
       </form>
 
-      {/* Summary Section */}
+      {/* Summary Section
       {summary && (
         <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl md:rounded-2xl p-4 md:p-6 border-l-4 border-blue-500">
           <div className="flex items-start gap-2 md:gap-3">
@@ -171,7 +171,7 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
