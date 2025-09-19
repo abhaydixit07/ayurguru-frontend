@@ -19,18 +19,18 @@ const teamMembers = [
         linkedin: "https://www.linkedin.com/in/khageshsharma",
         github: "https://github.com/khagesh2409",
     },
-    // {
-    //     name: "Shaurya Gupta",
-    //     img: Shaurya,
-    //     role: "Frontend Developer",
-    //     linkedin: "https://www.linkedin.com/in/shaurya--gupta",
-    //     github: "https://github.com/CodeByShaurya",
-    // },
+    {
+        name: "Shaurya Gupta",
+        img: Shaurya,
+        role: "Frontend Developer",
+        linkedin: "https://www.linkedin.com/in/shaurya--gupta",
+        github: "https://github.com/CodeByShaurya",
+    },
 ];
 
 const About = () => {
     return (
-        <div className="min-h-screen w-full">
+    <div className="min-h-[100dvh] w-full">
             <section className="max-w-5xl mx-auto px-6 pt-16 pb-10 text-center">
                 <h1 className="text-4xl sm:text-5xl font-spacegroteskbold text-gray-900 mb-4">
                     About <span className="text-emerald-600">AyurGuru</span>

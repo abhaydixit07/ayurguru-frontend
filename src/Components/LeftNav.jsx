@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { FiMessageSquare } from "react-icons/fi";
@@ -78,7 +78,7 @@ function LeftNav() {
     <div
       className={
         !showSlide
-          ? "h-[100vh] bg-leftNav w-[300px] border-r border-gray-500 hidden lg:flex items-center justify-between p-2 text-white flex-col translate-x-0"
+          ? "h-[100dvh] bg-leftNav w-[300px] border-r border-gray-500 hidden lg:flex items-center justify-between p-2 text-white flex-col translate-x-0"
           : "hidden"
       }
     >
@@ -101,7 +101,7 @@ function LeftNav() {
         </div>
       </div>
 
-      <div className="h-[80%] w-full p-2 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
+      <div className="w-full p-2 flex-1 min-h-0 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
         {conversations.length > 0 ? (
           conversations.map((conversation) => (
             <div
