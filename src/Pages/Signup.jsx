@@ -45,7 +45,7 @@ function Signup() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 via-white to-green-50 py-8 px-2">
+    <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-gray-50 via-white to-green-50 py-8 px-2">
       <div className="w-full max-w-md bg-white border border-gray-200 shadow-xl rounded-2xl p-8 sm:p-10 flex flex-col gap-6">
         <h2 className="text-3xl font-spacegroteskbold text-center text-gray-900 mb-2">Sign Up</h2>
         <p className="text-center text-gray-500 font-spacegroteskregular mb-2">Create your AyurGuru account to get started.</p>

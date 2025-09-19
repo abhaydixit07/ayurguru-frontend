@@ -40,6 +40,18 @@ function Mobile() {
     fetchConversations();
   }, [token, userId]);
 
+  // Lock background scroll while mobile drawer is open
+  useEffect(() => {
+    if (Mobile) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [Mobile]);
+
   const handleNewChat = async () => {
     try {
       const response = await axios.post(
@@ -77,14 +89,16 @@ function Mobile() {
     }
   };
 
+  if (!Mobile) return null;
+
   return (
-    <div className="absolute left-0 top-0 w-full z-50 bg-black/40 flex justify-between items-start">
+    <div
+      className="fixed inset-0 h-[100dvh] z-50 bg-black/40 flex justify-between items-start"
+      onClick={() => setMobile(false)}
+    >
       <div
-        className={
-          Mobile
-            ? "h-screen bg-leftNav w-[300px] flex items-center justify-between p-2 text-white flex-col translate-x-0"
-            : "hidden"
-        }
+        className="h-[100dvh] bg-leftNav w-[300px] flex items-stretch justify-between p-2 pb-[env(safe-area-inset-bottom)] text-white flex-col translate-x-0"
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-center justify-between gap-2 w-full">
           <div className="flex items-center w-full gap-2">
@@ -98,7 +112,7 @@ function Mobile() {
           </div>
         </div>
 
-        <div className="h-[80%] w-full p-2 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
+        <div className="w-full p-2 flex-1 min-h-0 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
           {conversations.length > 0 ? (
             conversations.map((conversation) => (
               <span
@@ -153,15 +167,13 @@ function Mobile() {
         </div>
       </div>
 
-      {Mobile && (
-        <span
-          className="border bg-gray-600 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
-          title="Close sidebar"
-          onClick={() => setMobile(!Mobile)}
-        >
-          <MdClose fontSize={30} />
-        </span>
-      )}
+      <span
+        className="border bg-gray-600 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+        title="Close sidebar"
+        onClick={() => setMobile(false)}
+      >
+        <MdClose fontSize={30} />
+      </span>
     </div>
   );
 }
