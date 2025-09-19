@@ -39,18 +39,18 @@ function App() {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="w-96 h-96 bg-gradient-to-r from-green-200 via-emerald-200 to-teal-200 rounded-full opacity-40 blur-3xl animate-floating" />
           </div>
-          <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 pb-20 relative z-10">
+          <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 pb-8 md:pb-16 lg:pb-20 relative z-10">
             <div className="max-w-7xl mx-auto w-full">
               <div className="text-center mb-8">
                 <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-green-200 text-sm font-spacegroteskmedium text-green-700 shadow-sm">
-                  <span className="mr-2">🌿</span>
-                  Trusted by 10,000+ wellness seekers worldwide
-                  <span className="ml-2">→</span>
+                  <span className="">🌿</span>
+                  Trusted by wellness seekers worldwide
+                  <span className="">🌿</span>
                 </div>
               </div>
 
               <div className="text-center mb-16">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-spacegrotesksemibold text-gray-900 leading-tight mb-6">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-spacegrotesksemibold text-gray-900 leading-tight mb-6">
                   Unlock the Power of{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
                     Ancient Wisdom
@@ -108,7 +108,7 @@ function App() {
       <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 py-2">
         <div className="flex animate-scroll">
           <div className="flex items-center whitespace-nowrap">
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold text-sm md:text-lg mx-8">
               🌿 AyurGuru - Ancient Wisdom, Modern Solutions
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
@@ -118,7 +118,7 @@ function App() {
               🍃 Personalized Ayurvedic Consultations
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
-              💚 Trusted by 10,000+ Happy Users
+              💚 Trusted by alot of Happy Users
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
               🌱 Natural Healing for Mind, Body & Soul
@@ -128,7 +128,7 @@ function App() {
             </span>
           </div>
           <div className="flex items-center whitespace-nowrap">
-            <span className="text-white font-spacegrotesksemibold text-lg mx-8">
+            <span className="text-white font-spacegrotesksemibold text-sm md:text-lg mx-8">
               🌿 AyurGuru - Ancient Wisdom, Modern Solutions
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
@@ -138,7 +138,7 @@ function App() {
               🍃 Personalized Ayurvedic Consultations
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
-              💚 Trusted by 10,000+ Happy Users
+              💚 Trusted by alot of Happy Users
             </span>
             <span className="text-white font-spacegrotesksemibold text-lg mx-8">
               🌱 Natural Healing for Mind, Body & Soul
@@ -149,9 +149,9 @@ function App() {
           </div>
         </div>
 
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
+        <div className="absolute left-0 top-0 bottom-0 w-3 md:w-20 bg-gradient-to-r from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
 
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-3 md:w-20 bg-gradient-to-l from-green-50 via-green-50/80 to-transparent pointer-events-none z-10"></div>
       </div>
 
       <div className="text-2xl md:text-3xl lg:text-5xl mt-20 font-spacegrotesksemibold text-center text-green-700 flex flex-col justify-items-center">
