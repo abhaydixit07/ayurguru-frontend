@@ -4,12 +4,9 @@ import EarthCanvas from "./canvas/Earth";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../lib/motion";
 
-const minimalFadeIn = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
+const noAnimation = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
 };
 
 function useIsSmallScreen() {
@@ -94,7 +91,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center">
           <motion.div
-            variants={isSmallScreen ? minimalFadeIn : slideIn("left", "tween", 0.2, 1)}
+            variants={isSmallScreen ? noAnimation : slideIn("left", "tween", 0.2, 1)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
@@ -175,7 +172,7 @@ const Contact = () => {
           </motion.div>
 
           <motion.div
-            variants={isSmallScreen ? minimalFadeIn : slideIn("right", "tween", 0.2, 1)}
+            variants={isSmallScreen ? noAnimation : slideIn("right", "tween", 0.2, 1)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
