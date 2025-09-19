@@ -132,7 +132,7 @@ export default function FilesViewOnlyComponent({ userId }) {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-y-auto scroll pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-y-auto">
             {filteredFiles.map((fileName, index) => {
               const isImage = /\.(png|jpg|jpeg)$/i.test(fileName);
               const isPdf = /\.pdf$/i.test(fileName);
@@ -143,7 +143,7 @@ export default function FilesViewOnlyComponent({ userId }) {
                   className="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 p-5 group"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-1 min-w-0">
                       <div className="bg-white p-3 rounded-lg shadow-sm border">
                         {isPdf ? (
                           <FaFilePdf className="text-red-500 text-2xl" />
