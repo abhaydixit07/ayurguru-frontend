@@ -19,13 +19,13 @@ const teamMembers = [
         linkedin: "https://www.linkedin.com/in/khageshsharma",
         github: "https://github.com/khagesh2409",
     },
-    {
-        name: "Shaurya Gupta",
-        img: Shaurya,
-        role: "Frontend Developer",
-        linkedin: "https://www.linkedin.com/in/shaurya--gupta",
-        github: "https://github.com/CodeByShaurya",
-    },
+    // {
+    //     name: "Shaurya Gupta",
+    //     img: Shaurya,
+    //     role: "Frontend Developer",
+    //     linkedin: "https://www.linkedin.com/in/shaurya--gupta",
+    //     github: "https://github.com/CodeByShaurya",
+    // },
 ];
 
 const About = () => {
@@ -69,7 +69,7 @@ const About = () => {
                     </div>
                     <div className="flex-1 flex justify-center">
                         <img
-                            src="./Missing SemiColon.jpg"
+                            src="https://cayeit.com/wp-content/uploads/2024/04/cayeit-ayurveda-ai.webp"
                             alt="Ayurvedic Wellness"
                             className="rounded-xl shadow-md w-full max-w-xs object-cover"
                         />
@@ -95,7 +95,7 @@ const About = () => {
                     </div>
                     <div className="flex-1 flex justify-center">
                         <img
-                            src="https://media.post.rvohealth.io/wp-content/uploads/2024/02/Ayurvedic-header.jpg"
+                            src="https://igmpi.ac.in/public/images/robotic-hand-delicately-holds-white-flower_14117-1068695.jpg"
                             alt="Our Story"
                             className="rounded-xl shadow-md w-full max-w-xs object-cover"
                         />
@@ -112,11 +112,11 @@ const About = () => {
                     <h2 className="text-3xl sm:text-4xl font-spacegroteskbold text-center text-gray-900 mb-10">
                         Meet <span className="text-emerald-600">Our Team</span>
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                    <div className="flex flex-wrap items-center justify-center gap-8">
                         {teamMembers.map((member, idx) => (
                             <div
                                 key={idx}
-                                className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group flex flex-col items-center"
+                                className="bg-white rounded-2xl shadow-xl w-[300px] overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group flex flex-col items-center"
                             >
                                 <div className="relative w-full h-60 overflow-hidden flex items-center justify-center bg-gray-50">
                                     <img
