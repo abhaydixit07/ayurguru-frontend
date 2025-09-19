@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ContextApp } from "../utils/Context";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
@@ -8,7 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import Fileupload from "../Pages/fileUpload";
 import MobileFileUpload from "../Pages/mobileFileUpload";
-import { FaFileUpload } from "react-icons/fa";
+import UploadOnlyComponent from "./UploadOnlyComponent";
+import FilesViewOnlyComponent from "./FilesViewOnlyComponent";
+import { FaFileUpload, FaPaperclip } from "react-icons/fa";
+import { HiViewGrid } from "react-icons/hi";
 import axios from "axios";
 
 function ChatContainer() {
@@ -25,11 +28,84 @@ function ChatContainer() {
     currentConversationId,
     handlePersonalizedSend,
     personalizedChatisSelected,
+    msgEnd,
+    chats,
   } = useContext(ContextApp);
+
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [showFilesModal, setShowFilesModal] = useState(false);
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
+  
+  // Auto-scroll to bottom when user starts typing
+  useEffect(() => {
+    if (chatValue.length > 0 && msgEnd.current) {
+      msgEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatValue, msgEnd]);
+
+  // Auto-scroll when modals close to show latest messages
+  useEffect(() => {
+    if (!showAttachmentModal && !showFilesModal && msgEnd.current) {
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [showAttachmentModal, showFilesModal, msgEnd]);
+
+  // Enhanced auto-scroll for personalized chat - scroll whenever chats update
+  useEffect(() => {
+    if (personalizedChatisSelected && msgEnd.current) {
+      // Small delay to ensure DOM has updated
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    }
+  }, [personalizedChatisSelected, msgEnd]);
+
+  // Universal auto-scroll: Scroll when chats change (initial load + new messages)
+  useEffect(() => {
+    if (chats && chats.length > 0 && msgEnd.current) {
+      // Delay to ensure DOM is fully updated after state change
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    }
+  }, [chats, msgEnd]);
+
+  // Immediate scroll on chat mode switch for existing messages
+  useEffect(() => {
+    if ((personalizedChatisSelected || currentConversationId) && chats && chats.length > 0 && msgEnd.current) {
+      // Longer delay for mode switches to ensure UI is fully rendered
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [personalizedChatisSelected, currentConversationId]);
+
+  // Force scroll on any message send
+  const scrollToBottom = () => {
+    if (msgEnd.current) {
+      setTimeout(() => {
+        msgEnd.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
+
+  // Enhanced personalized send with scroll
+  const handlePersonalizedSendWithScroll = () => {
+    handlePersonalizedSend();
+    scrollToBottom();
+  };
+
+  // Enhanced key press handler with scroll
+  const handleKeyPress2WithScroll = (e) => {
+    if (e.key === "Enter") {
+      handlePersonalizedSendWithScroll();
+    }
+  };
   // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -80,7 +156,7 @@ function ChatContainer() {
       )}
 
       <span
-        className="rounded-xl bg-gray-600 px-3 py-[9px] lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 border border-gray-600 hover:bg-gray-800 duration-200"
+        className="rounded-xl mt-2 bg-gray-600 px-3 py-[9px]  lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 border border-gray-600 hover:bg-gray-800 duration-200"
         title="Open sidebar"
         onClick={() => setMobile(!Mobile)}
       >
@@ -103,105 +179,137 @@ function ChatContainer() {
         >
           <BiLogOut fontSize={30} />
         </button>
-        {personalizedChatisSelected ? (
-          <div className="flex items-center justify-center lg:hidden">
-            <button
-              className="btn bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
-              onClick={() => document.getElementById("my_modal_3").showModal()}
-            >
-              <FaFileUpload fontSize={30} />
-            </button>
-            <dialog id="my_modal_3" className="modal p-4 rounded-lg">
-              <div className="modal-box">
-                <form method="dialog">
-                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                    ✕
-                  </button>
-                </form>
-                <h3 className="text-md pt-4 text-center font-spacegrotesksemibold">
-                  Upload Your Document or Image
-                </h3>
-                <p className="py-4">
-                  <MobileFileUpload userId={userId} />
-                </p>
-              </div>
-            </dialog>
-          </div>
-        ) : null}
       </div>
 
       {personalizedChatisSelected ? (
         <>
-          <div className="w-full h-full lg:flex items-center justify-center hidden">
-            <Fileupload userId={userId} />
-            <div className="flex flex-col h-[100%]">
-              <Chat />
-              <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
-                <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
-                  <input
-                    type="text"
-                    placeholder="Send a message"
-                    className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
-                    value={chatValue}
-                    onChange={(e) => setChatValue(e.target.value)}
-                    onKeyUp={handleKeyPress2}
-                  />
-                  <RiSendPlane2Fill
-                    title="send message"
-                    className={
-                      chatValue.length <= 0
-                        ? "text-gray-400 cursor-auto mx-3 text-xl"
-                        : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
-                    }
-                    onClick={handlePersonalizedSend}
-                  />
-                </span>
-                <p className="lg:text-xs text-gray-400 text-center text-[10px]">
-                  *Ayurvedic Suggestions are based on AI and ML. Please consult
-                  a doctor if you have any health issues. We are not responsible
-                  for any wrong suggestions given by the AI*
-                </p>
+          <Chat />
+
+          <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
+            {/* Chat Input with Integrated Buttons */}
+            <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-3/5 xl:w-2/3">
+              {/* Left side buttons */}
+              <div className="flex items-center gap-1 pl-2">
+                <button
+                  onClick={() => setShowAttachmentModal(true)}
+                  className="p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300 flex items-center gap-2"
+                  title="Upload Document"
+                >
+                  <FaPaperclip className="text-md" />
+                  <span className="hidden lg:inline text-sm">Upload</span>
+                </button>
+                
+                <button
+                  onClick={() => setShowFilesModal(true)}
+                  className="p-2 text-gray-300 hover:text-emerald-400 hover:bg-gray-700 rounded-lg transition-all duration-300 flex items-center gap-2"
+                  title="View All Attachments"
+                >
+                  <HiViewGrid className="text-md" />
+                  <span className="hidden lg:inline text-sm">View</span>
+                </button>
+                
+                {/* Separator */}
+                <div className="h-6 w-px bg-gray-500 mx-1"></div>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Send a message"
+                className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
+                value={chatValue}
+                onChange={(e) => setChatValue(e.target.value)}
+                onKeyUp={handleKeyPress2WithScroll}
+              />
+              <RiSendPlane2Fill
+                title="send message"
+                className={
+                  chatValue.length <= 0
+                    ? "text-gray-400 cursor-auto mx-3 text-2xl"
+                    : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
+                }
+                onClick={handlePersonalizedSendWithScroll}
+              />
+            </span>
+            
+            <p className="lg:text-xs text-gray-400 text-center text-[10px]">
+              *Ayurvedic Suggestions are based on AI and ML. Please consult a
+              doctor if you have any health issues. We are not responsible for
+              any wrong suggestions given by the AI*
+            </p>
+          </div>
+
+          {/* Upload Modal - Only shows upload functionality */}
+          {showAttachmentModal && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden transform animate-slideUp border border-gray-200">
+                {/* Header */}
+                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-8 py-6">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">Upload New Document</h3>
+                      <p className="text-emerald-100 mt-1">Add your medical files or reports for personalized analysis</p>
+                    </div>
+                    <button
+                      onClick={() => setShowAttachmentModal(false)}
+                      className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-3 transition-all duration-300 transform hover:scale-110"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                </div>
+
+                {/* Content - Upload Only */}
+                <div className="p-8 overflow-y-auto max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
+                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                    <UploadOnlyComponent userId={userId} onSuccess={() => setShowAttachmentModal(false)} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="w-full h-full lg:hidden items-center justify-center flex overflow-y-hidden">
-            <div className="flex flex-col h-[100%]">
-              <Chat />
-              <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
-                <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
-                  <input
-                    type="text"
-                    placeholder="Send a message"
-                    className="h-full text-white bg-transparent px-3 py-4 w-full border-none outline-none text-base"
-                    value={chatValue}
-                    onChange={(e) => setChatValue(e.target.value)}
-                    onKeyUp={handleKeyPress2}
-                  />
-                  <RiSendPlane2Fill
-                    title="send message"
-                    className={
-                      chatValue.length <= 0
-                        ? "text-gray-400 cursor-auto mx-3 text-xl"
-                        : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
-                    }
-                    onClick={handlePersonalizedSend}
-                  />
-                </span>
-                <p className="lg:text-xs text-gray-400 text-center text-[10px]">
-                  *Ayurvedic Suggestions are based on AI and ML. Please consult
-                  a doctor if you have any health issues. We are not responsible
-                  for any wrong suggestions given by the AI*
-                </p>
+          )}
+
+          {/* Files View Modal - Only shows file list */}
+          {showFilesModal && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden transform animate-slideUp border border-gray-200">
+                {/* Header */}
+                <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">Your Medical Documents</h3>
+                      <p className="text-blue-100 mt-1">View, download, and manage all your uploaded files</p>
+                    </div>
+                    <button
+                      onClick={() => setShowFilesModal(false)}
+                      className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-3 transition-all duration-300 transform hover:scale-110"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                </div>
+
+                {/* Content - Files List Only */}
+                <div className="p-8 overflow-y-auto max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
+                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                    <FilesViewOnlyComponent userId={userId} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </>
       ) : currentConversationId ? (
         <>
           <Chat />
 
           <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
-            <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-2/5 xl:w-1/2">
+            <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-3/5 xl:w-2/3">
               <input
                 type="text"
                 placeholder="Send a message"
@@ -214,7 +322,7 @@ function ChatContainer() {
                 title="send message"
                 className={
                   chatValue.length <= 0
-                    ? "text-gray-400 cursor-auto mx-3 text-xl"
+                    ? "text-gray-400 cursor-auto mx-3 text-2xl"
                     : "text-white cursor-pointer mx-3 text-3xl p-1 rounded shadow-md"
                 }
                 onClick={handleSend}
