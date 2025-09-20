@@ -102,7 +102,6 @@ export default function FilesViewOnlyComponent({ userId, showHeading = true, sho
           </div>
         )}
 
-        {/* Search Bar */}
         <div className="relative">
           <FaSearch className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
           <input
@@ -115,7 +114,6 @@ export default function FilesViewOnlyComponent({ userId, showHeading = true, sho
         </div>
       </div>
 
-      {/* Summary (optional top) */}
       {summaryPosition === 'top' && (
         <div className="mb-3 md:mb-4 pt-2 md:pt-3 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs md:text-sm text-gray-500 font-spacegroteskregular">
@@ -128,7 +126,6 @@ export default function FilesViewOnlyComponent({ userId, showHeading = true, sho
         </div>
       )}
 
-      {/* Files List */}
       <div className="flex-1 overflow-hidden">
         {fileFetchLoading ? (
           <div className="flex-1 flex items-center justify-center h-64">
@@ -217,7 +214,6 @@ export default function FilesViewOnlyComponent({ userId, showHeading = true, sho
         )}
       </div>
 
-      {/* Stats Footer (optional bottom) */}
       {summaryPosition === 'bottom' && (
         <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs md:text-sm text-gray-500 font-spacegroteskregular">

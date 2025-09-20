@@ -14,19 +14,15 @@ function Chat() {
     }
   }, [chats]);
 
-  // Immediate scroll when chats first load or when length changes significantly
   useEffect(() => {
     if (chats && chats.length > 0 && msgEnd.current) {
-      // Check if this is initial load (big jump in length) or just one new message
       const lengthDiff = chats.length - prevChatsLength.current;
       
       if (lengthDiff > 2) {
-        // Initial load - immediate scroll
         setTimeout(() => {
           msgEnd.current.scrollIntoView({ behavior: "auto" });
         }, 100);
       } else if (lengthDiff > 0) {
-        // New message - smooth scroll
         setTimeout(() => {
           msgEnd.current.scrollIntoView({ behavior: "smooth" });
         }, 50);
@@ -36,7 +32,6 @@ function Chat() {
     }
   }, [chats?.length]);
 
-  // Force scroll when switching to personalized chat with existing messages
   useEffect(() => {
     if (personalizedChatisSelected && chats && chats.length > 0 && msgEnd.current) {
       setTimeout(() => {
@@ -45,15 +40,13 @@ function Chat() {
     }
   }, [personalizedChatisSelected]);
 
-  // Initial mount scroll - ensure we scroll to bottom when component first renders with data
   useEffect(() => {
     if (chats && chats.length > 0 && msgEnd.current) {
-      // Use auto behavior for initial scroll (faster)
       setTimeout(() => {
         msgEnd.current.scrollIntoView({ behavior: "auto" });
       }, 100);
     }
-  }, []); // Only run on mount
+  }, []);
 
   return (
     <div className="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden overflow-y-auto px-2 py-1 scroll">

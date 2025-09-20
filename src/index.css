@@ -151,3 +151,30 @@ html, body {
 .animate-sheet-down {
   animation: sheetDown 0.24s ease-in forwards;
 }
+
+/* Mobile drawer animations (sidebar) */
+@keyframes drawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawerOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-drawer-in {
+  animation: drawerIn 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-drawer-out {
+  animation: drawerOut 0.24s ease-in forwards;
+}

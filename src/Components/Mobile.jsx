@@ -16,6 +16,7 @@ function Mobile() {
     handlePersonalizedChatClick,
   } = useContext(ContextApp);
   const [conversations, setConversations] = useState([]);
+  const [closing, setClosing] = useState(false);
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
@@ -40,7 +41,6 @@ function Mobile() {
     fetchConversations();
   }, [token, userId]);
 
-  // Lock background scroll while mobile drawer is open
   useEffect(() => {
     if (Mobile) {
       document.body.style.overflow = 'hidden';
@@ -89,27 +89,38 @@ function Mobile() {
     }
   };
 
-  if (!Mobile) return null;
+  if (!Mobile && !closing) return null;
 
   return (
     <div
       className="fixed inset-0 h-[100dvh] z-50 bg-black/40 flex justify-between items-start"
-      onClick={() => setMobile(false)}
+      onClick={() => {
+        setClosing(true);
+        setTimeout(() => { setClosing(false); setMobile(false); }, 240);
+      }}
     >
       <div
-        className="h-[100dvh] bg-emerald-600 backdrop-blur-[1px] w-[300px] flex items-stretch justify-between p-2 pb-[env(safe-area-inset-bottom)] text-white flex-col translate-x-0"
+        className={`h-[100dvh] bg-emerald-600 backdrop-blur-[1px] w-[300px] flex items-stretch justify-between p-2 pb-[env(safe-area-inset-bottom)] text-white flex-col ${closing ? 'animate-drawer-out' : 'animate-drawer-in'}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col items-center justify-between gap-2 w-full">
-          <div className="flex items-center w-full gap-2">
-            <span
-              className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl w-full py-2 text-lg flex gap-2 items-center justify-center cursor-pointer duration-200 font-spacegroteskmedium"
-              onClick={handleNewChat}
-            >
-              <AiOutlinePlus fontSize={25} />
-              <span className="font-spacegrotesksemibold">New Chat</span>
-            </span>
-          </div>
+        <div className="flex items-center w-full gap-2">
+          <span
+            className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl flex-1 py-2 text-lg flex gap-2 items-center justify-center cursor-pointer duration-200 font-spacegroteskmedium"
+            onClick={handleNewChat}
+          >
+            <AiOutlinePlus fontSize={25} />
+            <span className="font-spacegrotesksemibold">New Chat</span>
+          </span>
+          <button
+            className="border border-white/20 bg-white/10 hover:bg-white/15 text-white rounded-xl px-3 py-[9px] flex items-center justify-center cursor-pointer duration-200"
+            title="Close sidebar"
+            onClick={() => {
+              setClosing(true);
+              setTimeout(() => { setClosing(false); setMobile(false); }, 240);
+            }}
+          >
+            <MdClose fontSize={26} />
+          </button>
         </div>
 
         <div className="w-full p-2 flex-1 min-h-0 flex items-start justify-start flex-col overflow-hidden overflow-y-auto text-sm scroll my-2">
@@ -166,14 +177,6 @@ function Mobile() {
           </span>
         </div>
       </div>
-
-      <span
-        className="border border-white/20 bg-white/10 hover:bg-white/15 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer duration-200"
-        title="Close sidebar"
-        onClick={() => setMobile(false)}
-      >
-        <MdClose fontSize={30} />
-      </span>
     </div>
   );
 }

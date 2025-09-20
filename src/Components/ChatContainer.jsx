@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContextApp } from "../utils/Context";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { FaHome } from "react-icons/fa";
@@ -6,12 +6,9 @@ import { RiSendPlane2Fill } from "react-icons/ri";
 import Chat from "./Chat";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import Fileupload from "../Pages/fileUpload";
-import MobileFileUpload from "../Pages/mobileFileUpload";
 import UploadOnlyComponent from "./UploadOnlyComponent";
 import FilesViewOnlyComponent from "./FilesViewOnlyComponent";
-import { FaFileUpload, FaPaperclip } from "react-icons/fa";
-import { HiViewGrid } from "react-icons/hi";
+import { FaPaperclip } from "react-icons/fa";
 import axios from "axios";
 
 function ChatContainer() {
@@ -40,15 +37,13 @@ function ChatContainer() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  
-  // Auto-scroll to bottom when user starts typing
+
   useEffect(() => {
     if (chatValue.length > 0 && msgEnd.current) {
       msgEnd.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatValue, msgEnd]);
 
-  // Auto-scroll when modals close to show latest messages
   useEffect(() => {
     if (!showAttachmentModal && !showFilesModal && msgEnd.current) {
       setTimeout(() => {
@@ -57,37 +52,30 @@ function ChatContainer() {
     }
   }, [showAttachmentModal, showFilesModal, msgEnd]);
 
-  // Enhanced auto-scroll for personalized chat - scroll whenever chats update
   useEffect(() => {
     if (personalizedChatisSelected && msgEnd.current) {
-      // Small delay to ensure DOM has updated
       setTimeout(() => {
         msgEnd.current.scrollIntoView({ behavior: "smooth" });
       }, 50);
     }
   }, [personalizedChatisSelected, msgEnd]);
 
-  // Universal auto-scroll: Scroll when chats change (initial load + new messages)
   useEffect(() => {
     if (chats && chats.length > 0 && msgEnd.current) {
-      // Delay to ensure DOM is fully updated after state change
       setTimeout(() => {
         msgEnd.current.scrollIntoView({ behavior: "smooth" });
       }, 150);
     }
   }, [chats, msgEnd]);
 
-  // Immediate scroll on chat mode switch for existing messages
   useEffect(() => {
     if ((personalizedChatisSelected || currentConversationId) && chats && chats.length > 0 && msgEnd.current) {
-      // Longer delay for mode switches to ensure UI is fully rendered
       setTimeout(() => {
         msgEnd.current.scrollIntoView({ behavior: "smooth" });
       }, 300);
     }
   }, [personalizedChatisSelected, currentConversationId]);
 
-  // Force scroll on any message send
   const scrollToBottom = () => {
     if (msgEnd.current) {
       setTimeout(() => {
@@ -96,26 +84,23 @@ function ChatContainer() {
     }
   };
 
-  // Enhanced personalized send with scroll
   const handlePersonalizedSendWithScroll = () => {
     handlePersonalizedSend();
     scrollToBottom();
   };
 
-  // Enhanced key press handler with scroll
   const handleKeyPress2WithScroll = (e) => {
     if (e.key === "Enter") {
       handlePersonalizedSendWithScroll();
     }
   };
-  // Logout handler
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     navigate("/");
   };
 
-  // Responsive modal close with bottom-sheet animation on mobile
   const isMobileViewport = () =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
 
@@ -125,7 +110,7 @@ function ChatContainer() {
       setTimeout(() => {
         setClosingUpload(false);
         setShowAttachmentModal(false);
-      }, 240); // match .animate-sheet-down duration
+      }, 240);
     } else {
       setShowAttachmentModal(false);
     }
@@ -175,7 +160,7 @@ function ChatContainer() {
     >
       {showSlide && (
         <span
-          className="rounded-xl px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white m-1 bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-colors duration-200 z-20"
+          className="rounded-xl px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-colors duration-200 z-20 absolute top-2 left-2"
           title="Open sidebar"
           onClick={() => setShowSlide(!showSlide)}
         >
@@ -184,7 +169,7 @@ function ChatContainer() {
       )}
 
       <span
-        className="rounded-xl mt-2 border border-white/20 bg-white/10 hover:bg-white/15 lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 px-3 py-[9px] transition-colors duration-200"
+        className="rounded-xl mt-2 border border-white/20 bg-emerald-600 hover:bg-emerald-700 lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 px-3 py-[9px] transition-colors duration-200"
         title="Open sidebar"
         onClick={() => setMobile(!Mobile)}
       >
@@ -207,7 +192,7 @@ function ChatContainer() {
             onClick={() => setShowFilesModal(true)}
           >
             <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
             </svg>
           </button>
         )}
@@ -226,9 +211,7 @@ function ChatContainer() {
           <Chat />
 
           <div className="w-full m-auto flex items-center justify-center flex-col gap-2 my-2">
-            {/* Chat Input with Integrated Buttons */}
             <span className="flex gap-2 items-center justify-center bg-gray-600 rounded-lg shadow-md w-[90%] lg:w-3/5 xl:w-2/3">
-              {/* Left side buttons */}
               <div className="flex items-center gap-1 pl-2">
                 <button
                   onClick={() => setShowAttachmentModal(true)}
@@ -238,8 +221,7 @@ function ChatContainer() {
                   <FaPaperclip className="text-md" />
                   <span className="hidden lg:inline text-sm">Upload</span>
                 </button>
-                
-                {/* Separator */}
+
                 <div className="h-6 w-px bg-gray-500 mx-1"></div>
               </div>
 
@@ -261,7 +243,7 @@ function ChatContainer() {
                 onClick={handlePersonalizedSendWithScroll}
               />
             </span>
-            
+
             <p className="lg:text-xs text-gray-400 text-center text-[10px]">
               *Ayurvedic Suggestions are based on AI and ML. Please consult a
               doctor if you have any health issues. We are not responsible for
@@ -269,7 +251,6 @@ function ChatContainer() {
             </p>
           </div>
 
-          {/* Upload Modal - Only shows upload functionality */}
           {showAttachmentModal && (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-fadeIn">
               <div
@@ -278,7 +259,6 @@ function ChatContainer() {
                 className={`w-full sm:w-auto bg-gradient-to-br from-gray-50 to-white rounded-t-2xl sm:rounded-3xl shadow-2xl sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl max-h-[85vh] sm:max-h-[95vh] overflow-hidden transform border border-gray-200 
                   sm:animate-slideUp ${closingUpload ? 'animate-sheet-down' : 'animate-sheet-up'}`}
               >
-                {/* Header */}
                 <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-4 sm:px-6 md:px-8 sm:py-6">
                   <div className="flex justify-between items-center">
                     <div>
@@ -297,7 +277,6 @@ function ChatContainer() {
                   </div>
                 </div>
 
-                {/* Content - Upload Only */}
                 <div className="p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[calc(85vh-96px)] sm:max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
                   <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6">
                     <UploadOnlyComponent userId={userId} onSuccess={() => setShowAttachmentModal(false)} />
@@ -307,7 +286,6 @@ function ChatContainer() {
             </div>
           )}
 
-          {/* Files View Modal - Only shows file list */}
           {showFilesModal && (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-fadeIn">
               <div
@@ -316,7 +294,6 @@ function ChatContainer() {
                 className={`w-full sm:w-auto bg-gradient-to-br from-gray-50 to-white rounded-t-2xl sm:rounded-3xl shadow-2xl sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl max-h-[85vh] sm:max-h-[95vh] overflow-hidden transform border border-gray-200 
                   sm:animate-slideUp ${closingFiles ? 'animate-sheet-down' : 'animate-sheet-up'}`}
               >
-                {/* Header */}
                 <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-4 sm:px-6 md:px-8 sm:py-6">
                   <div className="flex justify-between items-center">
                     <div>
@@ -335,7 +312,6 @@ function ChatContainer() {
                   </div>
                 </div>
 
-                {/* Content - Search, Summary, List */}
                 <div className="p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[calc(85vh-96px)] sm:max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
                   <FilesViewOnlyComponent userId={userId} showHeading={false} showSubheadingCount={false} summaryPosition="top" />
                 </div>
@@ -375,11 +351,11 @@ function ChatContainer() {
           </div>
         </>
       ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center">
-          <h1 className="text-6xl text-gray-800 font-spacegroteskbold drop-shadow-3xl">
+        <div className="w-full h-full flex flex-col items-center justify-center text-center">
+          <h1 className="md:text-6xl text-4xl text-gray-800 font-spacegroteskbold drop-shadow-3xl">
             AyurGuru
           </h1>
-          <p className="text-2xl text-gray-500 mt-4 drop-shadow-md font-spacegroteskregular">
+          <p className="md:text-2xl text-lg text-gray-500 mt-4 drop-shadow-md font-spacegroteskregular">
             Your Personalized Ayurvedic Guide
           </p>
         </div>

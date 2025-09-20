@@ -133,7 +133,6 @@ export default function Nav() {
               </button>
             </div>
 
-            {/* Mobile dropdown menu - positioned absolutely */}
             <div className={`md:hidden absolute top-full left-0 right-0 mt-2 z-50 transition-all duration-300 ease-in-out ${isMenuOpen
               ? 'opacity-100 visible translate-y-0'
               : 'opacity-0 invisible -translate-y-2'

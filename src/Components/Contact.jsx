@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import EarthCanvas from "./canvas/Earth";
 import { SectionWrapper } from "../hoc";
@@ -78,7 +78,6 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start lg:items-center">
-          {/* Form section - No animation for small screens (block md:hidden) */}
           <div className="relative order-2 lg:order-1 block md:hidden">
             <div className="bg-white/80 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl">
               <div className="mb-6 sm:mb-8">
@@ -156,7 +155,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Form section - With animation for md+ screens (hidden md:block) */}
           <motion.div
             variants={slideIn("left", "tween", 0.2, 1)}
             initial="hidden"
@@ -240,7 +238,6 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Earth section - No animation for small screens (block md:hidden) */}
           <div className="relative order-1 lg:order-2 block md:hidden">
             <div className="relative bg-gradient-to-br from-green-900/20 to-emerald-900/20 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/30"></div>
@@ -262,7 +259,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Earth section - With animation for md+ screens (hidden md:block) */}
           <motion.div
             variants={slideIn("right", "tween", 0.2, 1)}
             initial="hidden"

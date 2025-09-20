@@ -76,13 +76,13 @@ function LeftNav() {
 
   return (
     <div
-      className={`h-[100dvh] bg-emerald-600 backdrop-blur-[1px] hidden lg:flex items-center justify-between text-white flex-col overflow-hidden transition-all duration-300 ease-out border-r z-10 ${
+      className={`h-[100dvh] bg-emerald-600 backdrop-blur-[1px] hidden lg:flex items-center justify-between text-white flex-col overflow-hidden transition-all duration-300 ease-out border-r z-10 p-3 ${
         showSlide
-          ? "w-0 border-transparent p-0 opacity-0 pointer-events-none"
-          : "w-[300px] border-white/20 p-3 opacity-100 pointer-events-auto"
+          ? "w-0 border-transparent opacity-0 pointer-events-none"
+          : "w-[300px] border-white/20 opacity-100 pointer-events-auto"
       }`}
     >
-      <div className={`w-full h-full flex flex-col transition-all duration-300 ${showSlide ? "opacity-0 -translate-x-2" : "opacity-100 translate-x-0"}`}>
+      <div className={`w-full h-full flex flex-col transition-opacity duration-300 ${showSlide ? "opacity-0" : "opacity-100"}`}>
       <div className="flex flex-col items-start justify-start w-full gap-2">
         <div className="flex items-center w-full gap-2">
           <span

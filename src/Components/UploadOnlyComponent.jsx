@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { MdDescription } from "react-icons/md";
+// import { MdDescription } from "react-icons/md";
 
 export default function UploadOnlyComponent({ userId, onSuccess }) {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -94,12 +94,10 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
 
         alert("File uploaded successfully!");
         
-        // Reset form
         setSelectedFile(null);
         setFileType("");
         setSummary("");
         
-        // Call onSuccess callback after a short delay
         setTimeout(() => {
           onSuccess && onSuccess();
         }, 1500);
@@ -114,7 +112,6 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
 
   return (
     <div className="md:h-[400px] h-[300px] md:w-[50vw] w-full flex flex-col">
-      {/* Upload Section */}
       <form onSubmit={handleSubmit} className="mb-4 md:mb-6">
         <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-all duration-300 p-4 md:p-8">
           <div className="text-center">
