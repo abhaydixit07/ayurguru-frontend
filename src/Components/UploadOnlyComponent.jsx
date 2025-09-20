@@ -113,7 +113,7 @@ export default function UploadOnlyComponent({ userId, onSuccess }) {
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="md:h-[400px] h-[300px] md:w-[50vw] w-full flex flex-col">
       {/* Upload Section */}
       <form onSubmit={handleSubmit} className="mb-4 md:mb-6">
         <div className="bg-white rounded-xl md:rounded-2xl shadow-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 transition-all duration-300 p-4 md:p-8">

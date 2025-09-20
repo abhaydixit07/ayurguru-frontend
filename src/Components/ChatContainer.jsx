@@ -34,6 +34,8 @@ function ChatContainer() {
 
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const [showFilesModal, setShowFilesModal] = useState(false);
+  const [closingUpload, setClosingUpload] = useState(false);
+  const [closingFiles, setClosingFiles] = useState(false);
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -113,6 +115,34 @@ function ChatContainer() {
     navigate("/");
   };
 
+  // Responsive modal close with bottom-sheet animation on mobile
+  const isMobileViewport = () =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+
+  const closeUploadDialog = () => {
+    if (isMobileViewport()) {
+      setClosingUpload(true);
+      setTimeout(() => {
+        setClosingUpload(false);
+        setShowAttachmentModal(false);
+      }, 240); // match .animate-sheet-down duration
+    } else {
+      setShowAttachmentModal(false);
+    }
+  };
+
+  const closeFilesDialog = () => {
+    if (isMobileViewport()) {
+      setClosingFiles(true);
+      setTimeout(() => {
+        setClosingFiles(false);
+        setShowFilesModal(false);
+      }, 240);
+    } else {
+      setShowFilesModal(false);
+    }
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -140,14 +170,12 @@ function ChatContainer() {
   return (
     <div
       className={
-        showSlide
-          ? "h-[100dvh] w-screen flex items-start justify-between flex-col p-2"
-          : "h-[100dvh] w-full lg:w-[calc(100%-300px)] flex items-start justify-between flex-col"
+        `h-[100dvh] flex-1 flex items-start justify-between flex-col p-2 transition-all duration-300 ease-out w-full`
       }
     >
       {showSlide && (
         <span
-          className="rounded-xl px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white m-1 hover:bg-gray-800 duration-200 bg-gray-600"
+          className="rounded-xl px-3 py-[9px] hidden lg:flex items-center justify-center cursor-pointer text-white m-1 bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-colors duration-200 z-20"
           title="Open sidebar"
           onClick={() => setShowSlide(!showSlide)}
         >
@@ -156,16 +184,16 @@ function ChatContainer() {
       )}
 
       <span
-        className="rounded-xl mt-2 bg-gray-600 px-3 py-[9px]  lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 border border-gray-600 hover:bg-gray-800 duration-200"
+        className="rounded-xl mt-2 border border-white/20 bg-white/10 hover:bg-white/15 lg:hidden flex items-center justify-center cursor-pointer text-white mt-0 mb-3 px-3 py-[9px] transition-colors duration-200"
         title="Open sidebar"
         onClick={() => setMobile(!Mobile)}
       >
         <LuPanelLeftOpen fontSize={24} />
       </span>
 
-      <div className="absolute top-2 right-2 flex gap-2">
+      <div className="absolute top-2 right-2 flex gap-2 z-30">
         <button
-          className="bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl shadow-md transition-colors duration-200"
           title="Home"
           onClick={() => navigate("/")}
         >
@@ -185,7 +213,7 @@ function ChatContainer() {
         )}
 
         <button
-          className="bg-gray-600 text-white p-2 rounded-xl shadow-md hover:bg-gray-800 transition-all duration-300"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl shadow-md transition-colors duration-200"
           title="Logout"
           onClick={handleLogout}
         >
@@ -243,30 +271,35 @@ function ChatContainer() {
 
           {/* Upload Modal - Only shows upload functionality */}
           {showAttachmentModal && (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden transform animate-slideUp border border-gray-200">
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-fadeIn">
+              <div
+                role="dialog"
+                aria-labelledby="uploadDialogTitle"
+                className={`w-full sm:w-auto bg-gradient-to-br from-gray-50 to-white rounded-t-2xl sm:rounded-3xl shadow-2xl sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl max-h-[85vh] sm:max-h-[95vh] overflow-hidden transform border border-gray-200 
+                  sm:animate-slideUp ${closingUpload ? 'animate-sheet-down' : 'animate-sheet-up'}`}
+              >
                 {/* Header */}
-                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-8 py-6">
+                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-4 sm:px-6 md:px-8 sm:py-6">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-2xl font-bold text-white">Upload New Document</h3>
-                      <p className="text-emerald-100 mt-1">Add your medical files or reports for personalized analysis</p>
+                      <h3 id="uploadDialogTitle" className="text-xl sm:text-2xl font-spacegroteskbold text-white">Upload New Document</h3>
+                      <p className="text-emerald-100 mt-1 font-spacegroteskregular text-sm sm:text-base">Add your medical files or reports for personalized analysis</p>
                     </div>
                     <button
-                      onClick={() => setShowAttachmentModal(false)}
-                      className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-3 transition-all duration-300 transform hover:scale-110"
+                      onClick={closeUploadDialog}
+                      className="text-white/85 hover:text-white hover:bg-white/20 rounded-full p-2 sm:p-3 transition-all duration-200"
+                      aria-label="Close upload dialog"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
                   </div>
-                  
                 </div>
 
                 {/* Content - Upload Only */}
-                <div className="p-8 overflow-y-auto max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
-                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div className="p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[calc(85vh-96px)] sm:max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
+                  <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6">
                     <UploadOnlyComponent userId={userId} onSuccess={() => setShowAttachmentModal(false)} />
                   </div>
                 </div>
@@ -276,32 +309,35 @@ function ChatContainer() {
 
           {/* Files View Modal - Only shows file list */}
           {showFilesModal && (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-              <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden transform animate-slideUp border border-gray-200">
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 animate-fadeIn">
+              <div
+                role="dialog"
+                aria-labelledby="filesDialogTitle"
+                className={`w-full sm:w-auto bg-gradient-to-br from-gray-50 to-white rounded-t-2xl sm:rounded-3xl shadow-2xl sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl max-h-[85vh] sm:max-h-[95vh] overflow-hidden transform border border-gray-200 
+                  sm:animate-slideUp ${closingFiles ? 'animate-sheet-down' : 'animate-sheet-up'}`}
+              >
                 {/* Header */}
-                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-8 py-6">
+                <div className="relative bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-4 sm:px-6 md:px-8 sm:py-6">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-2xl font-bold text-white">Your Medical Documents</h3>
-                      <p className="text-blue-100 mt-1">View, download, and manage all your uploaded files</p>
+                      <h3 id="filesDialogTitle" className="text-xl sm:text-2xl font-spacegroteskbold text-white">Your Medical Documents</h3>
+                      <p className="text-emerald-100 mt-1 font-spacegroteskregular text-sm sm:text-base">View, download, and manage all your uploaded files</p>
                     </div>
                     <button
-                      onClick={() => setShowFilesModal(false)}
-                      className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-3 transition-all duration-300 transform hover:scale-110"
+                      onClick={closeFilesDialog}
+                      className="text-white/85 hover:text-white hover:bg-white/20 rounded-full p-2 sm:p-3 transition-all duration-200"
+                      aria-label="Close files dialog"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
                   </div>
-                  
                 </div>
 
-                {/* Content - Files List Only */}
-                <div className="p-8 overflow-y-auto max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
-                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-                    <FilesViewOnlyComponent userId={userId} />
-                  </div>
+                {/* Content - Search, Summary, List */}
+                <div className="p-4 sm:p-6 md:p-8 overflow-y-auto max-h-[calc(85vh-96px)] sm:max-h-[calc(95vh-140px)] bg-gradient-to-b from-gray-50 to-white">
+                  <FilesViewOnlyComponent userId={userId} showHeading={false} showSubheadingCount={false} summaryPosition="top" />
                 </div>
               </div>
             </div>
@@ -340,10 +376,10 @@ function ChatContainer() {
         </>
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <h1 className="text-6xl text-gray-800 font-bold drop-shadow-3xl">
+          <h1 className="text-6xl text-gray-800 font-spacegroteskbold drop-shadow-3xl">
             AyurGuru
           </h1>
-          <p className="text-2xl text-gray-500 mt-4 drop-shadow-md">
+          <p className="text-2xl text-gray-500 mt-4 drop-shadow-md font-spacegroteskregular">
             Your Personalized Ayurvedic Guide
           </p>
         </div>

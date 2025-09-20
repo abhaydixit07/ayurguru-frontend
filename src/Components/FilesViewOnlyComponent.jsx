@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { FaFileAlt, FaFilePdf, FaImage, FaTrashAlt, FaDownload, FaSearch } from "react-icons/fa";
 
-export default function FilesViewOnlyComponent({ userId }) {
+export default function FilesViewOnlyComponent({ userId, showHeading = true, showSubheadingCount = true, summaryPosition = 'bottom' }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [blobUrls, setBlobUrls] = useState({});
   const [deleteLoading, setDeleteLoading] = useState({});
@@ -76,27 +76,32 @@ export default function FilesViewOnlyComponent({ userId }) {
     fetchUserFiles();
   }, [userId]);
 
-  // Filter files based on search term
   const filteredFiles = uploadedFiles.filter(fileName =>
     fileName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const pdfCount = uploadedFiles.filter(f => f.endsWith('.pdf')).length;
+  const imageCount = uploadedFiles.filter(f => /(png|jpg|jpeg)$/i.test(f)).length;
+
   return (
-    <div className="h-full w-full flex flex-col">
-      {/* Header with Search */}
+    <div className="md:h-[400px] h-[400px] md:w-[50vw] w-full flex flex-col">
       <div className="mb-4 md:mb-6">
-        <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
-          <FaFileAlt className="text-blue-600 text-xl md:text-2xl" />
-          <div>
-            <h2 className="text-lg md:text-2xl font-semibold text-gray-800 font-spacegrotesksemibold">
-              Your Medical Documents
-            </h2>
-            <p className="text-sm md:text-base text-gray-600 font-spacegroteskregular">
-              {uploadedFiles.length} document{uploadedFiles.length !== 1 ? 's' : ''} in your collection
-            </p>
+        {showHeading && (
+          <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+            <FaFileAlt className="text-blue-600 text-xl md:text-2xl" />
+            <div>
+              <h2 className="text-lg md:text-2xl font-semibold text-gray-800 font-spacegrotesksemibold">
+                Your Medical Documents
+              </h2>
+              {showSubheadingCount && (
+                <p className="text-sm md:text-base text-gray-600 font-spacegroteskregular">
+                  {uploadedFiles.length} document{uploadedFiles.length !== 1 ? 's' : ''} in your collection
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-        
+        )}
+
         {/* Search Bar */}
         <div className="relative">
           <FaSearch className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
@@ -109,7 +114,20 @@ export default function FilesViewOnlyComponent({ userId }) {
           />
         </div>
       </div>
-      
+
+      {/* Summary (optional top) */}
+      {summaryPosition === 'top' && (
+        <div className="mb-3 md:mb-4 pt-2 md:pt-3 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs md:text-sm text-gray-500 font-spacegroteskregular">
+            <div className="flex items-center gap-2 md:gap-4">
+              <span>{pdfCount} PDF files</span>
+              <span>{imageCount} Images</span>
+            </div>
+            <span>Total: {uploadedFiles.length} documents</span>
+          </div>
+        </div>
+      )}
+
       {/* Files List */}
       <div className="flex-1 overflow-hidden">
         {fileFetchLoading ? (
@@ -136,7 +154,7 @@ export default function FilesViewOnlyComponent({ userId }) {
             {filteredFiles.map((fileName, index) => {
               const isImage = /\.(png|jpg|jpeg)$/i.test(fileName);
               const isPdf = /\.pdf$/i.test(fileName);
-              
+
               return (
                 <div
                   key={index}
@@ -166,7 +184,7 @@ export default function FilesViewOnlyComponent({ userId }) {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2 pt-2 md:pt-3 border-t border-gray-100">
                     <button
                       onClick={() => handleFileClick(fileName)}
@@ -198,17 +216,19 @@ export default function FilesViewOnlyComponent({ userId }) {
           </div>
         )}
       </div>
-      
-      {/* Stats Footer */}
-      <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-gray-200">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs md:text-sm text-gray-500 font-spacegroteskregular">
-          <div className="flex items-center gap-2 md:gap-4">
-            <span>{uploadedFiles.filter(f => f.endsWith('.pdf')).length} PDF files</span>
-            <span>{uploadedFiles.filter(f => /\.(png|jpg|jpeg)$/i.test(f)).length} Images</span>
+
+      {/* Stats Footer (optional bottom) */}
+      {summaryPosition === 'bottom' && (
+        <div className="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs md:text-sm text-gray-500 font-spacegroteskregular">
+            <div className="flex items-center gap-2 md:gap-4">
+              <span>{pdfCount} PDF files</span>
+              <span>{imageCount} Images</span>
+            </div>
+            <span>Total: {uploadedFiles.length} documents</span>
           </div>
-          <span>Total: {uploadedFiles.length} documents</span>
         </div>
-      </div>
+      )}
     </div>
   );
 }

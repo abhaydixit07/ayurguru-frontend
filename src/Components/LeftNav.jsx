@@ -76,23 +76,24 @@ function LeftNav() {
 
   return (
     <div
-      className={
-        !showSlide
-          ? "h-[100dvh] bg-leftNav w-[300px] border-r border-gray-500 hidden lg:flex items-center justify-between p-2 text-white flex-col translate-x-0"
-          : "hidden"
-      }
+      className={`h-[100dvh] bg-emerald-600 backdrop-blur-[1px] hidden lg:flex items-center justify-between text-white flex-col overflow-hidden transition-all duration-300 ease-out border-r z-10 ${
+        showSlide
+          ? "w-0 border-transparent p-0 opacity-0 pointer-events-none"
+          : "w-[300px] border-white/20 p-3 opacity-100 pointer-events-auto"
+      }`}
     >
+      <div className={`w-full h-full flex flex-col transition-all duration-300 ${showSlide ? "opacity-0 -translate-x-2" : "opacity-100 translate-x-0"}`}>
       <div className="flex flex-col items-start justify-start w-full gap-2">
         <div className="flex items-center w-full gap-2">
           <span
-            className="border border-gray-600 bg-gray-600 rounded-xl w-[80%] py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+            className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl w-[80%] py-2 text-lg flex gap-2 items-center justify-center cursor-pointer duration-200 transition-colors font-spacegroteskmedium"
             onClick={() => handleNewChat()}
           >
             <AiOutlinePlus fontSize={25} />
-            New Chat
+            <span className="font-spacegrotesksemibold">New Chat</span>
           </span>
           <span
-            className="border bg-gray-600 border-gray-600 rounded-xl px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+            className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl px-3 py-[9px] flex items-center justify-center cursor-pointer duration-200"
             title="Close sidebar"
             onClick={() => setShowSlide(!showSlide)}
           >
@@ -109,18 +110,18 @@ function LeftNav() {
               className="w-full flex items-center justify-between my-2"
             >
               <span
-                className="rounded-lg w-full bg-gray-600 py-3 px-2 text-xs flex gap-1 items-center cursor-pointer hover:bg-gray-800 transition-all duration-300 overflow-hidden truncate whitespace-nowrap"
+                className="rounded-lg w-full bg-white/10 hover:bg-white/15 py-3 px-3 text-xs flex gap-2 items-center cursor-pointer transition-all duration-200 overflow-hidden truncate whitespace-nowrap group"
                 onClick={() => handleConversationClick(conversation)}
               >
-                <span className="flex gap-2 items-center justify-start text-base">
+                <span className="flex gap-2 items-center justify-start text-base text-white/90">
                   <FiMessageSquare />
-                  <span className="text-md">
+                  <span className="text-md font-spacegroteskregular">
                     {conversation.chats[0]?.message || "No chats yet"}
                   </span>
                 </span>
               </span>
               <span
-                className="border bg-gray-600 border-gray-600 rounded-xl px-3 ml-2 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+                className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl px-3 ml-2 py-[9px] flex items-center justify-center cursor-pointer duration-200"
                 title="Close sidebar"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -132,23 +133,23 @@ function LeftNav() {
             </div>
           ))
         ) : (
-          <span className="text-white font-bold">No conversations yet</span>
+          <span className="text-white/90 font-spacegroteskmedium">No conversations yet</span>
         )}
       </div>
 
-      <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
-        <span className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
+      <div className="w-full border-t border-white/20 flex flex-col gap-2 items-center justify-center p-2">
+        <span className="rounded-xl bg-white/10 hover:bg-white/15 w-full py-2 px-2 text-xs flex gap-2 items-center justify-between cursor-pointer transition-all duration-200"
           onClick={() => handlePersonalizedChatClick(userId)}>
-          <span className="flex gap-2 items-center justify-center text-lg">
+          <span className="flex gap-2 items-center justify-center text-lg text-white/90">
             <BsChatDots />
           </span>
-          <span className="text-lg">Personalized Chat</span>
+          <span className="text-lg font-spacegrotesksemibold">Personalized Chat</span>
           <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
             NEW
           </span>
         </span>
         <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
-          <span className="flex gap-2 items-center justify-center text-3xl font-bold">
+          <span className="flex gap-2 items-center justify-center text-2xl font-spacegroteskbold tracking-wide">
             <img
               src={test}
               alt="user"
@@ -158,6 +159,7 @@ function LeftNav() {
           </span>
           <span className="rounded-md px-1.5 py-0.5 text-xs font-medium uppercase text-gray-500"></span>
         </span>
+      </div>
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        leftNav: "#61AB3D",
+        // Refined green to better match landing pages (tailwind green-600)
+        leftNav: "#16A34A",
         mainChat: "#DCF7C5",
       },
       fontFamily: {

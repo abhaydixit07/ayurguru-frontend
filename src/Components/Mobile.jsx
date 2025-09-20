@@ -97,17 +97,17 @@ function Mobile() {
       onClick={() => setMobile(false)}
     >
       <div
-        className="h-[100dvh] bg-leftNav w-[300px] flex items-stretch justify-between p-2 pb-[env(safe-area-inset-bottom)] text-white flex-col translate-x-0"
+        className="h-[100dvh] bg-emerald-600 backdrop-blur-[1px] w-[300px] flex items-stretch justify-between p-2 pb-[env(safe-area-inset-bottom)] text-white flex-col translate-x-0"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col items-center justify-between gap-2 w-full">
           <div className="flex items-center w-full gap-2">
             <span
-              className="border border-gray-600 bg-gray-600 rounded-xl w-full py-2 text-lg flex gap-1 items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+              className="border border-white/20 bg-white/10 hover:bg-white/15 rounded-xl w-full py-2 text-lg flex gap-2 items-center justify-center cursor-pointer duration-200 font-spacegroteskmedium"
               onClick={handleNewChat}
             >
               <AiOutlinePlus fontSize={25} />
-              New Chat
+              <span className="font-spacegrotesksemibold">New Chat</span>
             </span>
           </div>
         </div>
@@ -117,12 +117,12 @@ function Mobile() {
             conversations.map((conversation) => (
               <span
                 key={conversation.conversationId}
-                className="rounded-lg w-full bg-gray-600 py-3 px-2 text-xs my-2 flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300 overflow-hidden truncate whitespace-nowrap"
+                className="rounded-lg w-full bg-white/10 hover:bg-white/15 py-3 px-3 text-xs my-2 flex gap-1 items-center justify-between cursor-pointer transition-all duration-200 overflow-hidden truncate whitespace-nowrap"
                 onClick={() => handleConversationClick(conversation)}
               >
                 <span className="flex gap-2 items-center justify-center text-base">
                   <FiMessageSquare />
-                  <span className="text-md">
+                  <span className="text-md font-spacegroteskregular">
                     {conversation.chats[0]?.message || "No chats yet"}
                   </span>
                 </span>
@@ -137,25 +137,25 @@ function Mobile() {
               </span>
             ))
           ) : (
-            <span className="text-gray-400">No conversations yet</span>
+            <span className="text-white/90 font-spacegroteskmedium">No conversations yet</span>
           )}
         </div>
 
-        <div className="w-full border-t border-gray-600 flex flex-col gap-2 items-center justify-center p-2">
+        <div className="w-full border-t border-white/20 flex flex-col gap-2 items-center justify-center p-2">
           <span
-            className="rounded-xl bg-gray-600 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer hover:bg-gray-800 transition-all duration-300"
+            className="rounded-xl bg-white/10 hover:bg-white/15 w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all duration-200"
             onClick={() => handlePersonalizedChatClick(userId)}
           >
             <span className="flex gap-2 items-center justify-center text-lg">
               <BsChatDots />
             </span>
-            <span className="text-lg">Personalized Chat</span>
+            <span className="text-lg font-spacegrotesksemibold">Personalized Chat</span>
             <span className="rounded-md bg-yellow-200 px-2 py-0.5 text-sm font-medium uppercase text-gray-800">
               NEW
             </span>
           </span>
           <span className="rounded w-full py-2 px-2 text-xs flex gap-1 items-center justify-between cursor-pointer transition-all">
-            <span className="flex gap-2 items-center justify-center text-3xl font-bold">
+            <span className="flex gap-2 items-center justify-center text-2xl font-spacegroteskbold tracking-wide">
               <img
                 src={test}
                 alt="user"
@@ -168,7 +168,7 @@ function Mobile() {
       </div>
 
       <span
-        className="border bg-gray-600 border-gray-600 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer hover:bg-gray-800 duration-200"
+        className="border border-white/20 bg-white/10 hover:bg-white/15 text-white m-2 rounded px-3 py-[9px] flex items-center justify-center cursor-pointer duration-200"
         title="Close sidebar"
         onClick={() => setMobile(false)}
       >

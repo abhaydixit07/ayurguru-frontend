@@ -124,3 +124,30 @@ html, body {
 .animate-slideUp {
   animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
+
+/* Bottom sheet animations for mobile */
+@keyframes sheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheetDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.animate-sheet-up {
+  animation: sheetUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-sheet-down {
+  animation: sheetDown 0.24s ease-in forwards;
+}

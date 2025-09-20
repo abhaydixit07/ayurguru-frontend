@@ -61,7 +61,7 @@ function Chat() {
         {chats?.map((msg, i) => (
           <div
             key={msg._id?.$oid || i}
-            className={`flex items-center gap-2 lg:gap-5 my-2 p-3 rounded-2xl max-w-[80%] ${msg.sender === "user" ? "bg-blue-600 self-end" : "bg-gray-800/80 self-start"
+            className={`flex items-center gap-2 lg:gap-5 my-2 p-3 rounded-2xl max-w-[80%] ${msg.sender === "user" ? "bg-emerald-600 self-end" : "bg-gray-800/80 self-start"
               }`}
           >
             {msg.sender === "user" ? (
