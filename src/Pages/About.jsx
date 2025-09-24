@@ -19,13 +19,13 @@ const teamMembers = [
         linkedin: "https://www.linkedin.com/in/khageshsharma",
         github: "https://github.com/khagesh2409",
     },
-    // {
-    //     name: "Shaurya Gupta",
-    //     img: Shaurya,
-    //     role: "Frontend Developer",
-    //     linkedin: "https://www.linkedin.com/in/shaurya--gupta",
-    //     github: "https://github.com/CodeByShaurya",
-    // },
+    {
+        name: "Shaurya Gupta",
+        img: Shaurya,
+        role: "Frontend Developer",
+        linkedin: "https://www.linkedin.com/in/shaurya--gupta",
+        github: "https://github.com/CodeByShaurya",
+    },
 ];
 
 const About = () => {
