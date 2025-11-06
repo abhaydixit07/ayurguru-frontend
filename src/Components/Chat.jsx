@@ -1,5 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import { ContextApp } from "../utils/Context";
 import chatIcon from "../assets/chatIcon.png";
 import userIcon from "../assets/userIcon.png";
@@ -73,8 +76,13 @@ function Chat() {
                   alt="bot"
                   className="w-10 h-10 rounded object-cover"
                 />
-                <div className="text-white text-[18px] font-spacegroteskregular whitespace-pre-wrap">
-                  <ReactMarkdown>{msg.message}</ReactMarkdown>
+                <div className="text-white text-[18px] font-spacegroteskregular">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                  >
+                    {typeof msg.message === "string" ? msg.message.replace(/^\n+/, "") : msg.message}
+                  </ReactMarkdown>
                 </div>
               </>
             )}
